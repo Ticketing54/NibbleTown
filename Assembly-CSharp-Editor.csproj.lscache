@@ -50,6 +50,9 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 /warnaserror+:NU1605
 
 [sourceFiles]
+Assets/Modern UI Pack/Editor/Scripts/
+ ContextMenu.cs
+ InitMUIP.cs
 Assets/TutorialInfo/Scripts/Editor/ReadmeEditor.cs
 Temp/obj/Assembly-CSharp-Editor/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 
