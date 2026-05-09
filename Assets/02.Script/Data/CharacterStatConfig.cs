@@ -1,0 +1,18 @@
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "CharacterStatConfig", menuName = "NibbleTown/Character Stat Config")]
+public class CharacterStatConfig : ScriptableObject
+{
+    [Header("행동력")]
+    public int baseMaxAP  = 10;
+    public int apPerLevel = 2;
+
+    [Header("레벨업")]
+    public int xpPerLevel = 20;
+
+    [Header("밤 경고 임계값 (비율)")]
+    [Range(0f, 0.3f)] public float lowThreshold = 0.1f;
+
+    public int GetMaxAP(int level)          => baseMaxAP + (level - 1) * apPerLevel;
+    public int GetLevel(int totalConsumed)  => 1 + totalConsumed / xpPerLevel;
+}
