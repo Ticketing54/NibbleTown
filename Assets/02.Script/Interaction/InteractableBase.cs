@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 [RequireComponent(typeof(Collider))]
 public abstract class InteractableBase : MonoBehaviour, IInteractable
@@ -13,9 +13,9 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
         GetComponent<Collider>().isTrigger = true;
     }
 
-    public abstract void OnStartInteract(IMovementLock mover);
-    public abstract void OnCompleteInteract(IMovementLock mover);
-    public abstract void OnCancelInteract(IMovementLock mover);
+    public abstract void OnStartInteract(IMovementLock _mover);
+    public abstract void OnCompleteInteract(IMovementLock _mover);
+    public abstract void OnCancelInteract(IMovementLock _mover);
 
     private void OnDrawGizmosSelected()
     {

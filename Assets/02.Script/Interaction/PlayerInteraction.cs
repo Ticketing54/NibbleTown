@@ -1,10 +1,11 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Collider))]
 public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private InputActionReference interactAction;
-    [SerializeField] private float detectRadius = 2f;
     [SerializeField] private float holdDuration = 1.5f;
 
     [Tooltip("IInteractionUI를 구현한 MonoBehaviour (UIManager)")]
@@ -16,26 +17,22 @@ public class PlayerInteraction : MonoBehaviour
     [Tooltip("IActionPoints를 구현한 MonoBehaviour (ActionPointSystem)")]
     [SerializeField] private MonoBehaviour actionPointsSource;
 
-    private IMovementLock  _mover;
-    private IInteractionUI _ui;
-    private IProgressBar   _bar;
-    private IActionPoints  _ap;
+    private IInteractable nearInteractable;
+    private Coroutine interactionRoutine;
+    private IMovementLock  mover;
+    private IProgressBar   bar;
+    private IActionPoints  ap;
 
-    private IInteractable _nearest;
-    private IInteractable _active;
-    private bool  _holding;
-    private float _holdStartTime;
+    private bool  holding;
+    private float holdStartTime;
 
     private void Awake()
     {
-        _mover = GetComponent<IMovementLock>();
-        _ui    = interactionUISource as IInteractionUI;
-        _bar   = progressBarSource  as IProgressBar;
-        _ap    = actionPointsSource as IActionPoints;
-
-        if (_ui == null)
-            Debug.LogError($"[PlayerInteraction] {interactionUISource} does not implement IInteractionUI");
-        if (_bar == null)
+        mover = GetComponent<IMovementLock>();
+        bar   = progressBarSource  as IProgressBar;
+        ap    = actionPointsSource as IActionPoints;
+        
+        if (bar == null)
             Debug.LogError($"[PlayerInteraction] {progressBarSource} does not implement IProgressBar");
     }
 
@@ -53,93 +50,83 @@ public class PlayerInteraction : MonoBehaviour
         interactAction.action.Disable();
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider _other)
     {
-        RefreshNearest();
-
-        if (!_holding || _active == null) return;
-
-        float elapsed  = Time.time - _holdStartTime;
-        float progress = elapsed / holdDuration;
-        _bar.SetProgress(progress);
-
-        if (elapsed >= holdDuration)
+        if (_other.TryGetComponent<IInteractable>(out IInteractable newInteractable))
         {
-            _active.OnCompleteInteract(_mover);
-            FinishInteraction(completed: true);
-        }
-    }
+            nearInteractable = newInteractable;
 
-    private void RefreshNearest()
-    {
-        var hits = Physics.OverlapSphere(transform.position, detectRadius);
-        IInteractable best = null;
-        float bestDist = float.MaxValue;
-
-        foreach (var col in hits)
-        {
-            var it = col.GetComponentInParent<IInteractable>();
-            if (it == null) continue;
-            float d = Vector3.Distance(transform.position, col.transform.position);
-            if (d < bestDist) { bestDist = d; best = it; }
-        }
-
-        if (best == _nearest) return;
-
-        _nearest = best;
-        if (_nearest != null)
-        {
-            bool canAfford = _ap == null || _ap.CanSpend(_nearest.APCost);
+            bool canAfford = ap == null || ap.CanSpend(nearInteractable.APCost);
             string hint = canAfford
-                ? $"{_nearest.HintText}  [{_nearest.APCost}AP]"
-                : $"[행동력 부족]  ({_nearest.APCost}AP 필요)";
-            _ui.ShowHint(hint);
-        }
-        else
-        {
-            _ui.HideHint();
+                ? $"{nearInteractable.HintText}  [{nearInteractable.APCost}AP]"
+                : $"[행동력 부족]  ({nearInteractable.APCost}AP 필요)";
         }
     }
 
-    private void OnStarted(InputAction.CallbackContext ctx)
+    private void OnTriggerExit(Collider _other)
     {
-        if (_nearest == null || _holding) return;
+        
+    }
 
-        if (_ap != null && !_ap.CanSpend(_nearest.APCost))
+    private void OnStarted(InputAction.CallbackContext _ctx)
+    {
+        if (nearInteractable == null || holding) return;
+
+        if (ap != null && !ap.CanSpend(nearInteractable.APCost))
         {
-            Debug.Log($"[PlayerInteraction] 행동력 부족 — {_nearest.APCost}AP 필요, 현재 {_ap.Current}AP");
+            Debug.Log($"[PlayerInteraction] 행동력 부족 — {nearInteractable.APCost}AP 필요, 현재 {ap.Current}AP");
             return;
         }
 
-        _active        = _nearest;
-        _holding       = true;
-        _holdStartTime = Time.time;
-        _active.OnStartInteract(_mover);
-        _mover.LockMovement(true);
-        _bar.Show(true);
+        holding       = true;
+        holdStartTime = Time.time;
+        nearInteractable.OnStartInteract(mover);
+        mover.LockMovement(true);
+        bar.Show(true);
+        interactionRoutine = StartCoroutine(CoStartInteraction());
     }
 
-    private void OnCanceled(InputAction.CallbackContext ctx)
+    private void OnCanceled(InputAction.CallbackContext _ctx)
     {
-        if (!_holding) return;
-        _active.OnCancelInteract(_mover);
-        FinishInteraction(completed: false);
+        if (!holding) return;
+        if (interactionRoutine != null)
+            StopCoroutine(interactionRoutine);
+        nearInteractable.OnCancelInteract(mover);
+        FinishInteraction(false);
     }
 
-    private void FinishInteraction(bool completed)
+    private void FinishInteraction(bool _completed)
     {
-        if (completed && _ap != null)
-            _ap.TrySpend(_active.APCost);
+        interactionRoutine = null;
+        if (_completed && ap != null)
+            ap.TrySpend(nearInteractable.APCost);
 
-        _holding = false;
-        _mover.LockMovement(false);
-        _bar.Show(false);
-        _active = null;
+        holding = false;
+        mover.LockMovement(false);
+        bar.Show(false);
+    }
+
+    private IEnumerator CoStartInteraction()
+    {
+        while (true)
+        {
+            float elapsed  = Time.time - holdStartTime;
+            float progress = elapsed / holdDuration;
+            bar.SetProgress(progress);
+
+            if (progress >= 1f)
+            {
+                nearInteractable.OnCompleteInteract(mover);
+                FinishInteraction(true);
+                yield break;
+            }
+
+            yield return null;
+        }
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, detectRadius);
     }
 }

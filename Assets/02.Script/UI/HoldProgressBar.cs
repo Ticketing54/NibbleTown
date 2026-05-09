@@ -1,66 +1,46 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HoldProgressBar : MonoBehaviour, IProgressBar
 {
-    [SerializeField] private Color fillColor = new Color(0.3f, 0.85f, 0.4f, 1f);
-    [SerializeField] private Vector2 screenAnchoredPos = new Vector2(0f, 120f);
-    [SerializeField] private Vector2 barSize = new Vector2(320f, 12f);
+    [SerializeField] private Image fill;
+    private Coroutine fill_routine;
+    private float progress = 0;
 
-    private GameObject _root;
-    private Image _fill;
-
-    private void Awake()
+    private void OnEnable()
     {
-        BuildBar();
-        Show(false);
+        UIEvents.OnProgressBarShow        += Show;
+        UIEvents.OnProgressBarSetProgress += SetProgress;
     }
 
-    private void BuildBar()
+    private void OnDisable()
     {
-        var canvas = new GameObject("[HoldProgressBar]").AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        canvas.sortingOrder = 101;
-        canvas.gameObject.AddComponent<CanvasScaler>().uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        ((CanvasScaler)canvas.gameObject.GetComponent<CanvasScaler>()).referenceResolution = new Vector2(1920, 1080);
-        DontDestroyOnLoad(canvas.gameObject);
-
-        _root = new GameObject("Bar");
-        _root.transform.SetParent(canvas.transform, false);
-
-        var rootRect = _root.AddComponent<RectTransform>();
-        rootRect.anchorMin        = new Vector2(0.5f, 0f);
-        rootRect.anchorMax        = new Vector2(0.5f, 0f);
-        rootRect.pivot            = new Vector2(0.5f, 0f);
-        rootRect.anchoredPosition = screenAnchoredPos;
-        rootRect.sizeDelta        = barSize;
-
-        var bg = _root.AddComponent<Image>();
-        bg.color = new Color(1f, 1f, 1f, 0.15f);
-
-        var fillGO   = new GameObject("Fill");
-        fillGO.transform.SetParent(_root.transform, false);
-        var fillRect = fillGO.AddComponent<RectTransform>();
-        fillRect.anchorMin = Vector2.zero;
-        fillRect.anchorMax = Vector2.one;
-        fillRect.offsetMin = Vector2.zero;
-        fillRect.offsetMax = Vector2.zero;
-
-        _fill            = fillGO.AddComponent<Image>();
-        _fill.color      = fillColor;
-        _fill.type       = Image.Type.Filled;
-        _fill.fillMethod = Image.FillMethod.Horizontal;
-        _fill.fillAmount = 0f;
+        UIEvents.OnProgressBarShow        -= Show;
+        UIEvents.OnProgressBarSetProgress -= SetProgress;
     }
 
-    public void SetProgress(float t)
+    public void SetProgress(float _t) => progress = _t;
+
+    public void Show(bool _visible)
     {
-        _fill.fillAmount = Mathf.Clamp01(t);
+        if(fill_routine != null)
+        StopCoroutine(fill_routine);
+        fill_routine = StartCoroutine(CoShowProgressBar());
+
+
+        gameObject.SetActive(_visible);
+        if (_visible) fill.fillAmount = 0f;
     }
 
-    public void Show(bool visible)
+    private IEnumerator CoShowProgressBar()
     {
-        if (_root != null) _root.SetActive(visible);
-        if (visible) _fill.fillAmount = 0f;
+        while(true)
+        {
+            yield return null;
+            fill.fillAmount = progress;
+        }
+        
     }
+
 }

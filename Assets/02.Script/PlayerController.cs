@@ -21,24 +21,24 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
 
     // IPlayerState
     public float MoveInputMagnitude { get; private set; }
-    public bool IsGrounded => _cc.isGrounded;
+    public bool IsGrounded => cc.isGrounded;
     public bool IsSprinting { get; private set; }
     public event Action OnJumped;
 
     // IMovementLock
-    public void LockMovement(bool locked) => _movementLocked = locked;
+    public void LockMovement(bool _locked) => movementLocked = _locked;
 
-    private CharacterController _cc;
-    private Camera _mainCamera;
-    private Vector3 _velocity;
-    private Vector3 _jumpMoveDir;
-    private float _jumpSpeed;
-    private bool _movementLocked;
+    private CharacterController cc;
+    private Camera mainCamera;
+    private Vector3 velocity;
+    private Vector3 jumpMoveDir;
+    private float jumpSpeed;
+    private bool movementLocked;
 
     private void Awake()
     {
-        _cc = GetComponent<CharacterController>();
-        _mainCamera = Camera.main;
+        cc = GetComponent<CharacterController>();
+        mainCamera = Camera.main;
     }
 
     private void OnEnable()
@@ -59,11 +59,11 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
 
     private void Update()
     {
-        if (_movementLocked)
+        if (movementLocked)
         {
-            if (_cc.isGrounded && _velocity.y < 0f) _velocity.y = -2f;
-            _velocity.y += gravity * Time.deltaTime;
-            _cc.Move(_velocity * Time.deltaTime);
+            if (cc.isGrounded && velocity.y < 0f) velocity.y = -2f;
+            velocity.y += gravity * Time.deltaTime;
+            cc.Move(velocity * Time.deltaTime);
             return;
         }
         Move();
@@ -71,18 +71,18 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
 
     private void Move()
     {
-        if (_cc.isGrounded && _velocity.y < 0f)
-            _velocity.y = -2f;
-        _velocity.y += gravity * Time.deltaTime;
+        if (cc.isGrounded && velocity.y < 0f)
+            velocity.y = -2f;
+        velocity.y += gravity * Time.deltaTime;
 
         Vector3 moveDir;
         float speed;
 
-        if (_cc.isGrounded)
+        if (cc.isGrounded)
         {
             Vector2 input = moveAction.action.ReadValue<Vector2>();
-            Vector3 camForward = _mainCamera.transform.forward;
-            Vector3 camRight   = _mainCamera.transform.right;
+            Vector3 camForward = mainCamera.transform.forward;
+            Vector3 camRight   = mainCamera.transform.right;
             camForward.y = 0f; camRight.y = 0f;
             camForward.Normalize(); camRight.Normalize();
 
@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
             speed       = IsSprinting ? sprintSpeed : walkSpeed;
 
             MoveInputMagnitude = moveDir.magnitude;
-            _jumpMoveDir       = moveDir;
-            _jumpSpeed         = speed;
+            jumpMoveDir        = moveDir;
+            jumpSpeed          = speed;
 
             if (moveDir.sqrMagnitude > 0.01f)
             {
@@ -102,18 +102,18 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
         }
         else
         {
-            moveDir            = _jumpMoveDir;
-            speed              = _jumpSpeed;
+            moveDir            = jumpMoveDir;
+            speed              = jumpSpeed;
             MoveInputMagnitude = moveDir.magnitude;
         }
 
-        _cc.Move((moveDir * speed + _velocity) * Time.deltaTime);
+        cc.Move((moveDir * speed + velocity) * Time.deltaTime);
     }
 
-    private void OnJump(InputAction.CallbackContext ctx)
+    private void OnJump(InputAction.CallbackContext _ctx)
     {
-        if (!_cc.isGrounded) return;
-        _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (!cc.isGrounded) return;
+        velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
         OnJumped?.Invoke();
     }
 }

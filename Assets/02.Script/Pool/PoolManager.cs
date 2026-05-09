@@ -17,8 +17,8 @@ public class PoolManager : MonoBehaviour
 
     [SerializeField] private List<PoolConfig> preWarmList = new();
 
-    private readonly Dictionary<GameObject, ObjectPool<GameObject>> _pools = new();
-    private readonly Dictionary<GameObject, GameObject>             _keyMap = new();
+    private readonly Dictionary<GameObject, ObjectPool<GameObject>> pools = new();
+    private readonly Dictionary<GameObject, GameObject>             keyMap = new();
 
     private void Awake()
     {
@@ -36,73 +36,73 @@ public class PoolManager : MonoBehaviour
 
     // ── Public API ──────────────────────────────────────────────
 
-    public GameObject Get(GameObject prefab)
+    public GameObject Get(GameObject _prefab)
     {
-        var pool     = EnsurePool(prefab);
+        var pool     = EnsurePool(_prefab);
         var instance = pool.Get();
-        _keyMap[instance] = prefab;
+        keyMap[instance] = _prefab;
         return instance;
     }
 
-    public T Get<T>(GameObject prefab) where T : Component
+    public T Get<T>(GameObject _prefab) where T : Component
     {
-        return Get(prefab).GetComponent<T>();
+        return Get(_prefab).GetComponent<T>();
     }
 
-    public void Release(GameObject instance)
+    public void Release(GameObject _instance)
     {
-        if (!_keyMap.TryGetValue(instance, out var key))
+        if (!keyMap.TryGetValue(_instance, out var key))
         {
-            Debug.LogWarning($"[PoolManager] {instance.name}은 이 풀에서 꺼낸 오브젝트가 아닙니다.");
-            Destroy(instance);
+            Debug.LogWarning($"[PoolManager] {_instance.name}은 이 풀에서 꺼낸 오브젝트가 아닙니다.");
+            Destroy(_instance);
             return;
         }
-        _pools[key].Release(instance);
-        _keyMap.Remove(instance);
+        pools[key].Release(_instance);
+        keyMap.Remove(_instance);
     }
 
     // ── Internal ─────────────────────────────────────────────────
 
-    private ObjectPool<GameObject> EnsurePool(GameObject prefab, int initial = 10, int max = 100)
+    private ObjectPool<GameObject> EnsurePool(GameObject _prefab, int _initial = 10, int _max = 100)
     {
-        if (_pools.TryGetValue(prefab, out var existing))
+        if (pools.TryGetValue(_prefab, out var existing))
             return existing;
 
         var pool = new ObjectPool<GameObject>(
-            createFunc:      ()  => CreateInstance(prefab),
+            createFunc:      ()  => CreateInstance(_prefab),
             actionOnGet:     go  => OnGet(go),
             actionOnRelease: go  => OnRelease(go),
             actionOnDestroy: go  => Destroy(go),
             collectionCheck: false,
-            defaultCapacity: initial,
-            maxSize:         max
+            defaultCapacity: _initial,
+            maxSize:         _max
         );
 
         // Pre-warm: initial 개수만큼 미리 생성 후 반환
-        var warmUp = new GameObject[initial];
-        for (int i = 0; i < initial; i++) warmUp[i] = pool.Get();
-        for (int i = 0; i < initial; i++) pool.Release(warmUp[i]);
+        var warmUp = new GameObject[_initial];
+        for (int i = 0; i < _initial; i++) warmUp[i] = pool.Get();
+        for (int i = 0; i < _initial; i++) pool.Release(warmUp[i]);
 
-        _pools[prefab] = pool;
+        pools[_prefab] = pool;
         return pool;
     }
 
-    private GameObject CreateInstance(GameObject prefab)
+    private GameObject CreateInstance(GameObject _prefab)
     {
-        var go = Instantiate(prefab, transform);
+        var go = Instantiate(_prefab, transform);
         go.SetActive(false);
         return go;
     }
 
-    private static void OnGet(GameObject go)
+    private static void OnGet(GameObject _go)
     {
-        go.SetActive(true);
-        go.GetComponent<IPoolable>()?.OnGetFromPool();
+        _go.SetActive(true);
+        _go.GetComponent<IPoolable>()?.OnGetFromPool();
     }
 
-    private static void OnRelease(GameObject go)
+    private static void OnRelease(GameObject _go)
     {
-        go.GetComponent<IPoolable>()?.OnReleaseToPool();
-        go.SetActive(false);
+        _go.GetComponent<IPoolable>()?.OnReleaseToPool();
+        _go.SetActive(false);
     }
 }

@@ -1,8 +1,8 @@
-﻿public interface IInteractable
+public interface IInteractable
 {
     string HintText { get; }
     int    APCost   { get; }
-    void OnStartInteract(IMovementLock mover);
-    void OnCompleteInteract(IMovementLock mover);
-    void OnCancelInteract(IMovementLock mover);
+    void OnStartInteract(IMovementLock _mover);
+    void OnCompleteInteract(IMovementLock _mover);
+    void OnCancelInteract(IMovementLock _mover);
 }

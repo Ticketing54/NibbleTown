@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class DayManager : MonoBehaviour
@@ -6,8 +5,6 @@ public class DayManager : MonoBehaviour
     public static DayManager Instance { get; private set; }
 
     public int Day => ActionPointSystem.Instance.GetSaveData().day;
-
-    public event Action<int> OnDayChanged;
 
     private void Awake()
     {
@@ -19,7 +16,7 @@ public class DayManager : MonoBehaviour
     {
         ActionPointSystem.Instance.GetSaveData().day++;
         ActionPointSystem.Instance.Restore();
-        OnDayChanged?.Invoke(Day);
+        UIEvents.RaiseDayChanged(Day);
         Debug.Log($"[DayManager] Day {Day} 시작");
     }
 }

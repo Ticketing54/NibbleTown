@@ -1,5 +1,5 @@
 public interface IProgressBar
 {
-    void SetProgress(float t);
-    void Show(bool visible);
+    void SetProgress(float _t);
+    void Show(bool _visible);
 }

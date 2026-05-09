@@ -13,6 +13,6 @@ public class CharacterStatConfig : ScriptableObject
     [Header("밤 경고 임계값 (비율)")]
     [Range(0f, 0.3f)] public float lowThreshold = 0.1f;
 
-    public int GetMaxAP(int level)          => baseMaxAP + (level - 1) * apPerLevel;
-    public int GetLevel(int totalConsumed)  => 1 + totalConsumed / xpPerLevel;
+    public int GetMaxAP(int _level)         => baseMaxAP + (_level - 1) * apPerLevel;
+    public int GetLevel(int _totalConsumed) => 1 + _totalConsumed / xpPerLevel;
 }

@@ -3,70 +3,74 @@ using UnityEngine.UI;
 
 public class GameHUD : MonoBehaviour
 {
-    private Text   _apText;
-    private Text   _levelText;
-    private Text   _dayText;
-    private Image  _apFill;
-    private GameObject _endDayBtn;
+    private Text   apText;
+    private Text   levelText;
+    private Text   dayText;
+    private Image  apFill;
+    private GameObject endDayBtn;
+
+    private CharacterData characterData;
 
     private void Awake()
     {
         BuildHUD();
     }
 
+    private void OnEnable()
+    {
+        UIEvents.OnCharacterDataChanged += OnChangedCharaterData;
+        UIEvents.OnAPChanged            += Refresh;
+        UIEvents.OnLevelUp              += OnLevelUp;
+        UIEvents.OnAPLow                += ShowEndDayButton;
+        UIEvents.OnDayChanged           += OnDayChanged;
+    }
+
+    private void OnDisable()
+    {
+        UIEvents.OnCharacterDataChanged -= OnChangedCharaterData;
+        UIEvents.OnAPChanged            -= Refresh;
+        UIEvents.OnLevelUp              -= OnLevelUp;
+        UIEvents.OnAPLow                -= ShowEndDayButton;
+        UIEvents.OnDayChanged           -= OnDayChanged;
+    }
+
     private void Start()
     {
-        Subscribe();
         if (ActionPointSystem.Instance != null)
             Refresh(ActionPointSystem.Instance.Current, ActionPointSystem.Instance.Max);
         if (DayManager.Instance != null)
-            _dayText.text = "Day " + DayManager.Instance.Day;
+            dayText.text = "Day " + DayManager.Instance.Day;
     }
 
-    private void OnDestroy()
+    private void OnChangedCharaterData(CharacterData _data)
     {
-        if (ActionPointSystem.Instance == null) return;
-        ActionPointSystem.Instance.OnAPChanged -= Refresh;
-        ActionPointSystem.Instance.OnLevelUp   -= OnLevelUp;
-        ActionPointSystem.Instance.OnAPLow     -= ShowEndDayButton;
-        if (DayManager.Instance != null)
-            DayManager.Instance.OnDayChanged   -= OnDayChanged;
+        characterData = _data;
     }
 
-    private void Subscribe()
+    private void Refresh(int _current, int _max)
     {
-        if (ActionPointSystem.Instance == null) return;
-        ActionPointSystem.Instance.OnAPChanged += Refresh;
-        ActionPointSystem.Instance.OnLevelUp   += OnLevelUp;
-        ActionPointSystem.Instance.OnAPLow     += ShowEndDayButton;
-        if (DayManager.Instance != null)
-            DayManager.Instance.OnDayChanged   += OnDayChanged;
-    }
-
-    private void Refresh(int current, int max)
-    {
-        _apText.text       = current + " / " + max;
-        _apFill.fillAmount = max > 0 ? (float)current / max : 0f;
+        apText.text       = _current + " / " + _max;
+        apFill.fillAmount = _max > 0 ? (float)_current / _max : 0f;
 
         if (ActionPointSystem.Instance != null)
-            _levelText.text = "Lv." + ActionPointSystem.Instance.Level;
+            levelText.text = "Lv." + ActionPointSystem.Instance.Level;
     }
 
-    private void OnLevelUp(int level)
+    private void OnLevelUp(int _level)
     {
-        _levelText.text = "Lv." + level;
-        Debug.Log($"[Level Up!] Lv.{level} — 최대 행동력: {ActionPointSystem.Instance.Max}");
+        levelText.text = "Lv." + _level;
+        Debug.Log($"[Level Up!] Lv.{_level} — 최대 행동력: {ActionPointSystem.Instance.Max}");
     }
 
     private void ShowEndDayButton()
     {
-        _endDayBtn.SetActive(true);
+        endDayBtn.SetActive(true);
     }
 
-    private void OnDayChanged(int day)
+    private void OnDayChanged(int _day)
     {
-        _dayText.text = "Day " + day;
-        _endDayBtn.SetActive(false);
+        dayText.text = "Day " + _day;
+        endDayBtn.SetActive(false);
     }
 
     // ── UI 빌드 ──────────────────────────────────────────
@@ -107,7 +111,7 @@ public class GameHUD : MonoBehaviour
         levelRect.pivot            = new Vector2(0f, 1f);
         levelRect.anchoredPosition = new Vector2(10f, -8f);
         levelRect.sizeDelta        = new Vector2(-10f, 24f);
-        _levelText           = SetupText(levelGO, "Lv.1", 18, FontStyle.Bold, new Color(1f, 0.85f, 0.2f), TextAnchor.MiddleLeft);
+        levelText = SetupText(levelGO, "Lv.1", 18, FontStyle.Bold, new Color(1f, 0.85f, 0.2f), TextAnchor.MiddleLeft);
 
         // AP 바 배경
         var bgGO   = MakeGO("APBar_BG", panel.transform);
@@ -126,20 +130,20 @@ public class GameHUD : MonoBehaviour
         fillRect.anchorMax = Vector2.one;
         fillRect.offsetMin = Vector2.zero;
         fillRect.offsetMax = Vector2.zero;
-        _apFill            = fillGO.AddComponent<Image>();
-        _apFill.color      = new Color(0.2f, 0.75f, 1f, 1f);
-        _apFill.type       = Image.Type.Filled;
-        _apFill.fillMethod = Image.FillMethod.Horizontal;
-        _apFill.fillAmount = 1f;
+        apFill            = fillGO.AddComponent<Image>();
+        apFill.color      = new Color(0.2f, 0.75f, 1f, 1f);
+        apFill.type       = Image.Type.Filled;
+        apFill.fillMethod = Image.FillMethod.Horizontal;
+        apFill.fillAmount = 1f;
 
         // AP 숫자 텍스트
         var apTextGO   = MakeGO("APText", panel.transform);
         var apTextRect = apTextGO.AddComponent<RectTransform>();
-        apTextRect.anchorMin        = new Vector2(0f, 0.3f);
-        apTextRect.anchorMax        = new Vector2(1f, 0.85f);
-        apTextRect.offsetMin        = new Vector2(10f, 0f);
-        apTextRect.offsetMax        = new Vector2(-10f, 0f);
-        _apText = SetupText(apTextGO, "10 / 10", 20, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
+        apTextRect.anchorMin = new Vector2(0f, 0.3f);
+        apTextRect.anchorMax = new Vector2(1f, 0.85f);
+        apTextRect.offsetMin = new Vector2(10f, 0f);
+        apTextRect.offsetMax = new Vector2(-10f, 0f);
+        apText = SetupText(apTextGO, "10 / 10", 20, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
     }
 
     private void BuildDayPanel()
@@ -159,33 +163,33 @@ public class GameHUD : MonoBehaviour
         textRect.anchorMax = Vector2.one;
         textRect.offsetMin = new Vector2(8f, 4f);
         textRect.offsetMax = new Vector2(-8f, -4f);
-        _dayText = SetupText(textGO, "Day 1", 24, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
+        dayText = SetupText(textGO, "Day 1", 24, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
     }
 
     private void BuildEndDayButton()
     {
-        _endDayBtn = MakeGO("EndDayButton", transform);
-        var btnRect = _endDayBtn.AddComponent<RectTransform>();
+        endDayBtn = MakeGO("EndDayButton", transform);
+        var btnRect = endDayBtn.AddComponent<RectTransform>();
         btnRect.anchorMin        = new Vector2(0.5f, 0f);
         btnRect.anchorMax        = new Vector2(0.5f, 0f);
         btnRect.pivot            = new Vector2(0.5f, 0f);
         btnRect.anchoredPosition = new Vector2(0f, 30f);
         btnRect.sizeDelta        = new Vector2(260f, 64f);
 
-        var bg = _endDayBtn.AddComponent<Image>();
+        var bg = endDayBtn.AddComponent<Image>();
         bg.color = new Color(0.08f, 0.08f, 0.3f, 0.92f);
 
-        var btn = _endDayBtn.AddComponent<Button>();
+        var btn = endDayBtn.AddComponent<Button>();
         btn.targetGraphic = bg;
 
-        var colors         = btn.colors;
+        var colors = btn.colors;
         colors.highlightedColor = new Color(0.2f, 0.2f, 0.55f, 0.95f);
         colors.pressedColor     = new Color(0.05f, 0.05f, 0.2f, 0.95f);
         btn.colors = colors;
 
         btn.onClick.AddListener(() => DayManager.Instance?.AdvanceDay());
 
-        var textGO   = MakeGO("BtnText", _endDayBtn.transform);
+        var textGO   = MakeGO("BtnText", endDayBtn.transform);
         var textRect = textGO.AddComponent<RectTransform>();
         textRect.anchorMin = Vector2.zero;
         textRect.anchorMax = Vector2.one;
@@ -193,27 +197,27 @@ public class GameHUD : MonoBehaviour
         textRect.offsetMax = Vector2.zero;
         SetupText(textGO, "밤 맞이하기", 22, FontStyle.Bold, new Color(0.75f, 0.88f, 1f), TextAnchor.MiddleCenter);
 
-        _endDayBtn.SetActive(false);
+        endDayBtn.SetActive(false);
     }
 
     // ── 헬퍼 ────────────────────────────────────────────
 
-    private static GameObject MakeGO(string name, Transform parent)
+    private static GameObject MakeGO(string _name, Transform _parent)
     {
-        var go = new GameObject(name);
-        go.transform.SetParent(parent, false);
+        var go = new GameObject(_name);
+        go.transform.SetParent(_parent, false);
         return go;
     }
 
-    private static Text SetupText(GameObject go, string text, int size, FontStyle style, Color color, TextAnchor align)
+    private static Text SetupText(GameObject _go, string _text, int _size, FontStyle _style, Color _color, TextAnchor _align)
     {
-        var t       = go.AddComponent<Text>();
+        var t       = _go.AddComponent<Text>();
         t.font      = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-        t.text      = text;
-        t.fontSize  = size;
-        t.fontStyle = style;
-        t.color     = color;
-        t.alignment = align;
+        t.text      = _text;
+        t.fontSize  = _size;
+        t.fontStyle = _style;
+        t.color     = _color;
+        t.alignment = _align;
         return t;
     }
 }

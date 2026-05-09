@@ -6,17 +6,17 @@ public class FishingSpot : InteractableBase
 
     private void Reset() => apCost = 2;
 
-    public override void OnStartInteract(IMovementLock mover)
+    public override void OnStartInteract(IMovementLock _mover)
     {
         Debug.Log("[낚시] 시작");
     }
 
-    public override void OnCompleteInteract(IMovementLock mover)
+    public override void OnCompleteInteract(IMovementLock _mover)
     {
         Debug.Log("[낚시] 완료 → 아이템 획득");
     }
 
-    public override void OnCancelInteract(IMovementLock mover)
+    public override void OnCancelInteract(IMovementLock _mover)
     {
         Debug.Log("[낚시] 취소");
     }

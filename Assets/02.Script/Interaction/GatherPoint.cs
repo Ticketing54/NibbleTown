@@ -6,7 +6,7 @@ public class GatherPoint : InteractableBase
 
     private void Reset() => apCost = 1;
 
-    public override void OnStartInteract(IMovementLock mover)    => Debug.Log("[채집] 시작");
-    public override void OnCompleteInteract(IMovementLock mover) => Debug.Log("[채집] 완료");
-    public override void OnCancelInteract(IMovementLock mover)   => Debug.Log("[채집] 취소");
+    public override void OnStartInteract(IMovementLock _mover)    => Debug.Log("[채집] 시작");
+    public override void OnCompleteInteract(IMovementLock _mover) => Debug.Log("[채집] 완료");
+    public override void OnCancelInteract(IMovementLock _mover)   => Debug.Log("[채집] 취소");
 }

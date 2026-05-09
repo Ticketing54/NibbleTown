@@ -1,4 +1,4 @@
 public interface IMovementLock
 {
-    void LockMovement(bool locked);
+    void LockMovement(bool _locked);
 }

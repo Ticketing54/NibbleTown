@@ -65,7 +65,6 @@ Assets/02.Script/
   PlayerInteraction.cs
  Interfaces/
   IActionPoints.cs
-  IInteractionUI.cs
   IMovementLock.cs
   IPlayerState.cs
   IPoolable.cs
@@ -76,11 +75,10 @@ Assets/02.Script/
  Systems/
   ActionPointSystem.cs
   DayManager.cs
- Test.cs
+  UIEvents.cs
  UI/
   GameHUD.cs
   HoldProgressBar.cs
-  UIManager.cs
 Assets/TutorialInfo/Scripts/Readme.cs
 Temp/obj/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 
