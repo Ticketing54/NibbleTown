@@ -1,5 +1,4 @@
 using System.Collections;
-using Michsky.MUIP;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,14 +7,6 @@ public class PlayerInteraction : MonoBehaviour
 {
     [SerializeField] private InputActionReference interactAction;
     [SerializeField] private float holdDuration = 1.5f;
-
-    [Tooltip("IInteractionUI를 구현한 MonoBehaviour (UIManager)")]
-    [SerializeField] private MonoBehaviour interactionUISource;
-
-    [Tooltip("IProgressBar를 구현한 MonoBehaviour (InteractionUI)")]
-    [SerializeField] private MonoBehaviour progressBarSource;
-
-    [Tooltip("IActionPoints를 구현한 MonoBehaviour (ActionPointSystem)")]
     [SerializeField] private MonoBehaviour actionPointsSource;
 
     private IInteractable nearInteractable;

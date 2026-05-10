@@ -51,6 +51,7 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
 
         CheckLevelUp();
         CheckLow();
+        GameEvents.RaiseAPChanged(data.currentAP, data.maxAP);
         return true;
     }
 
@@ -58,6 +59,7 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
     {
         data.currentAP = data.maxAP;
         lowFired       = false;
+        GameEvents.RaiseAPChanged(data.currentAP, data.maxAP);
     }
 
     // ── 내부 ─────────────────────────────────────────────
@@ -70,9 +72,10 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
 
         if (newLevel <= data.level) return;
 
-        data.level  = newLevel;
-        data.maxAP  = config != null ? config.GetMaxAP(newLevel) : 10 + (newLevel - 1) * 2;
+        data.level     = newLevel;
+        data.maxAP     = config != null ? config.GetMaxAP(newLevel) : 10 + (newLevel - 1) * 2;
         data.currentAP = Mathf.Min(data.currentAP, data.maxAP);
+        GameEvents.RaiseLevelUp(data.level);
     }
 
     private void CheckLow()
