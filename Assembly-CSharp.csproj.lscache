@@ -68,127 +68,128 @@ Assets/02.Script/
   IMovementLock.cs
   IPlayerState.cs
   IPoolable.cs
-  IProgressBar.cs
  PlayerAnimatorDriver.cs
  PlayerController.cs
  Pool/PoolManager.cs
  Systems/
   ActionPointSystem.cs
   DayManager.cs
-  UIEvents.cs
+  GameEvents.cs
  UI/
   GameHUD.cs
-  HoldProgressBar.cs
-Assets/Modern UI Pack/Scripts/Button/
- ButtonManager.cs
- ButtonManagerEditor.cs
-Assets/Modern UI Pack/Scripts/Charts/
- PieChart.cs
- PieChartEditor.cs
-Assets/Modern UI Pack/Scripts/Context Menu/
- ContextMenuContent.cs
- ContextMenuContentEditor.cs
- ContextMenuContentMobile.cs
- ContextMenuManager.cs
- ContextMenuManagerEditor.cs
- ContextMenuSubMenu.cs
-Assets/Modern UI Pack/Scripts/
- Core/MUIPInternalTools.cs
- Demo/
-  DemoElementSway.cs
-  DemoElementSwayParent.cs
-  DemoListShadow.cs
-  InputSystemChecker.cs
-  LaunchURL.cs
- Dropdown/
-  CustomDropdown.cs
-  CustomDropdownEditor.cs
-  DropdownMultiSelect.cs
-  DropdownMultiSelectEditor.cs
- Editor Handlers/MUIPEditorHandler.cs
- Horizontal Selector/
-  HorizontalSelector.cs
-  HorizontalSelectorEditor.cs
- Icon/
-  AnimatedIconHandler.cs
-  IconLibrary.cs
-  IconLibraryEditor.cs
-  IconManager.cs
-  IconManagerEditor.cs
- Input Field/CustomInputField.cs
- Layout Group/
-  LayoutGroupFix.cs
-  RadialLayoutGroup.cs
-  RadialLayoutGroupEditor.cs
- ListView/
-  ListView.cs
-  ListViewEditor.cs
-  ListViewItem.cs
-  ListViewRow.cs
- Modal Window/
-  ModalWindowManager.cs
-  ModalWindowManagerEditor.cs
- Notification/
-  NotificationManager.cs
-  NotificationManagerEditor.cs
-  NotificationStacking.cs
- Progress Bar/
-  PBFilled.cs
-  ProgressBar.cs
-  ProgressBarEditor.cs
- Rendering/
-  Ripple.cs
-  UIGradient.cs
-  UIGradientEditor.cs
- Slider/
-  RadialSlider.cs
-  RadialSliderEditor.cs
-  RangeMaxSlider.cs
-  RangeMinSlider.cs
-  RangeSlider.cs
-  SliderInput.cs
-  SliderManager.cs
-  SliderManagerEditor.cs
- Switch/
-  SwitchManager.cs
-  SwitchManagerEditor.cs
- Toggle/CustomToggle.cs
- Tools/ElementTabbing.cs
- Tooltip/
-  TooltipContent.cs
-  TooltipManager.cs
-  TooltipManagerEditor.cs
- UI Manager/
-  UIManager.cs
-  UIManagerAnimatedIcon.cs
-  UIManagerButton.cs
-  UIManagerButtonEditor.cs
-  UIManagerContextMenu.cs
-  UIManagerCustom.cs
-  UIManagerDropdown.cs
-  UIManagerDropdownItem.cs
-  UIManagerEditor.cs
-  UIManagerHSelector.cs
-  UIManagerInputField.cs
-  UIManagerModalWindow.cs
-  UIManagerNotification.cs
-  UIManagerPieChart.cs
-  UIManagerProgressBar.cs
-  UIManagerProgressBarLoop.cs
-  UIManagerProgressBarLoopEditor.cs
-  UIManagerScrollbar.cs
-  UIManagerSlider.cs
-  UIManagerSliderEditor.cs
-  UIManagerSwitch.cs
-  UIManagerToggle.cs
-  UIManagerTooltip.cs
-  UIManagerWindowManager.cs
- Window/
-  WindowDragger.cs
-  WindowManager.cs
-  WindowManagerButton.cs
-  WindowManagerEditor.cs
-Assets/TutorialInfo/Scripts/Readme.cs
+  InteractionUI.cs
+Assets/
+ EndGameButtonUI.cs
+ Modern UI Pack/Scripts/Button/
+  ButtonManager.cs
+  ButtonManagerEditor.cs
+ Modern UI Pack/Scripts/Charts/
+  PieChart.cs
+  PieChartEditor.cs
+ Modern UI Pack/Scripts/Context Menu/
+  ContextMenuContent.cs
+  ContextMenuContentEditor.cs
+  ContextMenuContentMobile.cs
+  ContextMenuManager.cs
+  ContextMenuManagerEditor.cs
+  ContextMenuSubMenu.cs
+ Modern UI Pack/Scripts/
+  Core/MUIPInternalTools.cs
+  Demo/
+   DemoElementSway.cs
+   DemoElementSwayParent.cs
+   DemoListShadow.cs
+   InputSystemChecker.cs
+   LaunchURL.cs
+  Dropdown/
+   CustomDropdown.cs
+   CustomDropdownEditor.cs
+   DropdownMultiSelect.cs
+   DropdownMultiSelectEditor.cs
+  Editor Handlers/MUIPEditorHandler.cs
+  Horizontal Selector/
+   HorizontalSelector.cs
+   HorizontalSelectorEditor.cs
+  Icon/
+   AnimatedIconHandler.cs
+   IconLibrary.cs
+   IconLibraryEditor.cs
+   IconManager.cs
+   IconManagerEditor.cs
+  Input Field/CustomInputField.cs
+  Layout Group/
+   LayoutGroupFix.cs
+   RadialLayoutGroup.cs
+   RadialLayoutGroupEditor.cs
+  ListView/
+   ListView.cs
+   ListViewEditor.cs
+   ListViewItem.cs
+   ListViewRow.cs
+  Modal Window/
+   ModalWindowManager.cs
+   ModalWindowManagerEditor.cs
+  Notification/
+   NotificationManager.cs
+   NotificationManagerEditor.cs
+   NotificationStacking.cs
+  Progress Bar/
+   PBFilled.cs
+   ProgressBar.cs
+   ProgressBarEditor.cs
+  Rendering/
+   Ripple.cs
+   UIGradient.cs
+   UIGradientEditor.cs
+  Slider/
+   RadialSlider.cs
+   RadialSliderEditor.cs
+   RangeMaxSlider.cs
+   RangeMinSlider.cs
+   RangeSlider.cs
+   SliderInput.cs
+   SliderManager.cs
+   SliderManagerEditor.cs
+  Switch/
+   SwitchManager.cs
+   SwitchManagerEditor.cs
+  Toggle/CustomToggle.cs
+  Tools/ElementTabbing.cs
+  Tooltip/
+   TooltipContent.cs
+   TooltipManager.cs
+   TooltipManagerEditor.cs
+  UI Manager/
+   UIManager.cs
+   UIManagerAnimatedIcon.cs
+   UIManagerButton.cs
+   UIManagerButtonEditor.cs
+   UIManagerContextMenu.cs
+   UIManagerCustom.cs
+   UIManagerDropdown.cs
+   UIManagerDropdownItem.cs
+   UIManagerEditor.cs
+   UIManagerHSelector.cs
+   UIManagerInputField.cs
+   UIManagerModalWindow.cs
+   UIManagerNotification.cs
+   UIManagerPieChart.cs
+   UIManagerProgressBar.cs
+   UIManagerProgressBarLoop.cs
+   UIManagerProgressBarLoopEditor.cs
+   UIManagerScrollbar.cs
+   UIManagerSlider.cs
+   UIManagerSliderEditor.cs
+   UIManagerSwitch.cs
+   UIManagerToggle.cs
+   UIManagerTooltip.cs
+   UIManagerWindowManager.cs
+  Window/
+   WindowDragger.cs
+   WindowManager.cs
+   WindowManagerButton.cs
+   WindowManagerEditor.cs
+ TutorialInfo/Scripts/Readme.cs
 Temp/obj/Assembly-CSharp/.NETStandard,Version=v2.1.AssemblyAttributes.cs
 
 [metadataReferences]

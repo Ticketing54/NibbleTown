@@ -16,7 +16,7 @@ public class DayManager : MonoBehaviour
     {
         ActionPointSystem.Instance.GetSaveData().day++;
         ActionPointSystem.Instance.Restore();
-        UIEvents.RaiseDayChanged(Day);
+        GameEvents.RaiseDayChanged(Day);
         Debug.Log($"[DayManager] Day {Day} 시작");
     }
 }

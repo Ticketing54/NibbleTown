@@ -1,15 +1,14 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameHUD : MonoBehaviour
 {
-    private Text   apText;
-    private Text   levelText;
-    private Text   dayText;
-    private Image  apFill;
-    private GameObject endDayBtn;
-
-    private CharacterData characterData;
+    [SerializeField] private TextMeshProUGUI apText;
+    [SerializeField] private TextMeshProUGUI   levelText;
+    [SerializeField] private TextMeshProUGUI   dayText;
+    [SerializeField] private Image  apFill;
+    [SerializeField] private GameObject endDayBtn;
 
     private void Awake()
     {
@@ -18,33 +17,18 @@ public class GameHUD : MonoBehaviour
 
     private void OnEnable()
     {
-        UIEvents.OnCharacterDataChanged += OnChangedCharaterData;
-        UIEvents.OnAPChanged            += Refresh;
-        UIEvents.OnLevelUp              += OnLevelUp;
-        UIEvents.OnAPLow                += ShowEndDayButton;
-        UIEvents.OnDayChanged           += OnDayChanged;
+        GameEvents.OnAPChanged            += Refresh;
+        GameEvents.OnLevelUp              += OnLevelUp;
+        GameEvents.OnAPNotEnough           += ShowEndDayButton;
+        GameEvents.OnDayChanged           += OnDayChanged;
     }
 
     private void OnDisable()
     {
-        UIEvents.OnCharacterDataChanged -= OnChangedCharaterData;
-        UIEvents.OnAPChanged            -= Refresh;
-        UIEvents.OnLevelUp              -= OnLevelUp;
-        UIEvents.OnAPLow                -= ShowEndDayButton;
-        UIEvents.OnDayChanged           -= OnDayChanged;
-    }
-
-    private void Start()
-    {
-        if (ActionPointSystem.Instance != null)
-            Refresh(ActionPointSystem.Instance.Current, ActionPointSystem.Instance.Max);
-        if (DayManager.Instance != null)
-            dayText.text = "Day " + DayManager.Instance.Day;
-    }
-
-    private void OnChangedCharaterData(CharacterData _data)
-    {
-        characterData = _data;
+        GameEvents.OnAPChanged            -= Refresh;
+        GameEvents.OnLevelUp              -= OnLevelUp;
+        GameEvents.OnAPNotEnough           -= ShowEndDayButton;
+        GameEvents.OnDayChanged           -= OnDayChanged;
     }
 
     private void Refresh(int _current, int _max)
@@ -86,84 +70,7 @@ public class GameHUD : MonoBehaviour
         scaler.referenceResolution = new Vector2(1920, 1080);
 
         gameObject.AddComponent<GraphicRaycaster>();
-
-        BuildAPPanel();
-        BuildDayPanel();
         BuildEndDayButton();
-    }
-
-    private void BuildAPPanel()
-    {
-        var panel     = MakeGO("APPanel", transform);
-        var panelRect = panel.AddComponent<RectTransform>();
-        panelRect.anchorMin        = new Vector2(0f, 1f);
-        panelRect.anchorMax        = new Vector2(0f, 1f);
-        panelRect.pivot            = new Vector2(0f, 1f);
-        panelRect.anchoredPosition = new Vector2(20f, -20f);
-        panelRect.sizeDelta        = new Vector2(260f, 80f);
-        panel.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.55f);
-
-        // 레벨 텍스트
-        var levelGO   = MakeGO("LevelText", panel.transform);
-        var levelRect = levelGO.AddComponent<RectTransform>();
-        levelRect.anchorMin        = new Vector2(0f, 1f);
-        levelRect.anchorMax        = new Vector2(1f, 1f);
-        levelRect.pivot            = new Vector2(0f, 1f);
-        levelRect.anchoredPosition = new Vector2(10f, -8f);
-        levelRect.sizeDelta        = new Vector2(-10f, 24f);
-        levelText = SetupText(levelGO, "Lv.1", 18, FontStyle.Bold, new Color(1f, 0.85f, 0.2f), TextAnchor.MiddleLeft);
-
-        // AP 바 배경
-        var bgGO   = MakeGO("APBar_BG", panel.transform);
-        var bgRect = bgGO.AddComponent<RectTransform>();
-        bgRect.anchorMin        = new Vector2(0f, 0f);
-        bgRect.anchorMax        = new Vector2(1f, 0f);
-        bgRect.pivot            = new Vector2(0.5f, 0f);
-        bgRect.anchoredPosition = new Vector2(0f, 8f);
-        bgRect.sizeDelta        = new Vector2(-20f, 14f);
-        bgGO.AddComponent<Image>().color = new Color(0.15f, 0.15f, 0.15f, 1f);
-
-        // AP 채움
-        var fillGO   = MakeGO("APBar_Fill", bgGO.transform);
-        var fillRect = fillGO.AddComponent<RectTransform>();
-        fillRect.anchorMin = Vector2.zero;
-        fillRect.anchorMax = Vector2.one;
-        fillRect.offsetMin = Vector2.zero;
-        fillRect.offsetMax = Vector2.zero;
-        apFill            = fillGO.AddComponent<Image>();
-        apFill.color      = new Color(0.2f, 0.75f, 1f, 1f);
-        apFill.type       = Image.Type.Filled;
-        apFill.fillMethod = Image.FillMethod.Horizontal;
-        apFill.fillAmount = 1f;
-
-        // AP 숫자 텍스트
-        var apTextGO   = MakeGO("APText", panel.transform);
-        var apTextRect = apTextGO.AddComponent<RectTransform>();
-        apTextRect.anchorMin = new Vector2(0f, 0.3f);
-        apTextRect.anchorMax = new Vector2(1f, 0.85f);
-        apTextRect.offsetMin = new Vector2(10f, 0f);
-        apTextRect.offsetMax = new Vector2(-10f, 0f);
-        apText = SetupText(apTextGO, "10 / 10", 20, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
-    }
-
-    private void BuildDayPanel()
-    {
-        var panel     = MakeGO("DayPanel", transform);
-        var panelRect = panel.AddComponent<RectTransform>();
-        panelRect.anchorMin        = new Vector2(1f, 1f);
-        panelRect.anchorMax        = new Vector2(1f, 1f);
-        panelRect.pivot            = new Vector2(1f, 1f);
-        panelRect.anchoredPosition = new Vector2(-20f, -20f);
-        panelRect.sizeDelta        = new Vector2(160f, 50f);
-        panel.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.55f);
-
-        var textGO   = MakeGO("DayText", panel.transform);
-        var textRect = textGO.AddComponent<RectTransform>();
-        textRect.anchorMin = Vector2.zero;
-        textRect.anchorMax = Vector2.one;
-        textRect.offsetMin = new Vector2(8f, 4f);
-        textRect.offsetMax = new Vector2(-8f, -4f);
-        dayText = SetupText(textGO, "Day 1", 24, FontStyle.Bold, Color.white, TextAnchor.MiddleCenter);
     }
 
     private void BuildEndDayButton()

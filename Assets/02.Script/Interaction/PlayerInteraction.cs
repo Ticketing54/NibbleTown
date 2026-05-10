@@ -1,4 +1,5 @@
 using System.Collections;
+using Michsky.MUIP;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     [Tooltip("IInteractionUI를 구현한 MonoBehaviour (UIManager)")]
     [SerializeField] private MonoBehaviour interactionUISource;
 
-    [Tooltip("IProgressBar를 구현한 MonoBehaviour (HoldProgressBar)")]
+    [Tooltip("IProgressBar를 구현한 MonoBehaviour (InteractionUI)")]
     [SerializeField] private MonoBehaviour progressBarSource;
 
     [Tooltip("IActionPoints를 구현한 MonoBehaviour (ActionPointSystem)")]
@@ -20,7 +21,6 @@ public class PlayerInteraction : MonoBehaviour
     private IInteractable nearInteractable;
     private Coroutine interactionRoutine;
     private IMovementLock  mover;
-    private IProgressBar   bar;
     private IActionPoints  ap;
 
     private bool  holding;
@@ -29,11 +29,7 @@ public class PlayerInteraction : MonoBehaviour
     private void Awake()
     {
         mover = GetComponent<IMovementLock>();
-        bar   = progressBarSource  as IProgressBar;
         ap    = actionPointsSource as IActionPoints;
-        
-        if (bar == null)
-            Debug.LogError($"[PlayerInteraction] {progressBarSource} does not implement IProgressBar");
     }
 
     private void OnEnable()
@@ -60,12 +56,13 @@ public class PlayerInteraction : MonoBehaviour
             string hint = canAfford
                 ? $"{nearInteractable.HintText}  [{nearInteractable.APCost}AP]"
                 : $"[행동력 부족]  ({nearInteractable.APCost}AP 필요)";
+                GameEvents.RaiseInteractionTextShow(true,hint);
         }
     }
 
     private void OnTriggerExit(Collider _other)
     {
-        
+        GameEvents.RaiseInteractionTextShow(false,string.Empty);
     }
 
     private void OnStarted(InputAction.CallbackContext _ctx)
@@ -82,7 +79,7 @@ public class PlayerInteraction : MonoBehaviour
         holdStartTime = Time.time;
         nearInteractable.OnStartInteract(mover);
         mover.LockMovement(true);
-        bar.Show(true);
+        GameEvents.RaiseProgressBarShow(true);
         interactionRoutine = StartCoroutine(CoStartInteraction());
     }
 
@@ -103,7 +100,7 @@ public class PlayerInteraction : MonoBehaviour
 
         holding = false;
         mover.LockMovement(false);
-        bar.Show(false);
+        GameEvents.RaiseProgressBarShow(false);
     }
 
     private IEnumerator CoStartInteraction()
@@ -112,7 +109,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             float elapsed  = Time.time - holdStartTime;
             float progress = elapsed / holdDuration;
-            bar.SetProgress(progress);
+            GameEvents.RaiseProgressBarSetProgress(progress);
 
             if (progress >= 1f)
             {

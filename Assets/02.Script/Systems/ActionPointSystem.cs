@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ActionPointSystem : MonoBehaviour, IActionPoints
@@ -6,9 +7,11 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
 
     [SerializeField] private CharacterStatConfig config;
 
+    // 런타임 상태 — 저장 대상
     private CharacterData data = new CharacterData();
     private bool lowFired;
 
+    // IActionPoints
     public int Current => data.currentAP;
     public int Max     => data.maxAP;
     public int Level   => data.level;
@@ -21,20 +24,18 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
         if (config == null)
             Debug.LogWarning("[ActionPointSystem] CharacterStatConfig이 연결되지 않음 — 기본값 사용");
 
-        data.maxAP     = config != null ? config.GetMaxAP(1) : 10;
+        data.maxAP    = config != null ? config.GetMaxAP(1) : 10;
         data.currentAP = data.maxAP;
     }
 
     // ── 저장/불러오기 인터페이스 ──────────────────────────
 
-    public CharacterData GetSaveData() => data;
+    public CharacterData GetSaveData()            => data;
 
     public void LoadSaveData(CharacterData _data)
     {
         data     = _data;
         lowFired = false;
-        UIEvents.RaiseCharacterDataChanged(data);
-        UIEvents.RaiseAPChanged(Current, Max);
     }
 
     // ── IActionPoints ────────────────────────────────────
@@ -49,8 +50,6 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
         data.totalConsumed += _amount;
 
         CheckLevelUp();
-        UIEvents.RaiseCharacterDataChanged(data);
-        UIEvents.RaiseAPChanged(Current, Max);
         CheckLow();
         return true;
     }
@@ -59,8 +58,6 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
     {
         data.currentAP = data.maxAP;
         lowFired       = false;
-        UIEvents.RaiseCharacterDataChanged(data);
-        UIEvents.RaiseAPChanged(Current, Max);
     }
 
     // ── 내부 ─────────────────────────────────────────────
@@ -73,10 +70,9 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
 
         if (newLevel <= data.level) return;
 
-        data.level     = newLevel;
-        data.maxAP     = config != null ? config.GetMaxAP(newLevel) : 10 + (newLevel - 1) * 2;
+        data.level  = newLevel;
+        data.maxAP  = config != null ? config.GetMaxAP(newLevel) : 10 + (newLevel - 1) * 2;
         data.currentAP = Mathf.Min(data.currentAP, data.maxAP);
-        UIEvents.RaiseLevelUp(data.level);
     }
 
     private void CheckLow()
@@ -86,7 +82,7 @@ public class ActionPointSystem : MonoBehaviour, IActionPoints
         if ((float)data.currentAP / data.maxAP < threshold)
         {
             lowFired = true;
-            UIEvents.RaiseAPLow();
+            GameEvents.RaiseAPNotEnough();
         }
     }
 }
