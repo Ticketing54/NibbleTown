@@ -350,6 +350,8 @@ Library/ScriptAssemblies/
  MCPForUnity.Editor.dll
  MCPForUnity.Runtime.dll
  PPv2URPConverters.dll
+ Unity.2D.Sprite.AIIntegration.Editor.dll
+ Unity.2D.Sprite.Editor.dll
  Unity.AI.Navigation.dll
  Unity.AI.Navigation.Editor.ConversionSystem.dll
  Unity.AI.Navigation.Editor.dll

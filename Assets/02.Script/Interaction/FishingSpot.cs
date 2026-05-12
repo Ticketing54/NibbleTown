@@ -4,7 +4,7 @@ public class FishingSpot : InteractableBase
 {
     public override string HintText => "[F] 낚시하기";
 
-    private void Reset() => apCost = 2;
+    private void Reset() { apCost = 2; holdDuration = 3f; animType = InteractionAnimType.Fish; }
 
     public override void OnStartInteract(IMovementLock _mover)
     {

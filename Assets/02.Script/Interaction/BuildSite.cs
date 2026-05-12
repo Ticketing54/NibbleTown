@@ -4,7 +4,7 @@ public class BuildSite : InteractableBase
 {
     public override string HintText => "[F] 건설하기";
 
-    private void Reset() => apCost = 3;
+    private void Reset() { apCost = 3; animType = InteractionAnimType.Build; }
 
     public override void OnStartInteract(IMovementLock _mover)    => Debug.Log("[건설] 시작");
     public override void OnCompleteInteract(IMovementLock _mover) => Debug.Log("[건설] 완료");

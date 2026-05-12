@@ -50,30 +50,34 @@ TemporaryDependencyNodeTargetIdentifier=netstandard2.1
 /warnaserror+:NU1605
 
 [sourceFiles]
-Assets/02.Script/
+Assets/02.Script/Data/
+ CharacterData.cs
+ CharacterInitData.cs
+ CharacterStatConfig.cs
+ WeaponData.cs
+Assets/02.Script/Interaction/
+ BuildSite.cs
+ FarmPlot.cs
+ FishingSpot.cs
+ GatherPoint.cs
+ InteractableBase.cs
+ PlayerInteraction.cs
+Assets/02.Script/Interfaces/
+ IActionPoints.cs
+ IInteractable.cs
+ IInteractionState.cs
+ IMovementLock.cs
+ IPlayerState.cs
+ IPoolable.cs
+ IWeaponState.cs
+Assets/02.Script/Player/
  CameraController.cs
- Data/
-  CharacterData.cs
-  CharacterStatConfig.cs
- Interaction/
-  BuildSite.cs
-  FarmPlot.cs
-  FishingSpot.cs
-  GatherPoint.cs
-  IInteractable.cs
-  InteractableBase.cs
-  PlayerInteraction.cs
- Interfaces/
-  IActionPoints.cs
-  IMovementLock.cs
-  IPlayerState.cs
-  IPoolable.cs
  PlayerAnimatorDriver.cs
  PlayerController.cs
+Assets/02.Script/
  Pool/PoolManager.cs
  Systems/
-  ActionPointSystem.cs
-  DayManager.cs
+  CharacterStat.cs
   GameEvents.cs
  UI/
   CharacterInfoUI.cs
@@ -465,6 +469,8 @@ Library/ScriptAssemblies/
  MCPForUnity.Editor.dll
  MCPForUnity.Runtime.dll
  PPv2URPConverters.dll
+ Unity.2D.Sprite.AIIntegration.Editor.dll
+ Unity.2D.Sprite.Editor.dll
  Unity.AI.Navigation.dll
  Unity.AI.Navigation.Editor.ConversionSystem.dll
  Unity.AI.Navigation.Editor.dll

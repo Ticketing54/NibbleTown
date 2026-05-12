@@ -4,7 +4,7 @@ public class GatherPoint : InteractableBase
 {
     public override string HintText => "[F] 채집하기";
 
-    private void Reset() => apCost = 1;
+    private void Reset() { apCost = 1; holdDuration = 1.5f; animType = InteractionAnimType.Gather; }
 
     public override void OnStartInteract(IMovementLock _mover)    => Debug.Log("[채집] 시작");
     public override void OnCompleteInteract(IMovementLock _mover) => Debug.Log("[채집] 완료");

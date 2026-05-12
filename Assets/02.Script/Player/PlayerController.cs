@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
 
     // IMovementLock
     public void LockMovement(bool _locked) => movementLocked = _locked;
+    public void LookAt(Transform _target)  => lookAtTarget = _target;
 
     private CharacterController cc;
     private Camera mainCamera;
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
     private Vector3 jumpMoveDir;
     private float jumpSpeed;
     private bool movementLocked;
+    private Transform lookAtTarget;
 
     private void Awake()
     {
@@ -61,6 +63,16 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
     {
         if (movementLocked)
         {
+            if (lookAtTarget != null)
+            {
+                Vector3 dir = lookAtTarget.position - transform.position;
+                dir.y = 0f;
+                if (dir.sqrMagnitude > 0.001f)
+                {
+                    Quaternion targetRot = Quaternion.LookRotation(dir);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, rotationSpeed * Time.deltaTime);
+                }
+            }
             if (cc.isGrounded && velocity.y < 0f) velocity.y = -2f;
             velocity.y += gravity * Time.deltaTime;
             cc.Move(velocity * Time.deltaTime);

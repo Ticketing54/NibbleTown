@@ -9,7 +9,19 @@
       "mcp__UnityMCP__manage_components",
       "mcp__UnityMCP__refresh_unity",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Systems\\\\UIEvents.cs\" -Force)",
-      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Systems\\\\UIEvents.cs.meta\" -Force)"
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Systems\\\\UIEvents.cs.meta\" -Force)",
+      "PowerShell(Get-ChildItem -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\" -Recurse -Directory | ForEach-Object { $_.FullName.Replace\\(\"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\", \".\"\\) } | Sort-Object)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Interaction\\\\FishingSpot.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Interaction\\\\FishingSpot.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Get-ChildItem -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\KayKit\" -Recurse -ErrorAction SilentlyContinue)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Get-ChildItem *)",
+      "mcp__ide__getDiagnostics",
+      "mcp__UnityMCP__manage_scene",
+      "Bash(Remove-Item -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\CharacterCSVLoader.cs\" -Force)",
+      "Bash(Remove-Item -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\CharacterCSVLoader.cs.meta\" -ErrorAction SilentlyContinue -Force)",
+      "Bash(Remove-Item -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\StreamingAssets\" -Recurse -Force)",
+      "mcp__UnityMCP__manage_animation"
     ]
   }
 }

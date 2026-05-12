@@ -3,10 +3,15 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public abstract class InteractableBase : MonoBehaviour, IInteractable
 {
-    [SerializeField] protected int apCost = 1;
+    [SerializeField] protected int                 apCost       = 1;
+    [SerializeField] protected float              holdDuration = 1.5f;
+    [SerializeField] protected InteractionAnimType animType    = InteractionAnimType.None;
 
-    public abstract string HintText { get; }
-    public virtual  int    APCost   => apCost;
+    public abstract string              HintText     { get; }
+    public virtual  int                 APCost       => apCost;
+    public virtual  float               HoldDuration => holdDuration;
+    public virtual  InteractionAnimType AnimType     => animType;
+    public          Transform           Transform    => transform;
 
     protected virtual void Awake()
     {
