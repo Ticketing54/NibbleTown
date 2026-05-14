@@ -81751,7 +81751,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingSpot
   apCost: 2
-  animType: 0
+  holdDuration: 1.5
+  animType: 1
 --- !u!65 &1428867814
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -117361,7 +117362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInteraction
   interactAction: {fileID: 1808681744}
-  holdDuration: 0.8
   actionPointsSource: {fileID: 2075142863}
 --- !u!114 &2075142861
 MonoBehaviour:
