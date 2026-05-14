@@ -1,0 +1,9 @@
+TargetItemID,TargetItemName,CurrentGrade,ResultItemID,ResultItemName,NextGrade,RequiredItem1ID,RequiredItem1Count,RequiredItem2ID,RequiredItem2Count,RequiredItem3ID,RequiredItem3Count,RequiredGold,SuccessRate
+2001,기본 검,Common,2002,강화 검,Uncommon,1003,5,1007,50,,,200,80
+2002,강화 검,Uncommon,2003,마법 검,Rare,1004,5,1005,3,,0,500,60
+2003,마법 검,Rare,2004,전설의 검,Epic,1005,10,1006,5,,0,1500,40
+2005,기본 갑옷,Common,2006,강화 갑옷,Uncommon,1003,5,1007,50,,,200,80
+2006,강화 갑옷,Uncommon,2007,마법 갑옷,Rare,1004,5,1005,3,,0,500,60
+2007,마법 갑옷,Rare,2008,전설의 갑옷,Epic,1005,10,1006,5,,0,1500,40
+1003,철광석,Common,1004,철,Uncommon,1003,5,1007,20,,,100,100
+1004,철,Uncommon,1005,수정,Rare,1004,3,1007,100,,,300,50

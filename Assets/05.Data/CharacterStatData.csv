@@ -1,0 +1,6 @@
+CharacterID,CharacterName,Class,BaseHP,BaseMana,BaseAttack,BaseDefense,BaseSpeed,BaseAttackRange,BaseCritRate,BaseCritDamage,HPPerLevel,AttackPerLevel,DefensePerLevel
+1001,바바리안,Warrior,150,50,20,10,5.0,1.5,0.05,1.5,20,3,2
+1002,마법사,Mage,80,150,30,5,4.5,8.0,0.08,2.0,10,5,1
+1003,궁수,Ranger,100,80,25,7,6.0,10.0,0.10,1.8,15,4,1
+1004,기사,Knight,180,60,15,20,4.0,1.5,0.03,1.3,25,2,4
+1005,도적,Rogue,90,70,22,6,7.0,2.0,0.15,2.5,12,4,1

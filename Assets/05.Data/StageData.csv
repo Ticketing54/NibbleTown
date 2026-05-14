@@ -1,0 +1,13 @@
+StageID,StageName,RequiredLevel,MonsterType,MonsterCount,BossMonsterType,TimeLimitSec,RewardItem1ID,RewardItem1Count,RewardItem2ID,RewardItem2Count,RewardExp,RewardGold
+101,초원의 시작,1,FirePig,5,,180,1001,3,1002,2,50,20
+102,불꽃 돼지의 무리,3,FirePig,8,FirePig,180,1001,5,1003,2,80,35
+103,골렘의 동굴,5,Golem,6,,240,1002,5,1003,3,120,50
+104,골렘 우두머리,7,Golem,8,Golem,240,1003,5,1004,2,180,80
+105,불꽃 응시자,10,FireGazer,6,,300,1004,3,1005,1,250,120
+106,미노토스의 영역,12,Minotos,4,Minotos,300,1004,5,1005,2,350,180
+107,탐포라 습지,15,Tampora,5,,360,1005,3,1006,1,500,250
+108,불사조의 시련,18,CutePhoenix,3,CutePhoenix,360,1005,5,1006,2,700,350
+201,혼돈의 전장,20,Golem,5,,300,1004,5,1005,3,600,300
+202,화염 지배자,22,FireGazer,6,FireGazer,300,1005,5,1006,3,800,420
+203,탐포라 군주,25,Tampora,6,Tampora,360,1005,8,1006,4,1100,580
+204,불사조 왕,28,CutePhoenix,4,CutePhoenix,420,1006,5,,0,1500,800
