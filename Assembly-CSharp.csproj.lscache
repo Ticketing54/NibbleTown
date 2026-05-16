@@ -54,10 +54,10 @@ Assets/02.Script/Data/
  CharacterData.cs
  CharacterInitData.cs
  CharacterStatConfig.cs
+ ItemSlot.cs
  WeaponData.cs
 Assets/02.Script/Interaction/
  BuildSite.cs
- FarmPlot.cs
  FishingSpot.cs
  GatherPoint.cs
  InteractableBase.cs
@@ -79,6 +79,8 @@ Assets/02.Script/
  Systems/
   CharacterStat.cs
   GameEvents.cs
+  Inventory.cs
+  StageManager.cs
  UI/
   CharacterInfoUI.cs
   InteractionUI.cs

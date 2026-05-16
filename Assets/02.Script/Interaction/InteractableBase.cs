@@ -13,9 +13,23 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     public virtual  InteractionAnimType AnimType     => animType;
     public          Transform           Transform    => transform;
 
+    protected Inventory cachedInventory;
+
     protected virtual void Awake()
     {
         GetComponent<Collider>().isTrigger = true;
+    }
+
+    private void OnTriggerEnter(Collider _other)
+    {
+        if (_other.TryGetComponent<Inventory>(out var inv))
+            cachedInventory = inv;
+    }
+
+    private void OnTriggerExit(Collider _other)
+    {
+        if (_other.TryGetComponent<Inventory>(out _))
+            cachedInventory = null;
     }
 
     public abstract void OnStartInteract(IMovementLock _mover);

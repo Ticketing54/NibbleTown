@@ -9,6 +9,8 @@ ItemID,ItemName,ItemType,Grade,Description,MaxStack,SellPrice,IsDroppable,IsEqui
 1008,체력 물약,Consumable,Common,HP를 50 회복,99,10,true,false
 1009,마나 물약,Consumable,Common,MP를 30 회복,99,10,true,false
 1010,상급 체력 물약,Consumable,Uncommon,HP를 150 회복,99,30,true,false
+1011,잡초,Material,Common,채집으로 얻는 식물 재료,999,1,true,false
+1012,피라미,Material,Common,낚시로 잡히는 작은 물고기,99,3,true,false
 2001,기본 검,Equipment,Common,평범한 검 (ATK +5),1,30,true,true
 2002,강화 검,Equipment,Uncommon,강화된 검 (ATK +15),1,100,true,true
 2003,마법 검,Equipment,Rare,마법이 깃든 검 (ATK +30),1,300,true,true

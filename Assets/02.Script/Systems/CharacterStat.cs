@@ -22,7 +22,6 @@ public class CharacterStat : MonoBehaviour, IActionPoints
     // AP (IActionPoints)
     public int Current => runtimeData.currentAP;
     public int Max     => runtimeData.maxAP;
-    public int Level   => runtimeData.level;
 
     // Day
     public int Day => runtimeData.day;
@@ -32,7 +31,6 @@ public class CharacterStat : MonoBehaviour, IActionPoints
         Init(BuildInitData());
     }
 
-    // CSV 파서가 만들어준 데이터로 초기화할 진입점
     public void Init(CharacterInitData _data)
     {
         initData = _data;
@@ -43,8 +41,6 @@ public class CharacterStat : MonoBehaviour, IActionPoints
         runtimeData.currentMP = _data.maxMP;
         runtimeData.maxAP     = _data.baseMaxAP;
         runtimeData.currentAP = _data.baseMaxAP;
-        runtimeData.level     = 1;
-        runtimeData.totalConsumed = 0;
         lowFired = false;
     }
 
@@ -84,10 +80,8 @@ public class CharacterStat : MonoBehaviour, IActionPoints
     {
         if (!CanSpend(_amount)) return false;
 
-        runtimeData.currentAP    -= _amount;
-        runtimeData.totalConsumed += _amount;
+        runtimeData.currentAP -= _amount;
 
-        CheckLevelUp();
         CheckLow();
         GameEvents.RaiseAPChanged(runtimeData.currentAP, runtimeData.maxAP);
         return true;
@@ -111,8 +105,8 @@ public class CharacterStat : MonoBehaviour, IActionPoints
 
     // ── 저장/불러오기 ─────────────────────────────────────────
 
-    public CharacterData     GetSaveData()                    => runtimeData;
-    public CharacterInitData GetInitData()                    => initData;
+    public CharacterData     GetSaveData() => runtimeData;
+    public CharacterInitData GetInitData() => initData;
 
     public void LoadSaveData(CharacterData _data)
     {
@@ -122,7 +116,6 @@ public class CharacterStat : MonoBehaviour, IActionPoints
 
     // ── 내부 ─────────────────────────────────────────────────
 
-    // CSV 로딩이 붙기 전까지 defaultConfig(또는 기본값)으로 CharacterInitData를 구성
     private CharacterInitData BuildInitData()
     {
         if (defaultConfig != null)
@@ -133,26 +126,13 @@ public class CharacterStat : MonoBehaviour, IActionPoints
                 maxHP        = defaultConfig.baseMaxHP,
                 maxMP        = defaultConfig.baseMaxMP,
                 baseMaxAP    = defaultConfig.baseMaxAP,
-                apPerLevel   = defaultConfig.apPerLevel,
-                xpPerLevel   = defaultConfig.xpPerLevel,
                 lowThreshold = defaultConfig.lowThreshold,
             };
         }
 
-        var fallback    = CharacterInitData.Default;
-        fallback.id     = characterId;
+        var fallback = CharacterInitData.Default;
+        fallback.id  = characterId;
         return fallback;
-    }
-
-    private void CheckLevelUp()
-    {
-        int newLevel = 1 + runtimeData.totalConsumed / initData.xpPerLevel;
-        if (newLevel <= runtimeData.level) return;
-
-        runtimeData.level     = newLevel;
-        runtimeData.maxAP     = initData.baseMaxAP + (newLevel - 1) * initData.apPerLevel;
-        runtimeData.currentAP = Mathf.Min(runtimeData.currentAP, runtimeData.maxAP);
-        GameEvents.RaiseLevelUp(runtimeData.level);
     }
 
     private void CheckLow()
