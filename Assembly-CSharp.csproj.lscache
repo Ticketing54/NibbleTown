@@ -55,6 +55,12 @@ Assets/02.Script/Data/
  CharacterInitData.cs
  CharacterStatConfig.cs
  ItemSlot.cs
+ Rows/
+  BuildingUpgradeRow.cs
+  CharStatRow.cs
+  ItemRow.cs
+  ItemUpgradeRow.cs
+  StageRow.cs
  WeaponData.cs
 Assets/02.Script/Interaction/
  BuildSite.cs
@@ -78,8 +84,12 @@ Assets/02.Script/
  Pool/PoolManager.cs
  Systems/
   CharacterStat.cs
+  CsvParser.cs
+  GameDataManager.cs
   GameEvents.cs
+  GameManager.cs
   Inventory.cs
+  SceneLoader.cs
   StageManager.cs
  UI/
   CharacterInfoUI.cs

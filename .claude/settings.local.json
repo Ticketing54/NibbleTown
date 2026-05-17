@@ -24,7 +24,8 @@
       "mcp__UnityMCP__manage_animation",
       "Bash(Select-Object Name)",
       "PowerShell(Get-ChildItem -Path \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\" | ForEach-Object { $_.Name })",
-      "PowerShell(Get-ChildItem \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\04.Prefab\" | ForEach-Object { $_.Name })"
+      "PowerShell(Get-ChildItem \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\04.Prefab\" | ForEach-Object { $_.Name })",
+      "mcp__UnityMCP__manage_build"
     ]
   }
 }
