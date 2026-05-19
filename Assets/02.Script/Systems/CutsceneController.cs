@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Playables;
@@ -6,44 +7,68 @@ using UnityEngine.Playables;
 public class CutsceneController : MonoBehaviour
 {
     [SerializeField] private InputActionReference skipAction;
+    [SerializeField] private PlayableDirector     dayNightDirector;
 
     public event Action OnFinished;
 
-    private PlayableDirector activeDirector;
-    private bool skipped;
+    private Coroutine dayNightCoroutine;
+    private bool      skipped;
 
-    public void Play(PlayableDirector _director)
+    // ── 밤낮 전환 ─────────────────────────────────────────────────────────────
+
+    public void PlayToNight() => StartDayNightSegment(0.0, 3.0);
+    public void PlayToDay()   => StartDayNightSegment(3.0, 6.0);
+
+    private void StartDayNightSegment(double _startTime, double _endTime)
     {
-        activeDirector = _director;
+        if (dayNightCoroutine != null) StopCoroutine(dayNightCoroutine);
         skipped = false;
-
-        activeDirector.stopped += OnDirectorStopped;
-        activeDirector.Play();
-
-        if (skipAction != null)
-        {
-            skipAction.action.Enable();
-            skipAction.action.performed += OnSkipInput;
-        }
+        dayNightCoroutine = StartCoroutine(CoDayNightSegment(_startTime, _endTime));
+        EnableSkip();
     }
+
+    private IEnumerator CoDayNightSegment(double _startTime, double _endTime)
+    {
+        dayNightDirector.extrapolationMode = DirectorWrapMode.Hold;
+        dayNightDirector.time = _startTime;
+        dayNightDirector.Play();
+
+        while (!skipped && dayNightDirector.time < _endTime)
+            yield return null;
+
+        if (skipped)
+        {
+            dayNightDirector.time = _endTime;
+            dayNightDirector.Evaluate();
+        }
+
+        dayNightDirector.Pause();
+        dayNightCoroutine = null;
+
+        DisableSkip();
+        OnFinished?.Invoke();
+    }
+
+    // ── Skip ──────────────────────────────────────────────────────────────────
 
     public void Skip()
     {
-        if (skipped || activeDirector == null) return;
+        if (skipped) return;
         skipped = true;
-        activeDirector.Stop();
+    }
+
+    private void EnableSkip()
+    {
+        if (skipAction == null) return;
+        skipAction.action.Enable();
+        skipAction.action.performed += OnSkipInput;
+    }
+
+    private void DisableSkip()
+    {
+        if (skipAction == null) return;
+        skipAction.action.performed -= OnSkipInput;
     }
 
     private void OnSkipInput(InputAction.CallbackContext _ctx) => Skip();
-
-    private void OnDirectorStopped(PlayableDirector _director)
-    {
-        activeDirector.stopped -= OnDirectorStopped;
-        activeDirector = null;
-
-        if (skipAction != null)
-            skipAction.action.performed -= OnSkipInput;
-
-        OnFinished?.Invoke();
-    }
 }
