@@ -6,21 +6,24 @@ public class SceneLoader : MonoBehaviour
 {
     public static SceneLoader Instance { get; private set; }
 
-    [SerializeField] LoadingSceneUI loadingUI;
-    [SerializeField] float minLoadingTime = 1.5f;
+    [SerializeField] private LoadingSceneUI loadingUI;
+    [SerializeField] private float minLoadingTime = 1.5f;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
         loadingUI.gameObject.SetActive(false);
+
+        GameDataManager.Init();
+        UserDataManager.Init();
     }
 
     public static void LoadPlayScene() => Instance.StartCoroutine(Instance.CoLoad("PlayScene"));
     public static void LoadMainScene() => Instance.StartCoroutine(Instance.CoLoad("MainScene"));
 
-    IEnumerator CoLoad(string targetScene)
+    private IEnumerator CoLoad(string targetScene)
     {
         yield return StartCoroutine(loadingUI.Show());
 

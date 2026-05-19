@@ -4,40 +4,42 @@ public enum StagePhase { Day, Night }
 
 public class StageManager : MonoBehaviour
 {
-    public static StageManager Instance { get; private set; }
-
-    [SerializeField] private CharacterStat characterStat;
-
-    public int        CurrentDay   { get; private set; } = 1;
-    public StagePhase CurrentPhase { get; private set; } = StagePhase.Day;
+    public int        CurrentDay   { get; private set; }
+    public StagePhase CurrentPhase { get; private set; }
 
     public string StageLabel => $"{CurrentDay}일 {(CurrentPhase == StagePhase.Day ? "낮" : "밤")}";
 
-    private void Awake()
+    private void OnEnable()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
+        GameEvents.OnDayBegin   += OnDayBegin;
+        GameEvents.OnNightBegin += OnNightBegin;
     }
 
-    public void AdvanceToNight()
+    private void OnDisable()
     {
-        if (CurrentPhase == StagePhase.Night) return;
+        GameEvents.OnDayBegin   -= OnDayBegin;
+        GameEvents.OnNightBegin -= OnNightBegin;
+    }
 
-        CurrentPhase = StagePhase.Night;
+    private void OnDayBegin()
+    {
+        if (CurrentPhase == StagePhase.Night)
+        {
+            CurrentDay++;
+            GameEvents.RaiseDayAdvanced();
+        }
+        else
+        {
+            CurrentDay = 1;
+        }
+
+        CurrentPhase = StagePhase.Day;
         GameEvents.RaisePhaseChanged(CurrentDay, CurrentPhase);
     }
 
-    public void AdvanceToNextDay()
+    private void OnNightBegin()
     {
-        if (CurrentPhase == StagePhase.Day) return;
-
-        CurrentDay++;
-        CurrentPhase = StagePhase.Day;
-        characterStat?.AdvanceDay();
+        CurrentPhase = StagePhase.Night;
         GameEvents.RaisePhaseChanged(CurrentDay, CurrentPhase);
     }
 }

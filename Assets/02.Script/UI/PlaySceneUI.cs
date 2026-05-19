@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterInfoUI : MonoBehaviour
+public class PlaySceneUI : MonoBehaviour
 {
     [Serializable]
     private class ProgressState
@@ -19,23 +19,27 @@ public class CharacterInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dayText;
     [SerializeField] private GameObject      endDayBtn;
 
-
     private void OnEnable()
     {
-        GameEvents.OnAPChanged   += RefreshAP;
-        GameEvents.OnHPChanged   += RefreshHP;
-        GameEvents.OnMPChanged   += RefreshMP;
-        GameEvents.OnAPNotEnough += ShowEndDayButton;
-        GameEvents.OnDayChanged  += OnDayChanged;
+        GameEvents.OnAPChanged      += RefreshAP;
+        GameEvents.OnHPChanged      += RefreshHP;
+        GameEvents.OnMPChanged      += RefreshMP;
+        GameEvents.OnDayChanged     += OnDayChanged;
+        GameEvents.OnPhaseChanged   += OnPhaseChanged;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnAPChanged   -= RefreshAP;
-        GameEvents.OnHPChanged   -= RefreshHP;
-        GameEvents.OnMPChanged   -= RefreshMP;
-        GameEvents.OnAPNotEnough -= ShowEndDayButton;
-        GameEvents.OnDayChanged  -= OnDayChanged;
+        GameEvents.OnAPChanged      -= RefreshAP;
+        GameEvents.OnHPChanged      -= RefreshHP;
+        GameEvents.OnMPChanged      -= RefreshMP;
+        GameEvents.OnDayChanged     -= OnDayChanged;
+        GameEvents.OnPhaseChanged   -= OnPhaseChanged;
+    }
+
+    public void OnEndDayButtonClick()
+    {
+        GameEvents.RaiseNightRequested();
     }
 
     private void RefreshHP(int _current, int _max)
@@ -56,14 +60,13 @@ public class CharacterInfoUI : MonoBehaviour
         apProgressState.fillImage.fillAmount = _max > 0 ? (float)_current / _max : 0f;
     }
 
-    private void ShowEndDayButton()
-    {
-        endDayBtn.SetActive(true);
-    }
-
     private void OnDayChanged(int _day)
     {
         dayText.text = "Day " + _day;
-        endDayBtn.SetActive(false);
+    }
+
+    private void OnPhaseChanged(int _day, StagePhase _phase)
+    {
+        endDayBtn.SetActive(_phase == StagePhase.Day);
     }
 }

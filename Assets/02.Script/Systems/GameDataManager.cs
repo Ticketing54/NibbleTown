@@ -11,11 +11,11 @@ public static class GameDataManager
     public static IReadOnlyDictionary<int, ItemUpgradeRow>     ItemUpgrades     => itemUpgrades;
     public static IReadOnlyDictionary<int, CharStatRow>        CharStats        => charStats;
 
-    static readonly Dictionary<int, ItemRow>                 items            = new Dictionary<int, ItemRow>();
-    static readonly Dictionary<int, StageRow>                stages           = new Dictionary<int, StageRow>();
-    static readonly Dictionary<int, List<BuildingUpgradeRow>> buildingUpgrades = new Dictionary<int, List<BuildingUpgradeRow>>();
-    static readonly Dictionary<int, ItemUpgradeRow>          itemUpgrades     = new Dictionary<int, ItemUpgradeRow>();
-    static readonly Dictionary<int, CharStatRow>             charStats        = new Dictionary<int, CharStatRow>();
+    private static readonly Dictionary<int, ItemRow>                 items            = new Dictionary<int, ItemRow>();
+    private static readonly Dictionary<int, StageRow>                stages           = new Dictionary<int, StageRow>();
+    private static readonly Dictionary<int, List<BuildingUpgradeRow>> buildingUpgrades = new Dictionary<int, List<BuildingUpgradeRow>>();
+    private static readonly Dictionary<int, ItemUpgradeRow>          itemUpgrades     = new Dictionary<int, ItemUpgradeRow>();
+    private static readonly Dictionary<int, CharStatRow>             charStats        = new Dictionary<int, CharStatRow>();
 
     public static void Init()
     {
@@ -33,7 +33,7 @@ public static class GameDataManager
 
     // ── 로드 ─────────────────────────────────────────────────
 
-    static void LoadItems()
+    private static void LoadItems()
     {
         var asset = Resources.Load<TextAsset>("Data/ItemData");
         if (asset == null) { Debug.LogWarning("[GameDataManager] ItemData 없음"); return; }
@@ -57,7 +57,7 @@ public static class GameDataManager
         }
     }
 
-    static void LoadStages()
+    private static void LoadStages()
     {
         var asset = Resources.Load<TextAsset>("Data/StageData");
         if (asset == null) { Debug.LogWarning("[GameDataManager] StageData 없음"); return; }
@@ -85,7 +85,7 @@ public static class GameDataManager
         }
     }
 
-    static void LoadBuildingUpgrades()
+    private static void LoadBuildingUpgrades()
     {
         var asset = Resources.Load<TextAsset>("Data/BuildingUpgradeData");
         if (asset == null) { Debug.LogWarning("[GameDataManager] BuildingUpgradeData 없음"); return; }
@@ -116,7 +116,7 @@ public static class GameDataManager
         }
     }
 
-    static void LoadItemUpgrades()
+    private static void LoadItemUpgrades()
     {
         var asset = Resources.Load<TextAsset>("Data/ItemUpgradeData");
         if (asset == null) { Debug.LogWarning("[GameDataManager] ItemUpgradeData 없음"); return; }
@@ -145,7 +145,7 @@ public static class GameDataManager
         }
     }
 
-    static void LoadCharStats()
+    private static void LoadCharStats()
     {
         var asset = Resources.Load<TextAsset>("Data/CharacterStatData");
         if (asset == null) { Debug.LogWarning("[GameDataManager] CharacterStatData 없음"); return; }

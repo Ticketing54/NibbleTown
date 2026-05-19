@@ -2,19 +2,19 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainSceneTrigger : MonoBehaviour
+public class MainSceneController : MonoBehaviour
 {
-    [SerializeField] Image mainLogo;
-    [SerializeField] float fadeDuration = 2f;
+    [SerializeField] private Image mainLogo;
+    [SerializeField] private float fadeDuration = 2f;
 
     public void OnPlayButtonClick() => SceneLoader.LoadPlayScene();
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(CoMainLogoAnimation());
     }
 
-    IEnumerator CoMainLogoAnimation()
+    private IEnumerator CoMainLogoAnimation()
     {
         if (mainLogo == null) yield break;
 

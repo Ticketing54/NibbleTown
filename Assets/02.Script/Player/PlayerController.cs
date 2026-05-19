@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
         sprintAction.action.Enable();
         jumpAction.action.Enable();
         jumpAction.action.performed += OnJump;
+        GameEvents.OnPlayerInputLocked += SetInputLocked;
     }
 
     private void OnDisable()
@@ -57,7 +58,10 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
         moveAction.action.Disable();
         sprintAction.action.Disable();
         jumpAction.action.Disable();
+        GameEvents.OnPlayerInputLocked -= SetInputLocked;
     }
+
+    private void SetInputLocked(bool _locked) => enabled = !_locked;
 
     private void Update()
     {

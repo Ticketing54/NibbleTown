@@ -31,6 +31,16 @@ public class CharacterStat : MonoBehaviour, IActionPoints
         Init(BuildInitData());
     }
 
+    private void OnEnable()
+    {
+        GameEvents.OnDayAdvanced += AdvanceDay;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnDayAdvanced -= AdvanceDay;
+    }
+
     public void Init(CharacterInitData _data)
     {
         initData = _data;

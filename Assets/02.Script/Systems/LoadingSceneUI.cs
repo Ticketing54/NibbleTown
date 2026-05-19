@@ -1,23 +1,22 @@
 using System.Collections;
-using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class LoadingSceneUI : MonoBehaviour
 {
-    [SerializeField] Image progressImage;
-    [SerializeField] TMP_Text progressText;    
-    [SerializeField] float fadeDuration = 0.4f;
-    [SerializeField] CanvasGroup canvasGroup;
+    [SerializeField] private Image progressImage;
+    [SerializeField] private TMP_Text progressText;
+    [SerializeField] private float fadeDuration = 0.4f;
+    [SerializeField] private CanvasGroup canvasGroup;
 
-    const string LOADING_TEXT = "Loading";
-    const string LOADINGProgress_TEXT = ". . .     ";
+    private const string LOADING_TEXT = "Loading";
+    private const string LOADING_PROGRESS_TEXT = ". . .     ";
 
-    float timer;
-    int index;
+    private float timer;
+    private int index;
 
-    void Awake()
+    private void Awake()
     {
         if (canvasGroup == null)
             canvasGroup = gameObject.AddComponent<CanvasGroup>();
@@ -26,7 +25,7 @@ public class LoadingSceneUI : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    void Update()
+    private void Update()
     {
         progressImage.transform.Rotate(Vector3.back * Time.deltaTime * 200f);
 
@@ -34,10 +33,10 @@ public class LoadingSceneUI : MonoBehaviour
         if (timer > 0.1f)
         {
             timer -= 0.1f;
-            index = (index + 1) % LOADING_TEXT.Length;
+            index = (index + 1) % LOADING_PROGRESS_TEXT.Length;
         }
 
-        progressText.text = LOADING_TEXT + LOADINGProgress_TEXT.Substring(0, index);
+        progressText.text = LOADING_TEXT + LOADING_PROGRESS_TEXT.Substring(0, index);
     }
 
     public IEnumerator Show()
@@ -54,7 +53,7 @@ public class LoadingSceneUI : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    IEnumerator Fade(float targetAlpha)
+    private IEnumerator Fade(float targetAlpha)
     {
         float start = canvasGroup.alpha;
         float elapsed = 0f;
