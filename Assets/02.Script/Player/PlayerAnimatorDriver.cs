@@ -65,7 +65,6 @@ public class PlayerAnimatorDriver : MonoBehaviour
 
     private void OnInteractionStarted(InteractionAnimType _animType)
     {
-        Debug.Log(_animType.ToString());
         animator.SetBool(InteractingHash, true);
         animator.SetInteger(InteractionAnimHash, (int)_animType);
     }

@@ -12,4 +12,92 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475ee58951195344abb3489fcd140ef5, type: 3}
   m_Name: ItemDatabase
   m_EditorClassIdentifier: Assembly-CSharp::ItemDatabase
-  entries: []
+  entries:
+  - itemId: 101
+    itemName: "\uB098\uBB47\uAC00\uC9C0"
+    itemType: Material
+    grade: Common
+    description: "\uCC44\uC9D1\uC73C\uB85C \uC5BB\uC740 \uB098\uBB47\uAC00\uC9C0.
+      \uAC74\uCD95 \uC7AC\uB8CC\uB85C \uC4F0\uC778\uB2E4."
+    maxStack: 99
+    sellPrice: 2
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 102
+    itemName: "\uC57D\uCD08"
+    itemType: Material
+    grade: Common
+    description: "\uB4E4\uD310\uC5D0\uC11C \uC790\uB77C\uB294 \uC57D\uCD08. \uD3EC\uC158
+      \uC81C\uC791\uC5D0 \uC0AC\uC6A9\uB41C\uB2E4."
+    maxStack: 99
+    sellPrice: 5
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 103
+    itemName: "\uBCA0\uB9AC"
+    itemType: Food
+    grade: Common
+    description: "\uB2EC\uCF64\uD55C \uC5F4\uB9E4. \uBA39\uC73C\uBA74 HP\uAC00 \uC18C\uB7C9
+      \uD68C\uBCF5\uB41C\uB2E4."
+    maxStack: 30
+    sellPrice: 3
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 201
+    itemName: "\uC791\uC740 \uBB3C\uACE0\uAE30"
+    itemType: Food
+    grade: Common
+    description: "\uD754\uD788 \uC7A1\uD788\uB294 \uC791\uC740 \uBB3C\uACE0\uAE30."
+    maxStack: 30
+    sellPrice: 4
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 202
+    itemName: "\uD070 \uBB3C\uACE0\uAE30"
+    itemType: Food
+    grade: Uncommon
+    description: "\uC81C\uBC95 \uC2E4\uD55C \uBB3C\uACE0\uAE30. \uD314\uBA74 \uAF64
+      \uAC12\uC774 \uB098\uAC04\uB2E4."
+    maxStack: 30
+    sellPrice: 12
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 203
+    itemName: "\uC9C4\uADC0\uD55C \uBB3C\uACE0\uAE30"
+    itemType: Food
+    grade: Rare
+    description: "\uC880\uCC98\uB7FC \uB09A\uC774\uC9C0 \uC54A\uB294 \uD76C\uADC0
+      \uBB3C\uACE0\uAE30. \uB192\uC740 \uAC00\uACA9\uC5D0 \uD314\uB9B0\uB2E4."
+    maxStack: 10
+    sellPrice: 50
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 301
+    itemName: "\uB3CC"
+    itemType: Material
+    grade: Common
+    description: "\uD754\uD55C \uB3CC. \uAC74\uCD95 \uAE30\uCD08 \uC7AC\uB8CC\uB85C
+      \uC4F0\uC778\uB2E4."
+    maxStack: 99
+    sellPrice: 1
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 302
+    itemName: "\uCCA0\uAD11\uC11D"
+    itemType: Material
+    grade: Uncommon
+    description: "\uC81C\uB828\uD558\uBA74 \uCCA0\uC774 \uB418\uB294 \uAD11\uC11D."
+    maxStack: 99
+    sellPrice: 8
+    isDroppable: 1
+    isEquippable: 0
+  - itemId: 303
+    itemName: "\uAE08\uAD11\uC11D"
+    itemType: Material
+    grade: Rare
+    description: "\uD76C\uADC0\uD55C \uAE08 \uAD11\uC11D. \uACE0\uAE09 \uC7A5\uBE44
+      \uC81C\uC791\uC5D0 \uD544\uC694\uD558\uB2E4."
+    maxStack: 30
+    sellPrice: 30
+    isDroppable: 1
+    isEquippable: 0

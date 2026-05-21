@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public enum InteractionAnimType { None = 0, Gather = 1, Fish = 2, Build = 4 }
+public enum InteractionAnimType { None = 0, Gather = 1, Fish = 2, Mine = 3, Build = 4 }
 
 public interface IInteractable
 {
