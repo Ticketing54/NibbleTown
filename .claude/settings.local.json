@@ -27,7 +27,12 @@
       "PowerShell(Get-ChildItem \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\04.Prefab\" | ForEach-Object { $_.Name })",
       "mcp__UnityMCP__manage_build",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\UI\\\\MainSceneTrigger.cs\" -Force)",
-      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\UI\\\\MainSceneTrigger.cs.meta\" -Force)"
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\UI\\\\MainSceneTrigger.cs.meta\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\ItemRow.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\ItemRow.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\StageRow.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\StageRow.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\BuildingUpgradeRow.cs\" -Force)"
     ]
   }
 }

@@ -62,17 +62,10 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
         GameEvents.OnPlayerInputLocked -= SetInputLocked;
     }
 
-    private void SetInputLocked(bool _locked)
-    {
-        inputLocked = _locked;
-        Debug.Log($"[PC] SetInputLocked({_locked})  inputLocked={inputLocked}  movementLocked={movementLocked}");
-    }
+    private void SetInputLocked(bool _locked) => inputLocked = _locked;
 
     private void Update()
     {
-        if (Time.frameCount % 120 == 0)
-            Debug.Log($"[PC] Update tick  inputLocked={inputLocked}  movementLocked={movementLocked}  enabled={enabled}");
-
         if (movementLocked || inputLocked)
         {
             if (movementLocked && lookAtTarget != null)

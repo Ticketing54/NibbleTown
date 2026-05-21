@@ -71,9 +71,5 @@ public class PlaySceneController : MonoBehaviour
         }
     }
 
-    private void SetPlayerEnabled(bool _enabled)
-    {
-        Debug.Log($"[PSC] SetPlayerEnabled({_enabled})");
-        GameEvents.RaisePlayerInputLocked(!_enabled);
-    }
+    private void SetPlayerEnabled(bool _enabled) => GameEvents.RaisePlayerInputLocked(!_enabled);
 }

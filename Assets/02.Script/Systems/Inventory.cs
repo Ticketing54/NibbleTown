@@ -13,7 +13,6 @@ public class Inventory : MonoBehaviour
 
         if (!items.ContainsKey(_itemId))
             items[_itemId] = 0;
-Debug.Log(_itemId +" /" +_count);
         items[_itemId] += _count;
         GameEvents.RaiseInventoryChanged(_itemId, items[_itemId]);
     }

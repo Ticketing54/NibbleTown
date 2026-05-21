@@ -13,7 +13,11 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
     public virtual  InteractionAnimType AnimType     => animType;
     public          Transform           Transform    => transform;
 
+    [SerializeField] protected DropTable dropTable;
+
     protected Inventory cachedInventory;
+
+    protected void GiveDrops() => dropTable?.GiveTo(cachedInventory);
 
     protected virtual void Awake()
     {
