@@ -14,6 +14,7 @@ public class ItemData
     public int    sellPrice;
     public bool   isDroppable;
     public bool   isEquippable;
+    public Sprite icon;
 }
 
 [CreateAssetMenu(fileName = "ItemDatabase", menuName = "NibbleTown/Database/Item Database")]

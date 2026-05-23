@@ -32,7 +32,8 @@
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\ItemRow.cs.meta\" -Force -ErrorAction SilentlyContinue)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\StageRow.cs\" -Force)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\StageRow.cs.meta\" -Force -ErrorAction SilentlyContinue)",
-      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\BuildingUpgradeRow.cs\" -Force)"
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Data\\\\Rows\\\\BuildingUpgradeRow.cs\" -Force)",
+      "mcp__UnityMCP__delete_script"
     ]
   }
 }

@@ -5,6 +5,18 @@ public class Inventory : MonoBehaviour
 {
     private readonly Dictionary<int, int> items = new Dictionary<int, int>();
 
+    private void OnEnable()
+    {
+        GameEvents.OnInventoryRefreshRequested += OnRefreshRequested;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnInventoryRefreshRequested -= OnRefreshRequested;
+    }
+
+    private void OnRefreshRequested() => GameEvents.RaiseInventoryRefreshed(items);
+
     // ── 추가 (생산·사냥 등 자동 획득) ────────────────────────
 
     public void AddItem(int _itemId, int _count)
