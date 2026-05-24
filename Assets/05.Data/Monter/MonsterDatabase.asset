@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d40ed62cc3fb084e9ccc0f42c4d53a7, type: 3}
+  m_Name: MonsterDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterDatabase
+  entries:
+  - monsterIndex: 0
+    monsterName: AA
+    prefab: {fileID: 5533960148665992485, guid: 47436e10ff5def648b6f23a7484e34de, type: 3}
+    dropGold: 1
+  - monsterIndex: 1
+    monsterName: AB
+    prefab: {fileID: 1860909062686000360, guid: 36a628c06407b6440b82bd0da3c4c280, type: 3}
+    dropGold: 2
+  - monsterIndex: 2
+    monsterName: BA
+    prefab: {fileID: 606757405636430128, guid: c99fa9b4eab18614aa4ef7b8652d6030, type: 3}
+    dropGold: 2
+  - monsterIndex: 3
+    monsterName: BB
+    prefab: {fileID: 2310513489477641597, guid: e188e5fc5c4849a4c8afaca4ae3fe56f, type: 3}
+    dropGold: 2
+  - monsterIndex: 4
+    monsterName: CA
+    prefab: {fileID: 8751484659756727935, guid: 86475ac6e5b6c6849b56f1a0612ac2d7, type: 3}
+    dropGold: 2
+  - monsterIndex: 5
+    monsterName: CB
+    prefab: {fileID: 7749733309764114246, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
+    dropGold: 2

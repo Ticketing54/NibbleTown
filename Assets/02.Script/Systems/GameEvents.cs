@@ -45,9 +45,12 @@ public static class GameEvents
 
     public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
 
+    public static event Action OnMonsterDied;
+
     public static void RaiseNightRequested()   => OnNightRequested?.Invoke();
     public static void RaiseNextDayRequested() => OnNextDayRequested?.Invoke();
     public static void RaiseDayBegin()         => OnDayBegin?.Invoke();
     public static void RaiseNightBegin()       => OnNightBegin?.Invoke();
     public static void RaiseDayAdvanced()      => OnDayAdvanced?.Invoke();
+    public static void RaiseMonsterDied()      => OnMonsterDied?.Invoke();
 }

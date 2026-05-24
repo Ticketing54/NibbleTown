@@ -11,9 +11,9 @@ public class GameDataSettings : ScriptableObject
     [Header("Database")]
     public ItemDatabase            itemDatabase;
     public StageDatabase           stageDatabase;
+    public MonsterDatabase         monsterDatabase;
     public BuildingUpgradeDatabase buildingUpgradeDatabase;
     public ItemUpgradeDatabase     itemUpgradeDatabase;
-    public CharStatDatabase        charStatDatabase;
 
     [Header("Config")]
     public CharacterStatConfig  characterStatConfig;

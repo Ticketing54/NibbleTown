@@ -19,6 +19,7 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
 
     private bool  holding;
     private float holdStartTime;
+    private bool  isCombatMode;
 
     private void Awake()
     {
@@ -31,6 +32,8 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
         interactAction.action.Enable();
         interactAction.action.started  += OnStarted;
         interactAction.action.canceled += OnCanceled;
+        GameEvents.OnNightBegin += EnterCombatMode;
+        GameEvents.OnDayBegin   += ExitCombatMode;
     }
 
     private void OnDisable()
@@ -38,20 +41,36 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
         interactAction.action.started  -= OnStarted;
         interactAction.action.canceled -= OnCanceled;
         interactAction.action.Disable();
+        GameEvents.OnNightBegin -= EnterCombatMode;
+        GameEvents.OnDayBegin   -= ExitCombatMode;
     }
+
+    private void EnterCombatMode()
+    {
+        isCombatMode = true;
+        if (nearInteractable != null)
+            GameEvents.RaiseInteractionTextShow(false, string.Empty);
+    }
+
+    private void ExitCombatMode() => isCombatMode = false;
 
     private void OnTriggerEnter(Collider _other)
     {
+        if (isCombatMode) return;
         if (_other.TryGetComponent<IInteractable>(out IInteractable newInteractable))
         {
             nearInteractable = newInteractable;
-
-            bool canAfford = ap == null || ap.CanSpend(nearInteractable.APCost);
-            string hint = canAfford
-                ? $"{nearInteractable.HintText}  [{nearInteractable.APCost}AP]"
-                : $"[행동력 부족]  ({nearInteractable.APCost}AP 필요)";
-                GameEvents.RaiseInteractionTextShow(true,hint);
+            ShowHint();
         }
+    }
+
+    private void ShowHint()
+    {
+        bool canAfford = ap == null || ap.CanSpend(nearInteractable.APCost);
+        string hint = canAfford
+            ? $"{nearInteractable.HintText}  [{nearInteractable.APCost}AP]"
+            : $"[행동력 부족]  ({nearInteractable.APCost}AP 필요)";
+        GameEvents.RaiseInteractionTextShow(true, hint);
     }
 
     private void OnTriggerExit(Collider _other)
@@ -66,6 +85,8 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
     private void OnStarted(InputAction.CallbackContext _ctx)
     {
         if (nearInteractable == null || holding) return;
+
+        if (isCombatMode) return;
 
         if (ap != null && !ap.CanSpend(nearInteractable.APCost))
         {

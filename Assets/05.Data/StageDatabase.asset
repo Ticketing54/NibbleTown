@@ -12,4 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d4b4b451a0db954d9e8125f5685855d, type: 3}
   m_Name: StageDatabase
   m_EditorClassIdentifier: Assembly-CSharp::StageDatabase
-  entries: []
+  entries:
+  - monsters:
+    - monsterIndex: 0
+      count: 2
+    - monsterIndex: 1
+      count: 2
+    bossMonsterIndex: 0

@@ -16,24 +16,46 @@ public class PlayerEquipment : MonoBehaviour
         interactionState = GetComponent<IInteractionState>();
     }
 
+    private bool isCombatMode;
+
     private void Start()
     {
         HideAll();
-        ShowCurrentWeapon();
     }
 
     private void OnEnable()
     {
-        if (interactionState == null) return;
-        interactionState.OnInteractionStarted += OnInteractionStarted;
-        interactionState.OnInteractionEnded   += OnInteractionEnded;
+        if (interactionState != null)
+        {
+            interactionState.OnInteractionStarted += OnInteractionStarted;
+            interactionState.OnInteractionEnded   += OnInteractionEnded;
+        }
+        GameEvents.OnNightBegin += EnterCombatMode;
+        GameEvents.OnDayBegin   += ExitCombatMode;
     }
 
     private void OnDisable()
     {
-        if (interactionState == null) return;
-        interactionState.OnInteractionStarted -= OnInteractionStarted;
-        interactionState.OnInteractionEnded   -= OnInteractionEnded;
+        if (interactionState != null)
+        {
+            interactionState.OnInteractionStarted -= OnInteractionStarted;
+            interactionState.OnInteractionEnded   -= OnInteractionEnded;
+        }
+        GameEvents.OnNightBegin -= EnterCombatMode;
+        GameEvents.OnDayBegin   -= ExitCombatMode;
+    }
+
+    private void EnterCombatMode()
+    {
+        isCombatMode = true;
+        HideAll();
+        ShowCurrentWeapon();
+    }
+
+    private void ExitCombatMode()
+    {
+        isCombatMode = false;
+        HideAll();
     }
 
     public void RefreshWeapon()
@@ -55,7 +77,7 @@ public class PlayerEquipment : MonoBehaviour
     private void OnInteractionEnded()
     {
         HideAll();
-        ShowCurrentWeapon();
+        if (isCombatMode) ShowCurrentWeapon();
     }
 
     private void ShowCurrentWeapon() => Show(weapon);

@@ -324,9 +324,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61f2dc36eda1eab40bd2b618fbb9931c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
+  weapon: {fileID: 7054477886098465673}
   fishingRod: {fileID: 4216083531077354241}
   pickaxe: {fileID: 511312829798286322}
-  gloves: {fileID: 0}
 --- !u!1 &534754928279867767
 GameObject:
   m_ObjectHideFlags: 0
@@ -1959,6 +1959,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8fd15d63933e32d4ba35255c389be30b, type: 3}
+--- !u!1 &7054477886098465673 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8fd15d63933e32d4ba35255c389be30b, type: 3}
+  m_PrefabInstance: {fileID: 7865505495676772056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7686900118415423795 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8fd15d63933e32d4ba35255c389be30b, type: 3}

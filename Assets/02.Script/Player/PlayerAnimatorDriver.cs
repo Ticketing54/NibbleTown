@@ -15,6 +15,7 @@ public class PlayerAnimatorDriver : MonoBehaviour
     private static readonly int InteractingHash     = Animator.StringToHash("Interacting");
     private static readonly int InteractionAnimHash = Animator.StringToHash("InteractionAnim");
     private static readonly int DenyAPHash          = Animator.StringToHash("DenyAP");
+    private static readonly int IsCombatModeHash    = Animator.StringToHash("IsCombatMode");
 
     private void Awake()
     {
@@ -35,6 +36,8 @@ public class PlayerAnimatorDriver : MonoBehaviour
             interactionState.OnInteractionEnded   += OnInteractionEnded;
             interactionState.OnInteractionDenied  += OnInteractionDenied;
         }
+        GameEvents.OnNightBegin += EnterCombatMode;
+        GameEvents.OnDayBegin   += ExitCombatMode;
     }
 
     private void OnDisable()
@@ -48,6 +51,8 @@ public class PlayerAnimatorDriver : MonoBehaviour
             interactionState.OnInteractionEnded   -= OnInteractionEnded;
             interactionState.OnInteractionDenied  -= OnInteractionDenied;
         }
+        GameEvents.OnNightBegin -= EnterCombatMode;
+        GameEvents.OnDayBegin   -= ExitCombatMode;
     }
 
     private void Update()
@@ -76,4 +81,7 @@ public class PlayerAnimatorDriver : MonoBehaviour
     }
 
     private void OnInteractionDenied() => animator.SetTrigger(DenyAPHash);
+
+    private void EnterCombatMode() => animator.SetBool(IsCombatModeHash, true);
+    private void ExitCombatMode()  => animator.SetBool(IsCombatModeHash, false);
 }
