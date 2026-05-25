@@ -1,6 +1,10 @@
-# NibbleTown
 
-![Animation.gif](attachment:05d12081-f8f9-40a1-bb45-ed812077dc24:Animation.gif)
+## NibbleTown
+
+
+<img width="1008" height="690" alt="Animation (1)" src="https://github.com/user-attachments/assets/6f535e4f-d976-463b-85fb-bb8052b5fdd4" />
+
+
 
 **프로젝트 소개**: 
 낮에는 정비하고, 밤에는 몰려오는 몬스터로부터 마을을 방어하는 타운 디펜스 액션게임.
