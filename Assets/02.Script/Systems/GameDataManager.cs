@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-
 
 public static class GameDataManager
 {
@@ -16,7 +14,6 @@ public static class GameDataManager
     // ── Config ────────────────────────────────────────────────
     public static CharacterStatConfig CharacterConfig { get; private set; }
 
-    private static List<WeaponData> weapons;
 
     public static void Init()
     {
@@ -35,8 +32,6 @@ public static class GameDataManager
         BuildingUpgrades = settings.buildingUpgradeDatabase;
         ItemUpgrades     = settings.itemUpgradeDatabase;
         CharacterConfig  = settings.characterStatConfig;
-        weapons          = settings.weapons;
-
         Items?.BuildLookup();
         Monsters?.BuildLookup();
         BuildingUpgrades?.BuildLookup();
@@ -53,12 +48,4 @@ public static class GameDataManager
     public static BuildingUpgradeData GetBuildingUpgrade(int _buildingId, int _currentLevel) => BuildingUpgrades?.Get(_buildingId, _currentLevel);
     public static ItemUpgradeData     GetItemUpgrade(int _targetItemId)                      => ItemUpgrades?.Get(_targetItemId);
 
-    // ── Config 조회 ───────────────────────────────────────────
-    public static WeaponData GetWeapon(WeaponType _type)
-    {
-        if (weapons == null) return null;
-        foreach (var w in weapons)
-            if (w != null && w.weaponType == _type) return w;
-        return null;
-    }
 }

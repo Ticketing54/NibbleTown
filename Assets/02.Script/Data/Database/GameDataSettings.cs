@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "GameDataSettings", menuName = "NibbleTown/Game Data Settings")]
@@ -16,6 +15,5 @@ public class GameDataSettings : ScriptableObject
     public ItemUpgradeDatabase     itemUpgradeDatabase;
 
     [Header("Config")]
-    public CharacterStatConfig  characterStatConfig;
-    public List<WeaponData>     weapons;
+    public CharacterStatConfig characterStatConfig;
 }

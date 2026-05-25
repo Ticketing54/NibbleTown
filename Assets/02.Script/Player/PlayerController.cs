@@ -26,7 +26,11 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
     public event Action OnJumped;
 
     // IMovementLock
-    public void LockMovement(bool _locked) => movementLocked = _locked;
+    public void LockMovement(bool _locked)
+    {
+        movementLocked = _locked;
+        if (_locked) MoveInputMagnitude = 0f;
+    }
     public void LookAt(Transform _target)  => lookAtTarget = _target;
 
     private CharacterController cc;

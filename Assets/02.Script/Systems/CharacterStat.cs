@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class CharacterStat : MonoBehaviour, IActionPoints
+public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
 {
     [SerializeField] private string            characterId    = "Barbarian";
     [SerializeField] private CharacterStatConfig defaultConfig;
@@ -9,9 +9,11 @@ public class CharacterStat : MonoBehaviour, IActionPoints
     private CharacterData     runtimeData = new CharacterData();
     private bool              lowFired;
 
-    public string Id => initData.id;
+    public string              Id     => initData.id;
+    public CharacterStatConfig Config => defaultConfig;
 
-    // HP
+    // HP (IDamageable)
+    public bool IsDead   => runtimeData.currentHP <= 0;
     public int CurrentHP => runtimeData.currentHP;
     public int MaxHP     => runtimeData.maxHP;
 
@@ -26,9 +28,11 @@ public class CharacterStat : MonoBehaviour, IActionPoints
     // Day
     public int Day => runtimeData.day;
 
+
     private void Awake()
     {
         Init(BuildInitData());
+        GetComponent<PlayerAttack>()?.Init(defaultConfig);
     }
 
     private void OnEnable()

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f8db5e4034f4534baf900961a740f76, type: 3}
   m_Name: CharacterStatConfig
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStatConfig
+  baseMaxHP: 100
+  baseMaxMP: 50
   baseMaxAP: 10
-  apPerLevel: 2
-  xpPerLevel: 20
   lowThreshold: 0.1
+  weaponType: 1
+  attackDamage: 10
+  attackRange: 1.5
+  attackCooldown: 1

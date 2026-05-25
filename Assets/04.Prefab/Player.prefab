@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 7743538106805514680}
   - component: {fileID: 772034246460559107}
   - component: {fileID: 6451869010412487702}
+  - component: {fileID: 4488205583355482572}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -191,6 +192,7 @@ Transform:
   - {fileID: 3564458392460066227}
   - {fileID: 590341991459794874}
   - {fileID: 8436189476687755481}
+  - {fileID: 9186560288996266939}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8432890239511583884
@@ -299,7 +301,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CharacterStat
   characterId: Barbarian
-  defaultConfig: {fileID: 0}
+  defaultConfig: {fileID: 11400000, guid: fe80caa15c676124fa3f1a1b45b9e568, type: 2}
 --- !u!114 &772034246460559107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +329,20 @@ MonoBehaviour:
   weapon: {fileID: 7054477886098465673}
   fishingRod: {fileID: 4216083531077354241}
   pickaxe: {fileID: 511312829798286322}
+--- !u!114 &4488205583355482572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237763049098616311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1ed0a50eff3f174692844c796c7437c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  hitZone: {fileID: 787427180687270566}
+  attackAction: {fileID: 0}
 --- !u!1 &534754928279867767
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +374,55 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4791394021767241658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &544942038361688435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9186560288996266939}
+  - component: {fileID: 787427180687270566}
+  m_Layer: 0
+  m_Name: HitBox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9186560288996266939
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544942038361688435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.97, z: 1.6}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6121730248683562968}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &787427180687270566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 544942038361688435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71327a6ba2856144b9b603fb025988b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HitZone
+  mode: 0
+  overlapRadius: 1
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1 &892708243425813325
 GameObject:
   m_ObjectHideFlags: 0

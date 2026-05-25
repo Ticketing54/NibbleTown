@@ -469,6 +469,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1525772168458241938, guid: 3d899373d8fead345ad11b179a64772f, type: 3}
   m_PrefabInstance: {fileID: 373757147}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &172994009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player/Attack
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_ActionId: 6c2ab1b8-8984-453a-af3d-a3c78ae1679a
 --- !u!1 &188363475
 GameObject:
   m_ObjectHideFlags: 0
@@ -7473,6 +7487,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 427756445}
+    - target: {fileID: 4488205583355482572, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+      propertyPath: attackAction
+      value: 
+      objectReference: {fileID: 172994009}
     - target: {fileID: 6121730248683562968, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.2763653

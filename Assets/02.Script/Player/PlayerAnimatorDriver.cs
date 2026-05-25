@@ -16,6 +16,7 @@ public class PlayerAnimatorDriver : MonoBehaviour
     private static readonly int InteractionAnimHash = Animator.StringToHash("InteractionAnim");
     private static readonly int DenyAPHash          = Animator.StringToHash("DenyAP");
     private static readonly int IsCombatModeHash    = Animator.StringToHash("IsCombatMode");
+    private static readonly int WeaponTypeHash      = Animator.StringToHash("WeaponType");
 
     private void Awake()
     {
@@ -23,6 +24,10 @@ public class PlayerAnimatorDriver : MonoBehaviour
         state            = GetComponent<IPlayerState>();
         weaponState      = GetComponent<IWeaponState>();
         interactionState = GetComponent<IInteractionState>();
+
+        CharacterStat stat = GetComponent<CharacterStat>();
+        if (stat != null && stat.Config != null)
+            animator.SetFloat(WeaponTypeHash, (float)stat.Config.weaponType);
     }
 
     private void OnEnable()
