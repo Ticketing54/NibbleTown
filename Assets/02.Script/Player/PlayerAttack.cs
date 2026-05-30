@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterStat))]
 public class PlayerAttack : MonoBehaviour, IWeaponState
 {
-    [SerializeField] private HitZone             hitZone;
+    [SerializeField] private HitBox              hitBox;
     [SerializeField] private InputActionReference attackAction;
 
     public event System.Action OnAttackTriggered;
@@ -62,10 +62,10 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
     public void UnlockMovement() => movementLock?.LockMovement(false);
 
     // 애니메이션 이벤트에서 호출 — 타격 프레임
-    public void ActivateHitZone()
+    public void ActivateHitBox()
     {
-        if (hitZone == null) return;
-        hitZone.Activate(config != null ? config.attackDamage : 0);
+        if (hitBox == null) return;
+        hitBox.Activate(config != null ? config.attackDamage : 0, gameObject);
     }
 
     private void EnterCombatMode() => isCombatMode = true;

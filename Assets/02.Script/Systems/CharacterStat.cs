@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
 {
+
     [SerializeField] private string            characterId    = "Barbarian";
     [SerializeField] private CharacterStatConfig defaultConfig;
 
@@ -37,11 +38,13 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
 
     private void OnEnable()
     {
+        PlayerRegistry.Register(this);
         GameEvents.OnDayAdvanced += AdvanceDay;
     }
 
     private void OnDisable()
     {
+        PlayerRegistry.Unregister(this);
         GameEvents.OnDayAdvanced -= AdvanceDay;
     }
 
@@ -60,9 +63,9 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
 
     // ── HP ───────────────────────────────────────────────────
 
-    public void TakeDamage(int _amount)
+    public void TakeDamage(DamageInfo _info)
     {
-        runtimeData.currentHP = Mathf.Max(0, runtimeData.currentHP - _amount);
+        runtimeData.currentHP = Mathf.Max(0, runtimeData.currentHP - _info.amount);
         GameEvents.RaiseHPChanged(runtimeData.currentHP, runtimeData.maxHP);
     }
 

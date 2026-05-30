@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public enum StagePhase { Day, Night }
 
@@ -76,12 +77,19 @@ public class StageManager : MonoBehaviour
         aliveCount += _count;
         for (int i = 0; i < _count; i++, _spawnIndex++)
         {
-            Transform point = spawnPoints[_spawnIndex % spawnPoints.Length];
-            Instantiate(data.prefab, point.position, point.rotation);
+            Transform point    = spawnPoints[_spawnIndex % spawnPoints.Length];
+            Vector3   spawnPos = point.position;
+
+            if (NavMesh.SamplePosition(point.position, out NavMeshHit hit, 5f, NavMesh.AllAreas))
+                spawnPos = hit.position;
+            else
+                Debug.LogWarning($"[StageManager] 스폰 포인트 {_spawnIndex % spawnPoints.Length} 근처에 NavMesh가 없습니다.");
+
+            Instantiate(data.prefab, spawnPos, point.rotation);
         }
     }
 
-    private void OnMonsterDied()
+    private void OnMonsterDied(int _gold)
     {
         aliveCount--;
         if (aliveCount <= 0)

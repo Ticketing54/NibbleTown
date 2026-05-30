@@ -137,6 +137,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8538865157943122629}
   - component: {fileID: 360841938357969411}
+  - component: {fileID: 1378590128182456217}
+  - component: {fileID: 6492729562556912888}
+  - component: {fileID: 3740329193452858426}
   m_Layer: 0
   m_Name: Fire_Gazer_C
   m_TagString: Untagged
@@ -183,6 +186,64 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!195 &1378590128182456217
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864282156465520966}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 0
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6492729562556912888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864282156465520966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7146fe93ac35de9479b5a600b6e5a736, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterController
+  maxHP: 50
+  attackDamage: 10
+  attackRange: 1.5
+  attackInterval: 2
+  dropGold: 10
+  sightRange: 10
+  sightAngle: 120
+  sightBlockLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &3740329193452858426
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6864282156465520966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42ad6be6c17f31949860f4f33da98536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
+  damageAnimDuration: 0.4
+  hasDamageAnim: 1
 --- !u!1 &7565849133061602838
 GameObject:
   m_ObjectHideFlags: 0

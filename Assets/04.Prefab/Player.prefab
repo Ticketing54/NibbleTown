@@ -254,9 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a365bf1c6755f1478559e64d2e57086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveAction: {fileID: 0}
-  jumpAction: {fileID: 0}
-  sprintAction: {fileID: 0}
+  moveAction: {fileID: -1680190386980627800, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  jumpAction: {fileID: -2099379676528639254, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  sprintAction: {fileID: -7471211009204490832, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   walkSpeed: 5
   sprintSpeed: 8
   rotationSpeed: 15
@@ -341,8 +341,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1ed0a50eff3f174692844c796c7437c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  hitZone: {fileID: 787427180687270566}
-  attackAction: {fileID: 0}
+  hitBox: {fileID: 787427180687270566}
+  attackAction: {fileID: 1120369429361536294, guid: 052faaac586de48259a63d0c4782560b, type: 3}
 --- !u!1 &534754928279867767
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,14 +415,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 544942038361688435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71327a6ba2856144b9b603fb025988b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 487b944e394eba24798e0b3e10f5c1fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitZone
   mode: 0
   overlapRadius: 1
   targetLayer:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 0
 --- !u!1 &892708243425813325
 GameObject:
   m_ObjectHideFlags: 0
