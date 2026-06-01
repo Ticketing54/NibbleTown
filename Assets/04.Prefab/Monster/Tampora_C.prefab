@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8256011723104159323}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4141388059517127056}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3764135366865243079}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1088466398711700401}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -136,7 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7578414994001475700}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7518933093219219839}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   - component: {fileID: 8148471361213690001}
   - component: {fileID: 2365541292070633504}
   - component: {fileID: 5175459902197304399}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Particle Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5051,7 +5051,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8267835873592266409}
   - component: {fileID: 7912654029181173401}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tempora_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5148,7 +5148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5573881098767697917}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5183,7 +5183,7 @@ GameObject:
   - component: {fileID: 4689308705501192766}
   - component: {fileID: 5737589609523364206}
   - component: {fileID: 2141699001533616619}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tampora_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5266,8 +5266,10 @@ MonoBehaviour:
   maxHP: 50
   attackDamage: 10
   attackRange: 1.5
-  attackInterval: 2
   dropGold: 10
+  monsterName: 
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
   sightRange: 10
   sightAngle: 120
   sightBlockLayer:
@@ -5287,3 +5289,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
   damageAnimDuration: 0.4
   hasDamageAnim: 1
+  hitFrameNormalized: 0.4

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 472497923086449105}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1075137255166864730}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9060881094931990459}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 3616504892654491705}
   - component: {fileID: 4309293042209149677}
   - component: {fileID: 6060086888228193731}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tampora_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,8 +191,10 @@ MonoBehaviour:
   maxHP: 50
   attackDamage: 10
   attackRange: 1.5
-  attackInterval: 2
   dropGold: 10
+  monsterName: 
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
   sightRange: 10
   sightAngle: 120
   sightBlockLayer:
@@ -212,6 +214,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
   damageAnimDuration: 0.4
   hasDamageAnim: 1
+  hitFrameNormalized: 0.4
 --- !u!1 &5874329869902072643
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1843354539030907623}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -252,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1751997806603061650}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +289,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6542522191930097111}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3932315135406420221}
   - component: {fileID: 1120571975533859319}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tempora_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -418,7 +421,7 @@ GameObject:
   - component: {fileID: 4579512774857294969}
   - component: {fileID: 7930831625389925495}
   - component: {fileID: 6811586780882420211}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Particle Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5264,7 +5267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7456647164958585299}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}

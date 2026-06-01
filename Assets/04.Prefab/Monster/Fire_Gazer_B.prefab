@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5889562589366432042}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 2116304253279679251}
   - component: {fileID: 5347703195307691333}
   - component: {fileID: 2805340096342618630}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Fire_Gazer_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -128,8 +128,10 @@ MonoBehaviour:
   maxHP: 50
   attackDamage: 10
   attackRange: 1.5
-  attackInterval: 2
   dropGold: 10
+  monsterName: 
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
   sightRange: 10
   sightAngle: 120
   sightBlockLayer:
@@ -149,6 +151,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
   damageAnimDuration: 0.4
   hasDamageAnim: 1
+  hitFrameNormalized: 0.4
 --- !u!1 &4680669114050339621
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7098901445176568425}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -189,7 +192,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5705206023603624584}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +224,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3561137829956840194}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +257,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2800550602006605859}
   - component: {fileID: 2769055871795510481}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Fire_Gazer
   m_TagString: Untagged
   m_Icon: {fileID: 0}

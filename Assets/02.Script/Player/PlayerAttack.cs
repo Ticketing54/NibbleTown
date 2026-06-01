@@ -65,7 +65,8 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
     public void ActivateHitBox()
     {
         if (hitBox == null) return;
-        hitBox.Activate(config != null ? config.attackDamage : 0, gameObject);
+        if (config == null) return;
+        hitBox.Activate(config.attackDamage, gameObject, config.critChance, config.critBonusRate);
     }
 
     private void EnterCombatMode() => isCombatMode = true;

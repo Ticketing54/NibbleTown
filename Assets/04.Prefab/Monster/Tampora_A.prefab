@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5805267987644253946}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 623052826033880566}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5650178015493088894}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,7 +104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7385937455346559769}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_02_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -139,7 +139,7 @@ GameObject:
   - component: {fileID: 7372075453112437856}
   - component: {fileID: 1495412181723337934}
   - component: {fileID: -205068726677123854}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tampora_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,8 +222,10 @@ MonoBehaviour:
   maxHP: 50
   attackDamage: 10
   attackRange: 1.5
-  attackInterval: 2
   dropGold: 10
+  monsterName: 
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
   sightRange: 10
   sightAngle: 120
   sightBlockLayer:
@@ -243,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
   damageAnimDuration: 0.4
   hasDamageAnim: 1
+  hitFrameNormalized: 0.4
 --- !u!1 &7320095086932410916
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,7 +255,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1587729130802479809}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +291,7 @@ GameObject:
   - component: {fileID: 2336398251660710833}
   - component: {fileID: 1606169577508503500}
   - component: {fileID: 5235647563511716359}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Particle Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5135,7 +5138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2856205016549214042}
   - component: {fileID: 3074560707522321328}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Tempora_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5232,7 +5235,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1808818339475736308}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_l
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5264,7 +5267,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 554212340640640885}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: leg_01_r
   m_TagString: Untagged
   m_Icon: {fileID: 0}

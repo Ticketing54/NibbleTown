@@ -36,6 +36,13 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         GetComponent<PlayerAttack>()?.Init(defaultConfig);
     }
 
+    private void Start()
+    {
+        GameEvents.RaiseHPChanged(runtimeData.currentHP, runtimeData.maxHP);
+        GameEvents.RaiseMPChanged(runtimeData.currentMP, runtimeData.maxMP);
+        GameEvents.RaiseAPChanged(runtimeData.currentAP, runtimeData.maxAP);
+    }
+
     private void OnEnable()
     {
         PlayerRegistry.Register(this);

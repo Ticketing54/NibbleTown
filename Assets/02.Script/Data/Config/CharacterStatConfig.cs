@@ -22,4 +22,8 @@ public class CharacterStatConfig : ScriptableObject
     public int        attackDamage   = 10;
     public float      attackRange    = 1.5f;
     public float      attackCooldown = 1f;
+
+    [Header("치명타")]
+    [Range(0f, 1f)] public float critChance      = 0.1f;
+    [Range(0f, 5f)] public float critBonusRate   = 0.5f;  // 0.5 = +50% 추가 피해
 }

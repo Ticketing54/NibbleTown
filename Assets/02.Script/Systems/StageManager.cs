@@ -41,6 +41,7 @@ public class StageManager : MonoBehaviour
         }
 
         CurrentPhase = StagePhase.Day;
+        GameEvents.RaiseDayChanged(CurrentDay);
         GameEvents.RaisePhaseChanged(CurrentDay, CurrentPhase);
     }
 
@@ -85,7 +86,8 @@ public class StageManager : MonoBehaviour
             else
                 Debug.LogWarning($"[StageManager] 스폰 포인트 {_spawnIndex % spawnPoints.Length} 근처에 NavMesh가 없습니다.");
 
-            Instantiate(data.prefab, spawnPos, point.rotation);
+            GameObject go = Instantiate(data.prefab, spawnPos, point.rotation);
+            go.GetComponent<MonsterController>().Init(data);
         }
     }
 

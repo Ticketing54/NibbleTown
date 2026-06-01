@@ -37,7 +37,8 @@
       "Bash(Select-Object FullName)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Combat\\\\HitZone.cs\" -Force)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Combat\\\\HitZone.cs.meta\" -Force -ErrorAction SilentlyContinue)",
-      "mcp__UnityMCP__manage_prefabs"
+      "mcp__UnityMCP__manage_prefabs",
+      "mcp__UnityMCP__manage_gameobject"
     ]
   }
 }

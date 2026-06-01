@@ -14,15 +14,19 @@ public class HitBox : MonoBehaviour, IAttackBehavior
 
     private int                  damage;
     private GameObject           dealer;
+    private float                critChance;
+    private float                critBonusRate;
     private HashSet<IDamageable> hitTargets = new();
 
     public void Attack(int _damage, GameObject _dealer) => Activate(_damage, _dealer);
 
     // 애니메이션 이벤트 또는 스킬에서 호출
-    public void Activate(int _damage, GameObject _dealer)
+    public void Activate(int _damage, GameObject _dealer, float _critChance = 0f, float _critBonusRate = 0f)
     {
-        damage = _damage;
-        dealer = _dealer;
+        damage        = _damage;
+        dealer        = _dealer;
+        critChance    = _critChance;
+        critBonusRate = _critBonusRate;
         hitTargets.Clear();
 
         if (mode == HitBoxMode.Overlap)
@@ -34,10 +38,12 @@ public class HitBox : MonoBehaviour, IAttackBehavior
     }
 
     // Trigger 모드: 콜라이더 활성화 전 damage 세팅용
-    public void SetDamage(int _damage, GameObject _dealer)
+    public void SetDamage(int _damage, GameObject _dealer, float _critChance = 0f, float _critBonusRate = 0f)
     {
-        damage = _damage;
-        dealer = _dealer;
+        damage        = _damage;
+        dealer        = _dealer;
+        critChance    = _critChance;
+        critBonusRate = _critBonusRate;
         hitTargets.Clear();
     }
 
@@ -51,7 +57,13 @@ public class HitBox : MonoBehaviour, IAttackBehavior
     {
         if (_target == null || _target.IsDead) return;
         if (!hitTargets.Add(_target)) return;
-        _target.TakeDamage(new DamageInfo(dealer, damage));
+
+        bool isCrit    = UnityEngine.Random.value < critChance;
+        float variance = UnityEngine.Random.Range(0.8f, 1.1f);
+        float multiplier = isCrit ? variance + critBonusRate : variance;
+        int finalDamage = Mathf.RoundToInt(damage * multiplier);
+
+        _target.TakeDamage(new DamageInfo(dealer, finalDamage, isCrit));
         OnHit?.Invoke(_target);
     }
 

@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class MonsterController : MonoBehaviour, IDamageable
+public class MonsterController : MonoBehaviour, IDamageable, IHasHP
 {
     public enum State { MoveToBuilding, AttackBuilding, ChasePlayer, AttackPlayer, Dead }
 
@@ -12,6 +12,7 @@ public class MonsterController : MonoBehaviour, IDamageable
     [SerializeField] private int   attackDamage = 10;
     [SerializeField] private float attackRange  = 2.5f;
     [SerializeField] private int   dropGold     = 10;
+    [SerializeField] private string monsterName;
 
     [Header("원거리 공격")]
     [SerializeField] private GameObject projectilePrefab;
@@ -22,8 +23,11 @@ public class MonsterController : MonoBehaviour, IDamageable
     [SerializeField, Range(0f, 360f)] private float     sightAngle      = 120f;
     [SerializeField]                  private LayerMask sightBlockLayer;
 
-    public bool  IsDead       => currentHP <= 0;
-    public State CurrentState => currentState;
+    public bool   IsDead       => currentHP <= 0;
+    public int    CurrentHP    => currentHP;
+    public int    MaxHP        => maxHP;
+    public string MonsterName  => monsterName;
+    public State  CurrentState => currentState;
 
     public event Action<State> OnStateChanged;
     public event Action        OnHit;
@@ -261,10 +265,18 @@ public class MonsterController : MonoBehaviour, IDamageable
         }
 
         currentHP = Mathf.Max(0, currentHP - _info.amount);
+        GameHUDManager.Instance?.SpawnDamageNumber(_info.amount, transform.position + Vector3.up, _info.isCrit);
 
         if (IsDead) { Die(); return; }
 
         OnHit?.Invoke();
+    }
+
+    public void Init(MonsterData _data)
+    {
+        monsterName = _data.monsterName;
+        dropGold    = _data.dropGold;
+        GameHUDManager.Instance?.Register(this, transform, _data.monsterName);
     }
 
     private void Die()

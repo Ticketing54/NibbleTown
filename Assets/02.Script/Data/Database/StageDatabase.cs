@@ -23,6 +23,10 @@ public class StageDatabase : ScriptableObject
 {
     [SerializeField] private List<StageData> entries = new List<StageData>();
 
-    public StageData Get(int _day) =>
-        _day >= 1 && _day <= entries.Count ? entries[_day - 1] : null;
+    public StageData Get(int _day)
+    {
+        if (entries == null || entries.Count == 0) return null;
+        int index = Mathf.Clamp(_day - 1, 0, entries.Count - 1);
+        return entries[index];
+    }
 }

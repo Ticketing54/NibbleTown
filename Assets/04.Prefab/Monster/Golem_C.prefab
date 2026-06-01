@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6557768889176179504}
   - component: {fileID: 7857838759817585726}
   - component: {fileID: 3733766157680907880}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Golem_C
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,8 +96,10 @@ MonoBehaviour:
   maxHP: 50
   attackDamage: 10
   attackRange: 1.5
-  attackInterval: 2
   dropGold: 10
+  monsterName: 
+  projectilePrefab: {fileID: 0}
+  firePoint: {fileID: 0}
   sightRange: 10
   sightAngle: 120
   sightBlockLayer:
@@ -117,6 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterAnimatorDriver
   damageAnimDuration: 0.4
   hasDamageAnim: 1
+  hitFrameNormalized: 0.4
 --- !u!1 &2083090715100324502
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3523942367581261768}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,7 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5456073806969712320}
   - component: {fileID: 7038875658361499228}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Golem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -255,7 +258,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8347387347435734456}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3653530551850273051}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: rock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -318,7 +321,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 210927765663746401}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +352,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5594530726060105086}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
