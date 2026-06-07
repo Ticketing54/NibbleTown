@@ -428,14 +428,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3357862670797647255, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3357862670797647255, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.77
-      objectReference: {fileID: 0}
     - target: {fileID: 6161814599518664059, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.71086
@@ -477,9 +469,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6885263880048331282, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
-      propertyPath: projectilePrefab
-      value: 
-      objectReference: {fileID: 941086892697798470, guid: 65d8fe96a5e318a41a85bc92a5e1b5ab, type: 3}
+      propertyPath: pattern
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7749733309764114246, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
       propertyPath: m_Name
       value: Cute Phoenix_B

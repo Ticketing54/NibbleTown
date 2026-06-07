@@ -46,18 +46,18 @@ MonoBehaviour:
     attackInterval: 2
     dropGold: 2
   - monsterIndex: 4
-    monsterName: CA
+    monsterName: "\uD53C\uB974"
     prefab: {fileID: 8751484659756727935, guid: 86475ac6e5b6c6849b56f1a0612ac2d7, type: 3}
     maxHP: 50
     attackDamage: 10
-    attackRange: 4
-    attackInterval: 1.5
+    attackRange: 6
+    attackInterval: 4
     dropGold: 2
   - monsterIndex: 5
     monsterName: CB
     prefab: {fileID: 7749733309764114246, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
     maxHP: 50
     attackDamage: 10
-    attackRange: 2.5
-    attackInterval: 1.5
+    attackRange: 5
+    attackInterval: 3.5
     dropGold: 2

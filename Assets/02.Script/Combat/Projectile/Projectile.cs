@@ -8,14 +8,25 @@ public class Projectile : MonoBehaviour
 
     private int        damage;
     private GameObject dealer;
+    private float      maxDistance  = float.MaxValue;
+    private Vector3    spawnPos;
 
-    public void Init(int _damage, GameObject _dealer, Vector3 _direction, Transform _target = null)
+    public void Init(int _damage, GameObject _dealer, Vector3 _direction, float _maxDistance = float.MaxValue, Transform _target = null)
     {
-        damage = _damage;
-        dealer = _dealer;
+        damage      = _damage;
+        dealer      = _dealer;
+        maxDistance = _maxDistance;
+        spawnPos    = transform.position;
         Destroy(gameObject, lifetime);
 
         GetComponent<ProjectileMovement>()?.Init(_direction, _target);
+    }
+
+    private void Update()
+    {
+        if (maxDistance < float.MaxValue &&
+            Vector3.Distance(transform.position, spawnPos) >= maxDistance)
+            Destroy(gameObject);
     }
 
     private void OnTriggerEnter(Collider _other)

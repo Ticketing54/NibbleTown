@@ -30,6 +30,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
     public State  CurrentState => currentState;
     public bool      IsAttackReady  => attackCooldownTimer <= 0f;
     public Transform CurrentTarget  => targetPlayer != null ? targetPlayer.transform : null;
+    public float     AttackRange    => attackRange;
 
     public event Action<State> OnStateChanged;
     public event Action        OnHit;
