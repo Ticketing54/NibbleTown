@@ -18,4 +18,6 @@ MonoBehaviour:
       count: 2
     - monsterIndex: 1
       count: 2
-    bossMonsterIndex: 0
+    - monsterIndex: 4
+      count: 1
+    bossMonsters: []

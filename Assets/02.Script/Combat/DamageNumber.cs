@@ -7,22 +7,29 @@ public class DamageNumber : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float           duration    = 1f;
-    [SerializeField] private float           floatHeight = 1.5f;
+    [SerializeField] private float           floatHeight = 80f;
 
-    private Camera  mainCamera;
-    private Color   originalColor;
-    private Vector3 originalScale;
+    private Camera        mainCamera;
+    private Color         originalColor;
+    private Vector3       originalScale;
+    private RectTransform rectTransform;
 
     private void Awake()
     {
         mainCamera    = Camera.main;
         originalColor = text.color;
         originalScale = transform.localScale;
+        rectTransform = GetComponent<RectTransform>();
     }
 
-    public void Play(int _amount, Vector3 _position, bool _isCrit, Action _onComplete)
+    public void Play(int _amount, Vector3 _worldPosition, bool _isCrit, RectTransform _canvasRect, Action _onComplete)
     {
-        transform.position   = _position;
+        if (mainCamera == null) mainCamera = Camera.main;
+
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(mainCamera, _worldPosition);
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvasRect, screenPos, null, out Vector2 localPos);
+        rectTransform.localPosition = localPos;
+
         transform.localScale = Vector3.zero;
         text.text            = _amount.ToString();
         text.color           = _isCrit ? Color.red : originalColor;
@@ -32,17 +39,13 @@ public class DamageNumber : MonoBehaviour
 
     private IEnumerator AnimateRoutine(bool _isCrit, Action _onComplete)
     {
-        Vector3 startPos      = transform.position;
-        Vector3 endPos        = startPos + Vector3.up * floatHeight;
+        Vector2 startPos      = rectTransform.localPosition;
+        Vector2 endPos        = startPos + Vector2.up * floatHeight;
         float   punchDuration = duration * 0.3f;
 
-        // 크기 팝 (0 → originalScale * 1.3)
         yield return ScaleRoutine(Vector3.zero, originalScale * 1.3f, punchDuration * 0.5f);
-
-        // 크기 복구 (originalScale * 1.3 → originalScale)
         yield return ScaleRoutine(originalScale * 1.3f, originalScale, punchDuration * 0.5f);
 
-        // 위로 이동 + 페이드 아웃
         float elapsed      = 0f;
         float moveDuration = duration - punchDuration;
         Color baseColor    = _isCrit ? Color.red : originalColor;
@@ -52,12 +55,12 @@ public class DamageNumber : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / moveDuration);
-            transform.position = Vector3.Lerp(startPos, endPos, t);
-            text.color         = Color.Lerp(baseColor, fadeColor, t);
-            FaceCamera();
+            rectTransform.localPosition = Vector2.Lerp(startPos, endPos, t);
+            text.color                  = Color.Lerp(baseColor, fadeColor, t);
             yield return null;
         }
 
+        text.color = originalColor;
         _onComplete?.Invoke();
     }
 
@@ -67,17 +70,8 @@ public class DamageNumber : MonoBehaviour
         while (elapsed < _time)
         {
             elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / _time);
-            transform.localScale = Vector3.Lerp(_from, _to, t);
-            FaceCamera();
+            transform.localScale = Vector3.Lerp(_from, _to, Mathf.Clamp01(elapsed / _time));
             yield return null;
         }
-    }
-
-    private void FaceCamera()
-    {
-        if (mainCamera == null) mainCamera = Camera.main;
-        if (mainCamera != null)
-            transform.forward = mainCamera.transform.forward;
     }
 }

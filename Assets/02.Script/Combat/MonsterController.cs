@@ -7,27 +7,29 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
 {
     public enum State { MoveToBuilding, AttackBuilding, ChasePlayer, AttackPlayer, Dead }
 
-    [Header("Stats")]
-    [SerializeField] private int   maxHP        = 50;
-    [SerializeField] private int   attackDamage = 10;
-    [SerializeField] private float attackRange  = 2.5f;
-    [SerializeField] private int   dropGold     = 10;
-    [SerializeField] private string monsterName;
+    [SerializeField] private int monsterIndex = 0;
 
-    [Header("원거리 공격")]
-    [SerializeField] private GameObject projectilePrefab;
-    [SerializeField] private Transform  firePoint;
+    private int   maxHP          = 50;
+    private int   attackDamage   = 10;
+    private float attackRange    = 2.5f;
+    private float attackInterval = 1.5f;
+    private int   dropGold       = 10;
+    private string monsterName;
+
+    public int MonsterIndex => monsterIndex;
 
     [Header("감지")]
     [SerializeField]                  private float     sightRange      = 10f;
     [SerializeField, Range(0f, 360f)] private float     sightAngle      = 120f;
     [SerializeField]                  private LayerMask sightBlockLayer;
 
-    public bool   IsDead       => currentHP <= 0;
+    public bool   IsDead        => currentHP <= 0;
     public int    CurrentHP    => currentHP;
     public int    MaxHP        => maxHP;
     public string MonsterName  => monsterName;
     public State  CurrentState => currentState;
+    public bool      IsAttackReady  => attackCooldownTimer <= 0f;
+    public Transform CurrentTarget  => targetPlayer != null ? targetPlayer.transform : null;
 
     public event Action<State> OnStateChanged;
     public event Action        OnHit;
@@ -40,8 +42,10 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
     private float          navPosRefreshTimer;
     private NavMeshAgent   agent;
     private BuildingHealth targetBuilding;
+    private Collider       buildingCollider;
     private Vector3        buildingNavPos;
     private CharacterStat  targetPlayer;
+    private float          attackCooldownTimer;
 
     private void Awake()
     {
@@ -63,6 +67,8 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
 
     private void Update()
     {
+        if (attackCooldownTimer > 0f) attackCooldownTimer -= Time.deltaTime;
+
         switch (currentState)
         {
             case State.MoveToBuilding: UpdateMoveToBuilding(); break;
@@ -90,9 +96,10 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         if (navPosRefreshTimer <= 0f)
             RefreshBuildingNavPos();
 
-        float dist = Vector3.Distance(transform.position, buildingNavPos);
-        if (dist <= attackRange ||
-            (agent.hasPath && agent.pathStatus == NavMeshPathStatus.PathPartial && dist < attackRange * 3f))
+        bool inRange     = GetBuildingEdgeDist() <= attackRange;
+        bool pathBlocked = agent.hasPath && agent.pathStatus == NavMeshPathStatus.PathPartial;
+
+        if (inRange || pathBlocked)
         {
             TransitionTo(State.AttackBuilding);
             return;
@@ -112,8 +119,10 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
             return;
         }
 
-        float dist = Vector3.Distance(transform.position, buildingNavPos);
-        if (dist > attackRange) { TransitionTo(State.MoveToBuilding); return; }
+        bool outOfRange  = GetBuildingEdgeDist() > attackRange;
+        bool pathBlocked = agent.hasPath && agent.pathStatus == NavMeshPathStatus.PathPartial;
+
+        if (outOfRange && !pathBlocked) { TransitionTo(State.MoveToBuilding); return; }
 
         FaceTarget(targetBuilding.transform);
     }
@@ -169,29 +178,41 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
     private void SetTargetBuilding(BuildingHealth _building)
     {
         targetBuilding     = _building;
+        buildingCollider   = _building != null ? _building.GetComponent<Collider>() : null;
         navPosRefreshTimer = 0f;
         if (_building == null) return;
         RefreshBuildingNavPos();
     }
 
-    // 몬스터의 현재 위치 기준으로 건물 가장자리 NavMesh 지점을 계산
-    // 건물 내부엔 NavMesh가 없으므로, 몬스터 쪽 방향에서 샘플링해 가장 가까운 경로 확보
+    // 건물 표면에서 attackRange만큼 떨어진 지점을 NavMesh 위에서 샘플링
+    // 몬스터 위치 기준으로 계산하므로 방향이 달라도 각자 다른 접근 지점을 가짐
     private void RefreshBuildingNavPos()
     {
         navPosRefreshTimer = 0.5f;
         if (targetBuilding == null) return;
 
-        Vector3 center     = targetBuilding.transform.position;
-        Vector3 dir        = (center - transform.position).normalized;
-        Vector3 sampleFrom = center - dir * 8f;
+        Vector3 edgePoint  = GetBuildingClosestPoint();
+        Vector3 dir        = (transform.position - edgePoint).normalized;
+        Vector3 sampleFrom = edgePoint + dir * attackRange * 0.8f;
 
-        if (NavMesh.SamplePosition(sampleFrom, out NavMeshHit hit, 10f, NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(sampleFrom, out NavMeshHit hit, 5f, NavMesh.AllAreas))
             buildingNavPos = hit.position;
-        else if (NavMesh.SamplePosition(center, out hit, 20f, NavMesh.AllAreas))
+        else if (NavMesh.SamplePosition(edgePoint, out hit, 10f, NavMesh.AllAreas))
             buildingNavPos = hit.position;
         else
-            buildingNavPos = center;
+            buildingNavPos = edgePoint;
     }
+
+    private Vector3 GetBuildingClosestPoint()
+    {
+        if (targetBuilding == null) return Vector3.zero;
+        return buildingCollider != null
+            ? buildingCollider.ClosestPoint(transform.position)
+            : targetBuilding.transform.position;
+    }
+
+    private float GetBuildingEdgeDist() =>
+        Vector3.Distance(transform.position, GetBuildingClosestPoint());
 
     private bool IsTargetPlayerGone() =>
         targetPlayer == null || targetPlayer.IsDead;
@@ -225,17 +246,19 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
     // MonsterAnimatorDriver가 애니메이션 타이밍에 맞춰 호출
     public void LaunchAttack()
     {
+        if (attackCooldownTimer > 0f) return;
+        attackCooldownTimer = attackInterval;
+
         if (attackBehavior != null) { attackBehavior.Attack(attackDamage, gameObject); return; }
-        FireProjectile();
+        MeleeAttack();
     }
 
-    private void FireProjectile()
+    private void MeleeAttack()
     {
-        if (projectilePrefab == null) return;
-        Vector3    spawnPos = firePoint != null ? firePoint.position : transform.position + Vector3.up;
-        GameObject go       = Instantiate(projectilePrefab, spawnPos, transform.rotation);
-        if (go.TryGetComponent(out Projectile proj))
-            proj.Init(attackDamage, gameObject, transform.forward);
+        if (currentState != State.AttackPlayer || targetPlayer == null) return;
+        float dist = Vector3.Distance(transform.position, targetPlayer.transform.position);
+        if (dist > attackRange) return;
+        targetPlayer.TakeDamage(new DamageInfo(gameObject, attackDamage));
     }
 
     private BuildingHealth FindNearestBuilding()
@@ -274,8 +297,13 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
 
     public void Init(MonsterData _data)
     {
-        monsterName = _data.monsterName;
-        dropGold    = _data.dropGold;
+        monsterName    = _data.monsterName;
+        maxHP          = _data.maxHP;
+        attackDamage   = _data.attackDamage;
+        attackRange    = _data.attackRange;
+        attackInterval = _data.attackInterval;
+        dropGold       = _data.dropGold;
+        currentHP      = maxHP;
         GameHUDManager.Instance?.Register(this, transform, _data.monsterName);
     }
 

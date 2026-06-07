@@ -49,7 +49,19 @@ public class MonsterAnimatorDriver : MonoBehaviour
                 ApplyAnimForState(controller.CurrentState);
         }
 
+        UpdateAttackAnim();
         UpdateAttackHit();
+    }
+
+    private void UpdateAttackAnim()
+    {
+        bool inAttack = controller.CurrentState == MonsterController.State.AttackBuilding ||
+                        controller.CurrentState == MonsterController.State.AttackPlayer;
+        if (!inAttack || damageAnimTimer > 0f) return;
+
+        int target = controller.IsAttackReady ? AnimAttack : AnimIdle;
+        if (animator.GetInteger(AnimHash) != target)
+            animator.SetInteger(AnimHash, target);
     }
 
     private void UpdateAttackHit()

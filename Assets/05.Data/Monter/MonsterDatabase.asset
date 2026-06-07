@@ -14,26 +14,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterDatabase
   entries:
   - monsterIndex: 0
-    monsterName: AA
+    monsterName: "\uD3EC\uAE00\uB9C1"
     prefab: {fileID: 5533960148665992485, guid: 47436e10ff5def648b6f23a7484e34de, type: 3}
+    maxHP: 50
+    attackDamage: 5
+    attackRange: 2.5
+    attackInterval: 2.5
     dropGold: 1
   - monsterIndex: 1
-    monsterName: AB
+    monsterName: "\uD3EC\uD06C\uB9B0"
     prefab: {fileID: 1860909062686000360, guid: 36a628c06407b6440b82bd0da3c4c280, type: 3}
+    maxHP: 50
+    attackDamage: 7
+    attackRange: 2.5
+    attackInterval: 2
     dropGold: 2
   - monsterIndex: 2
-    monsterName: BA
+    monsterName: "\uD3EC\uADF8\uB86F"
     prefab: {fileID: 606757405636430128, guid: c99fa9b4eab18614aa4ef7b8652d6030, type: 3}
+    maxHP: 100
+    attackDamage: 8
+    attackRange: 2.5
+    attackInterval: 2.5
     dropGold: 2
   - monsterIndex: 3
-    monsterName: BB
+    monsterName: "\uD3EC\uADF8\uB85C\uB4DC"
     prefab: {fileID: 2310513489477641597, guid: e188e5fc5c4849a4c8afaca4ae3fe56f, type: 3}
+    maxHP: 100
+    attackDamage: 10
+    attackRange: 2.5
+    attackInterval: 2
     dropGold: 2
   - monsterIndex: 4
     monsterName: CA
     prefab: {fileID: 8751484659756727935, guid: 86475ac6e5b6c6849b56f1a0612ac2d7, type: 3}
+    maxHP: 50
+    attackDamage: 10
+    attackRange: 4
+    attackInterval: 1.5
     dropGold: 2
   - monsterIndex: 5
     monsterName: CB
     prefab: {fileID: 7749733309764114246, guid: 850e54c2b0ef37b4baed566944a596c9, type: 3}
+    maxHP: 50
+    attackDamage: 10
+    attackRange: 2.5
+    attackInterval: 1.5
     dropGold: 2

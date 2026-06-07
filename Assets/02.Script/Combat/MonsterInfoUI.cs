@@ -10,21 +10,25 @@ public class MonsterInfoUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private float           heightOffset = 2f;
 
-    private IHasHP    controller;
-    private Transform anchor;
-    private Camera    mainCamera;
-    private Coroutine billboardRoutine;
+    private IHasHP        controller;
+    private Transform     anchor;
+    private Camera        mainCamera;
+    private RectTransform rectTransform;
+    private RectTransform canvasRect;
+    private Coroutine     followRoutine;
 
     private void Awake()
     {
-        mainCamera = Camera.main;
+        mainCamera    = Camera.main;
+        rectTransform = GetComponent<RectTransform>();
     }
 
-    public void Init(IHasHP _controller, Transform _anchor, string _monsterName)
+    public void Init(IHasHP _controller, Transform _anchor, string _monsterName, RectTransform _canvasRect)
     {
-        controller        = _controller;
-        anchor            = _anchor;
-        nameText.text     = _monsterName;
+        controller    = _controller;
+        anchor        = _anchor;
+        canvasRect    = _canvasRect;
+        nameText.text = _monsterName;
         hpFill.fillAmount = 1f;
         infoCanvas.SetActive(false);
 
@@ -45,31 +49,32 @@ public class MonsterInfoUI : MonoBehaviour
     {
         if (controller == null || controller.IsDead) return;
         infoCanvas.SetActive(true);
-        billboardRoutine ??= StartCoroutine(BillboardRoutine());
+        followRoutine ??= StartCoroutine(FollowRoutine());
     }
 
     public void Hide()
     {
         infoCanvas.SetActive(false);
-        if (billboardRoutine != null)
+        if (followRoutine != null)
         {
-            StopCoroutine(billboardRoutine);
-            billboardRoutine = null;
+            StopCoroutine(followRoutine);
+            followRoutine = null;
         }
     }
 
-    private IEnumerator BillboardRoutine()
+    private IEnumerator FollowRoutine()
     {
         while (true)
         {
-            if (mainCamera == null)
-                mainCamera = Camera.main;
+            if (mainCamera == null) mainCamera = Camera.main;
 
-            if (anchor != null)
-                transform.position = anchor.position + Vector3.up * heightOffset;
-
-            if (mainCamera != null)
-                infoCanvas.transform.forward = mainCamera.transform.forward;
+            if (anchor != null && mainCamera != null)
+            {
+                Vector3 worldPos  = anchor.position + Vector3.up * heightOffset;
+                Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(mainCamera, worldPos);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRect, screenPos, null, out Vector2 localPos);
+                rectTransform.localPosition = localPos;
+            }
 
             yield return null;
         }
