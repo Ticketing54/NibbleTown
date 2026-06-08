@@ -16,8 +16,7 @@ public class SceneLoader : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         loadingUI.gameObject.SetActive(false);
 
-        GameDataManager.Init();
-        UserDataManager.Init();
+
     }
 
     public static void LoadPlayScene() => Instance.StartCoroutine(Instance.CoLoad("PlayScene"));

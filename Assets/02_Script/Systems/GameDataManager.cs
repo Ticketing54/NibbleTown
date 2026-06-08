@@ -15,14 +15,13 @@ public static class GameDataManager
     public static CharacterStatConfig CharacterConfig { get; private set; }
 
 
-    public static void Init()
+    public static void Init(GameDataSettings settings)
     {
         if (IsInitialized) return;
 
-        var settings = GameDataSettings.Instance;
         if (settings == null)
         {
-            Debug.LogError("[GameDataManager] GameDataSettings 가 로드되지 않았습니다. Preloaded Assets를 확인하세요.");
+            Debug.LogError("[GameDataManager] GameDataSettings 가 null 입니다. GameBootstrapper의 Inspector를 확인하세요.");
             return;
         }
 

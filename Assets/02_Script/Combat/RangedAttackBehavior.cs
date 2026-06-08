@@ -38,7 +38,7 @@ public class RangedAttackBehavior : MonoBehaviour, IAttackBehavior
     {
         if (projectilePrefab == null) return;
         Vector3    pos      = firePoint != null ? firePoint.position : transform.position + Vector3.up;
-        float      maxDist  = controller != null ? controller.AttackRange * 1.2f : float.MaxValue;
+        float      maxDist  = controller != null ? controller.AttackRange * 1.5f : float.MaxValue;
         GameObject go       = Instantiate(projectilePrefab, pos, Quaternion.LookRotation(_direction));
         if (go.TryGetComponent(out Projectile proj))
             proj.Init(_damage, _dealer, _direction, maxDist, controller?.CurrentTarget);
