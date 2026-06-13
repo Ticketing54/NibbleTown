@@ -16,6 +16,7 @@ public static class GameEvents
     public static event Action<int, int>                              OnInventoryChanged;
     public static event Action                                        OnInventoryRefreshRequested;
     public static event Action<IReadOnlyDictionary<int, int>>         OnInventoryRefreshed;
+    public static event Action<int>                                   OnInventorySlotsChanged;
 
     // ── 플레이어 입력 ──────────────────────────────────────────────
     public static event Action<bool> OnPlayerInputLocked;
@@ -42,6 +43,7 @@ public static class GameEvents
     public static void RaiseInventoryChanged(int _itemId, int _count)                        => OnInventoryChanged?.Invoke(_itemId, _count);
     public static void RaiseInventoryRefreshRequested()                                       => OnInventoryRefreshRequested?.Invoke();
     public static void RaiseInventoryRefreshed(IReadOnlyDictionary<int, int> _items)         => OnInventoryRefreshed?.Invoke(_items);
+    public static void RaiseInventorySlotsChanged(int _maxSlots)                             => OnInventorySlotsChanged?.Invoke(_maxSlots);
 
     public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
 

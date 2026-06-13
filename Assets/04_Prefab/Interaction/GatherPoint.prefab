@@ -1106,13 +1106,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 8714007448016130191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ad50302fc54030f48a0da5fa54ddb547, type: 3}
+  m_Script: {fileID: 11500000, guid: 79185354da537d74eb620cb3fbfe8b50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FishingSpot
-  apCost: 2
+  apCost: 1
   holdDuration: 1.5
   animType: 1
   dropTable: {fileID: 11400000, guid: cfc8fcd67d63d904b8f237affc402d7a, type: 2}
+  hintText: "[F] \uC0C1\uD638\uC791\uC6A9"
 --- !u!1 &8820595801700651896
 GameObject:
   m_ObjectHideFlags: 0

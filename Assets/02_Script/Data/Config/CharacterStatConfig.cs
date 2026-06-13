@@ -26,4 +26,7 @@ public class CharacterStatConfig : ScriptableObject
     [Header("치명타")]
     [Range(0f, 1f)] public float critChance      = 0.1f;
     [Range(0f, 5f)] public float critBonusRate   = 0.5f;  // 0.5 = +50% 추가 피해
+
+    [Header("인벤토리")]
+    public int baseInventorySlots = 9;
 }

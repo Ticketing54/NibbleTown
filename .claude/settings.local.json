@@ -38,7 +38,12 @@
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Combat\\\\HitZone.cs\" -Force)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02.Script\\\\Combat\\\\HitZone.cs.meta\" -Force -ErrorAction SilentlyContinue)",
       "mcp__UnityMCP__manage_prefabs",
-      "mcp__UnityMCP__manage_gameobject"
+      "mcp__UnityMCP__manage_gameobject",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\GatherPoint.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\GatherPoint.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\MinePoint.cs\" -Force)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\MinePoint.cs.meta\" -Force -ErrorAction SilentlyContinue)",
+      "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\FishingSpot.cs\" -Force)"
     ]
   }
 }

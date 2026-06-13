@@ -12,4 +12,5 @@ public interface IInteractable
     void OnStartInteract(IMovementLock _mover);
     void OnCompleteInteract(IMovementLock _mover);
     void OnCancelInteract(IMovementLock _mover);
+    bool CanInteract() => true;
 }

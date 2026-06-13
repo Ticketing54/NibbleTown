@@ -3,30 +3,42 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    private int maxSlots = 9;
+
+    public bool IsFull => items.Count >= maxSlots;
+
     private readonly Dictionary<int, int> items = new Dictionary<int, int>();
 
     private void OnEnable()
     {
         GameEvents.OnInventoryRefreshRequested += OnRefreshRequested;
+        GameEvents.OnInventorySlotsChanged     += OnSlotsChanged;
     }
 
     private void OnDisable()
     {
         GameEvents.OnInventoryRefreshRequested -= OnRefreshRequested;
+        GameEvents.OnInventorySlotsChanged     -= OnSlotsChanged;
     }
 
     private void OnRefreshRequested() => GameEvents.RaiseInventoryRefreshed(items);
+    private void OnSlotsChanged(int _slots) => maxSlots = _slots;
 
     // ── 추가 (생산·사냥 등 자동 획득) ────────────────────────
 
-    public void AddItem(int _itemId, int _count)
+    public bool AddItem(int _itemId, int _count)
     {
-        if (_count <= 0) return;
+        if (_count <= 0) return false;
 
         if (!items.ContainsKey(_itemId))
+        {
+            if (IsFull) return false;
             items[_itemId] = 0;
+        }
+
         items[_itemId] += _count;
         GameEvents.RaiseInventoryChanged(_itemId, items[_itemId]);
+        return true;
     }
 
     // ── 제거 (건설·제작 시 소비) ──────────────────────────────

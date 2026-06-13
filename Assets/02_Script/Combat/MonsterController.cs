@@ -9,12 +9,13 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
 
     [SerializeField] private int monsterIndex = 0;
 
-    private int   maxHP          = 50;
-    private int   attackDamage   = 10;
-    private float attackRange    = 2.5f;
-    private float attackInterval = 1.5f;
-    private int   dropGold       = 10;
-    private string monsterName;
+    private int       maxHP          = 50;
+    private int       attackDamage   = 10;
+    private float     attackRange    = 2.5f;
+    private float     attackInterval = 1.5f;
+    private int       dropGold       = 10;
+    private string    monsterName;
+    private DropTable dropTable;
 
     public int MonsterIndex => monsterIndex;
 
@@ -304,6 +305,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         attackRange    = _data.attackRange;
         attackInterval = _data.attackInterval;
         dropGold       = _data.dropGold;
+        dropTable      = _data.dropTable;
         currentHP      = maxHP;
         GameHUDManager.Instance?.Register(this, transform, _data.monsterName);
     }
@@ -314,6 +316,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         agent.ResetPath();
         agent.enabled = false;
         OnDied?.Invoke();
+        ResourceSpawnManager.Instance?.SpawnItemDrop(dropTable, transform.position);
         GameEvents.RaiseMonsterDied(dropGold);
         Destroy(gameObject, 1f);
     }

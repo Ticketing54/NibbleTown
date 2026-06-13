@@ -32,6 +32,7 @@ public abstract class InteractableBase : MonoBehaviour, IInteractable
             cachedInventory = null;
     }
 
+    public virtual  bool CanInteract()                          => true;
     public abstract void OnStartInteract(IMovementLock _mover);
     public abstract void OnCompleteInteract(IMovementLock _mover);
     public abstract void OnCancelInteract(IMovementLock _mover);

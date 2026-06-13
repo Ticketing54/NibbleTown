@@ -6,6 +6,8 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
 {
     [SerializeField] private HitBox              hitBox;
     [SerializeField] private InputActionReference attackAction;
+    [SerializeField] private LayerMask           monsterLayer;
+    [SerializeField] private float               autoAimRadius = 2f;
 
     public event System.Action OnAttackTriggered;
 
@@ -54,12 +56,40 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
         if (cooldownTimer > 0f) return false;
 
         cooldownTimer = config.attackCooldown;
+
+        Transform nearestMonster = FindNearestTarget();
+        if (nearestMonster != null)
+            movementLock?.LookAt(nearestMonster);
+
         movementLock?.LockMovement(true);
         OnAttackTriggered?.Invoke();
         return true;
     }
 
-    public void UnlockMovement() => movementLock?.LockMovement(false);
+    public void UnlockMovement()
+    {
+        movementLock?.LookAt(null);
+        movementLock?.LockMovement(false);
+    }
+
+    private Transform FindNearestTarget()
+    {
+        Collider[] cols = Physics.OverlapSphere(transform.position, autoAimRadius, monsterLayer);
+        if (cols.Length == 0) return null;
+
+        Transform nearest = null;
+        float minSqrDist = float.MaxValue;
+        foreach (Collider col in cols)
+        {
+            float sqrDist = (col.transform.position - transform.position).sqrMagnitude;
+            if (sqrDist < minSqrDist)
+            {
+                minSqrDist = sqrDist;
+                nearest    = col.transform;
+            }
+        }
+        return nearest;
+    }
 
     // 애니메이션 이벤트에서 호출 — 타격 프레임
     public void ActivateHitBox()

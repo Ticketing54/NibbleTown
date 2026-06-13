@@ -66,6 +66,12 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
 
     private void ShowHint()
     {
+        if (!nearInteractable.CanInteract())
+        {
+            GameEvents.RaiseInteractionTextShow(true, "[인벤토리 가득 참]");
+            return;
+        }
+
         bool canAfford = ap == null || ap.CanSpend(nearInteractable.APCost);
         string hint = canAfford
             ? $"{nearInteractable.HintText}  [{nearInteractable.APCost}AP]"
@@ -87,6 +93,12 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
         if (nearInteractable == null || holding) return;
 
         if (isCombatMode) return;
+
+        if (!nearInteractable.CanInteract())
+        {
+            OnInteractionDenied?.Invoke();
+            return;
+        }
 
         if (ap != null && !ap.CanSpend(nearInteractable.APCost))
         {

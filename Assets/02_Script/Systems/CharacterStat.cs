@@ -29,6 +29,9 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
     // Day
     public int Day => runtimeData.day;
 
+    // Inventory
+    public int InventorySlots => runtimeData.inventorySlots;
+
 
     private void Awake()
     {
@@ -41,6 +44,7 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         GameEvents.RaiseHPChanged(runtimeData.currentHP, runtimeData.maxHP);
         GameEvents.RaiseMPChanged(runtimeData.currentMP, runtimeData.maxMP);
         GameEvents.RaiseAPChanged(runtimeData.currentAP, runtimeData.maxAP);
+        GameEvents.RaiseInventorySlotsChanged(runtimeData.inventorySlots);
     }
 
     private void OnEnable()
@@ -63,8 +67,9 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         runtimeData.currentHP = _data.maxHP;
         runtimeData.maxMP     = _data.maxMP;
         runtimeData.currentMP = _data.maxMP;
-        runtimeData.maxAP     = _data.baseMaxAP;
-        runtimeData.currentAP = _data.baseMaxAP;
+        runtimeData.maxAP          = _data.baseMaxAP;
+        runtimeData.currentAP      = _data.baseMaxAP;
+        runtimeData.inventorySlots = _data.baseInventorySlots;
         lowFired = false;
     }
 
@@ -116,6 +121,14 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         runtimeData.currentAP = runtimeData.maxAP;
         lowFired = false;
         GameEvents.RaiseAPChanged(runtimeData.currentAP, runtimeData.maxAP);
+    }
+
+    // ── Inventory ────────────────────────────────────────────
+
+    public void AddInventorySlots(int _amount)
+    {
+        runtimeData.inventorySlots += _amount;
+        GameEvents.RaiseInventorySlotsChanged(runtimeData.inventorySlots);
     }
 
     // ── Day ──────────────────────────────────────────────────

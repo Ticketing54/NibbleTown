@@ -19,25 +19,34 @@ public class DropTable : ScriptableObject
 
     public void GiveTo(Inventory _inventory)
     {
-        if (_inventory == null || entries.Count == 0) return;
+        if (_inventory == null) return;
+        if (!Roll(out int itemId, out int count)) return;
+        _inventory.AddItem(itemId, count);
+    }
+
+    public bool Roll(out int itemId, out int count)
+    {
+        itemId = 0; count = 0;
+        if (entries.Count == 0) return false;
 
         float total = 0f;
         foreach (var e in entries) total += e.chance;
 
         float roll = UnityEngine.Random.value * total;
-
         foreach (var e in entries)
         {
             roll -= e.chance;
             if (roll <= 0f)
             {
-                _inventory.AddItem(e.itemId, UnityEngine.Random.Range(e.minCount, e.maxCount + 1));
-                return;
+                itemId = e.itemId;
+                count  = UnityEngine.Random.Range(e.minCount, e.maxCount + 1);
+                return true;
             }
         }
 
-        // 부동소수점 오차 보정 — 마지막 항목 드랍
         var last = entries[entries.Count - 1];
-        _inventory.AddItem(last.itemId, UnityEngine.Random.Range(last.minCount, last.maxCount + 1));
+        itemId = last.itemId;
+        count  = UnityEngine.Random.Range(last.minCount, last.maxCount + 1);
+        return true;
     }
 }
