@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public static class GameEvents
 {
@@ -17,6 +18,7 @@ public static class GameEvents
     public static event Action                                        OnInventoryRefreshRequested;
     public static event Action<IReadOnlyDictionary<int, int>>         OnInventoryRefreshed;
     public static event Action<int>                                   OnInventorySlotsChanged;
+    public static event Action<int, int>                              OnInventoryItemDiscarded;
 
     // ── 플레이어 입력 ──────────────────────────────────────────────
     public static event Action<bool> OnPlayerInputLocked;
@@ -44,6 +46,7 @@ public static class GameEvents
     public static void RaiseInventoryRefreshRequested()                                       => OnInventoryRefreshRequested?.Invoke();
     public static void RaiseInventoryRefreshed(IReadOnlyDictionary<int, int> _items)         => OnInventoryRefreshed?.Invoke(_items);
     public static void RaiseInventorySlotsChanged(int _maxSlots)                             => OnInventorySlotsChanged?.Invoke(_maxSlots);
+    public static void RaiseInventoryItemDiscarded(int _itemId, int _count)                  => OnInventoryItemDiscarded?.Invoke(_itemId, _count);
 
     public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
 

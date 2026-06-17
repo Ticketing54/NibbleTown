@@ -13,16 +13,19 @@ public class Inventory : MonoBehaviour
     {
         GameEvents.OnInventoryRefreshRequested += OnRefreshRequested;
         GameEvents.OnInventorySlotsChanged     += OnSlotsChanged;
+        GameEvents.OnInventoryItemDiscarded    += OnItemDiscarded;
     }
 
     private void OnDisable()
     {
         GameEvents.OnInventoryRefreshRequested -= OnRefreshRequested;
         GameEvents.OnInventorySlotsChanged     -= OnSlotsChanged;
+        GameEvents.OnInventoryItemDiscarded    -= OnItemDiscarded;
     }
 
     private void OnRefreshRequested() => GameEvents.RaiseInventoryRefreshed(items);
     private void OnSlotsChanged(int _slots) => maxSlots = _slots;
+    private void OnItemDiscarded(int _itemId, int _count) => TryRemove(_itemId, _count);
 
     // ── 추가 (생산·사냥 등 자동 획득) ────────────────────────
 

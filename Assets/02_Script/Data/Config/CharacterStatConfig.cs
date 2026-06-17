@@ -28,5 +28,5 @@ public class CharacterStatConfig : ScriptableObject
     [Range(0f, 5f)] public float critBonusRate   = 0.5f;  // 0.5 = +50% 추가 피해
 
     [Header("인벤토리")]
-    public int baseInventorySlots = 9;
+    [Min(1)] public int baseInventorySlots = 9;
 }

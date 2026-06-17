@@ -23,7 +23,7 @@ public class MonsterTestSetup : MonoBehaviour
         foreach (MonsterController mc in monsters)
         {
             if (testData != null)
-                mc.Init(testData);
+                mc.Init(testData, null);
         }
 
         GameEvents.RaiseDayBegin();

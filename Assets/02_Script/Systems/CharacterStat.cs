@@ -69,7 +69,7 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         runtimeData.currentMP = _data.maxMP;
         runtimeData.maxAP          = _data.baseMaxAP;
         runtimeData.currentAP      = _data.baseMaxAP;
-        runtimeData.inventorySlots = _data.baseInventorySlots;
+        runtimeData.inventorySlots = Mathf.Max(1, _data.baseInventorySlots);
         lowFired = false;
     }
 
@@ -159,11 +159,12 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
         {
             return new CharacterInitData
             {
-                id           = characterId,
-                maxHP        = defaultConfig.baseMaxHP,
-                maxMP        = defaultConfig.baseMaxMP,
-                baseMaxAP    = defaultConfig.baseMaxAP,
-                lowThreshold = defaultConfig.lowThreshold,
+                id                   = characterId,
+                maxHP                = defaultConfig.baseMaxHP,
+                maxMP                = defaultConfig.baseMaxMP,
+                baseMaxAP            = defaultConfig.baseMaxAP,
+                lowThreshold         = defaultConfig.lowThreshold,
+                baseInventorySlots   = defaultConfig.baseInventorySlots,
             };
         }
 

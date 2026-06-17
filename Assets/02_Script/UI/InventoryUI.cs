@@ -1,116 +1,192 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private Transform       slotContainer;
     [SerializeField] private InventorySlotUI slotPrefab;
+    [SerializeField] private Image           dragGhost;
+    [SerializeField] private ItemTooltipUI   tooltip;
 
-    private ObjectPool<InventorySlotUI>                     pool;
-    private readonly SortedDictionary<int, InventorySlotUI> activeSlots = new SortedDictionary<int, InventorySlotUI>();
+    private const int DefaultSlots = 9;
+
+    private readonly List<InventorySlotUI> slots      = new List<InventorySlotUI>();
+    private readonly Dictionary<int, int>  itemToSlot = new Dictionary<int, int>();
+
+    private InventorySlotUI draggingFrom;
+    private bool            dropHandled;
 
     private void Awake()
     {
-        pool = new ObjectPool<InventorySlotUI>(
-            createFunc:      () => Instantiate(slotPrefab, slotContainer),
-            actionOnGet:     slot => slot.gameObject.SetActive(true),
-            actionOnRelease: slot => slot.gameObject.SetActive(false),
-            actionOnDestroy: slot => Destroy(slot.gameObject)
-        );
-    }
+        dragGhost.raycastTarget = false;
+        dragGhost.gameObject.SetActive(false);
 
-    public void Open()
-    {
-        Populate();
-        gameObject.SetActive(true);
-    }
+        for (int i = 0; i < DefaultSlots; i++)
+            AddSlot();
 
-    public void Close()
-    {
-        gameObject.SetActive(false);
     }
 
     private void OnEnable()
     {
-        GameEvents.OnInventoryChanged += OnInventoryChanged;
+        GameEvents.OnInventoryChanged      += OnInventoryChanged;
+        GameEvents.OnInventorySlotsChanged += OnSlotsChanged;
+        RefreshFromInventory();
     }
 
     private void OnDisable()
     {
-        GameEvents.OnInventoryChanged -= OnInventoryChanged;
+        GameEvents.OnInventoryChanged      -= OnInventoryChanged;
+        GameEvents.OnInventorySlotsChanged -= OnSlotsChanged;
+        tooltip?.Hide();
     }
 
-    private void OnDestroy()
+    public void Open()  => gameObject.SetActive(true);
+    public void Close() => gameObject.SetActive(false);
+
+    // ── 슬롯 수 변경 ──────────────────────────────────────────
+
+    private void OnSlotsChanged(int _maxSlots)
     {
-        pool.Dispose();
+        while (slots.Count < _maxSlots)
+            AddSlot();
     }
 
-    private void Populate()
+    private void AddSlot()
     {
-        ClearSlots();
+        var slot = Instantiate(slotPrefab, slotContainer);
+        slot.gameObject.SetActive(true);
+        slot.Init(this, slots.Count);
+        slots.Add(slot);
+    }
+
+    // ── 아이템 변경 ────────────────────────────────────────────
+
+    private void OnInventoryChanged(int _itemId, int _count)
+    {
+        if (_count <= 0) ClearItem(_itemId);
+        else             SetOrUpdateItem(_itemId, _count);
+    }
+
+    private void SetOrUpdateItem(int _itemId, int _count)
+    {
+        if (itemToSlot.TryGetValue(_itemId, out int idx))
+        {
+            slots[idx].SetCount(_count);
+            return;
+        }
+
+        int emptyIdx = FindEmptySlot();
+        if (emptyIdx < 0) return;
+
+        itemToSlot[_itemId] = emptyIdx;
+        var icon = GameDataManager.GetItem(_itemId)?.icon;
+        slots[emptyIdx].SetItem(_itemId, icon, _count);
+    }
+
+    private void ClearItem(int _itemId)
+    {
+        if (!itemToSlot.TryGetValue(_itemId, out int idx)) return;
+        slots[idx].Clear();
+        itemToSlot.Remove(_itemId);
+    }
+
+    private int FindEmptySlot()
+    {
+        for (int i = 0; i < slots.Count; i++)
+            if (slots[i].IsEmpty) return i;
+        return -1;
+    }
+
+    // ── 전체 새로고침 ──────────────────────────────────────────
+
+    private void RefreshFromInventory()
+    {
+        foreach (var slot in slots) slot.Clear();
+        itemToSlot.Clear();
 
         GameEvents.OnInventoryRefreshed += OnInventoryRefreshed;
         GameEvents.RaiseInventoryRefreshRequested();
         GameEvents.OnInventoryRefreshed -= OnInventoryRefreshed;
     }
 
-    private void OnInventoryRefreshed(IReadOnlyDictionary<int, int> items)
+    private void OnInventoryRefreshed(IReadOnlyDictionary<int, int> _items)
     {
-        foreach (var kv in items)
-            CreateSlot(kv.Key, kv.Value);
+        foreach (var kv in _items)
+            SetOrUpdateItem(kv.Key, kv.Value);
     }
 
-    private void OnInventoryChanged(int itemId, int count)
+    // ── 툴팁 ──────────────────────────────────────────────────
+
+    public void ShowTooltip(int _itemId, Vector2 _screenPos) => tooltip?.Show(_itemId, _screenPos);
+    public void HideTooltip()                                 => tooltip?.Hide();
+
+    // ── 드래그 & 드랍 ──────────────────────────────────────────
+
+    public void BeginDrag(InventorySlotUI _slot, PointerEventData _eventData)
     {
-        if (count <= 0)
-            ReleaseSlot(itemId);
-        else
-            CreateOrUpdate(itemId, count);
+        draggingFrom         = _slot;
+        dropHandled          = false;
+        dragGhost.sprite     = _slot.Icon;
+        dragGhost.gameObject.SetActive(true);
+        MoveGhost(_eventData.position);
+        tooltip?.Hide();
     }
 
-    private void CreateOrUpdate(int itemId, int count)
+    public void UpdateDrag(PointerEventData _eventData)
     {
-        if (activeSlots.TryGetValue(itemId, out var slot))
+        if (draggingFrom == null) return;
+        MoveGhost(_eventData.position);
+    }
+
+    public void EndDrag(InventorySlotUI _slot, PointerEventData _eventData)
+    {
+        dragGhost.gameObject.SetActive(false);
+
+        if (!dropHandled && draggingFrom != null)
         {
-            slot.SetCount(count);
-            return;
+            var panelRect = transform as RectTransform;
+            bool outsidePanel = !RectTransformUtility.RectangleContainsScreenPoint(
+                panelRect, _eventData.position, _eventData.pressEventCamera);
+
+            if (outsidePanel)
+            {
+                var data = GameDataManager.GetItem(draggingFrom.ItemId);
+                if (data == null || data.isDestroyable)
+                    GameEvents.RaiseInventoryItemDiscarded(draggingFrom.ItemId, draggingFrom.Count);
+            }
         }
 
-        CreateSlot(itemId, count);
+        draggingFrom = null;
     }
 
-    private void CreateSlot(int itemId, int count)
+    public void DropOnSlot(InventorySlotUI _target)
     {
-        var slot = pool.Get();
-        slot.transform.SetParent(slotContainer, false);
-
-        var data = GameDataManager.GetItem(itemId);
-        slot.Init(itemId, data?.icon, count);
-        activeSlots[itemId] = slot;
-
-        RefreshSiblingOrder();
+        if (draggingFrom == null) return;
+        dropHandled = true;
+        if (draggingFrom == _target) return;
+        SwapSlots(draggingFrom, _target);
     }
 
-    private void ReleaseSlot(int itemId)
+    private void SwapSlots(InventorySlotUI _a, InventorySlotUI _b)
     {
-        if (!activeSlots.TryGetValue(itemId, out var slot)) return;
-        activeSlots.Remove(itemId);
-        pool.Release(slot);
-        RefreshSiblingOrder();
+        if (!_a.IsEmpty) itemToSlot[_a.ItemId] = _b.SlotIndex;
+        if (!_b.IsEmpty) itemToSlot[_b.ItemId] = _a.SlotIndex;
+
+        int    aId    = _a.ItemId;
+        Sprite aIcon  = _a.Icon;
+        int    aCount = _a.Count;
+
+        if (_b.IsEmpty) _a.Clear();
+        else            _a.SetItem(_b.ItemId, _b.Icon, _b.Count);
+
+        if (aId < 0) _b.Clear();
+        else         _b.SetItem(aId, aIcon, aCount);
     }
 
-    private void ClearSlots()
+    private void MoveGhost(Vector2 _screenPos)
     {
-        foreach (var kv in activeSlots)
-            pool.Release(kv.Value);
-        activeSlots.Clear();
-    }
-
-    private void RefreshSiblingOrder()
-    {
-        int index = 0;
-        foreach (var kv in activeSlots)
-            kv.Value.transform.SetSiblingIndex(index++);
+        dragGhost.transform.position = (Vector3)_screenPos;
     }
 }

@@ -2,18 +2,19 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemGrade { Common, Uncommon, Rare, Epic, Legendary }
+
 [Serializable]
 public class ItemData
 {
-    public int    itemId;
-    public string itemName;
-    public string itemType;
-    public string grade;
+    public int       itemId;
+    public string    itemName;
+    public string    itemType;
+    public ItemGrade grade;
     public string description;
     public int    maxStack;
     public int    sellPrice;
-    public bool   isDroppable;
-    public bool   isEquippable;
+    public bool   isDestroyable = true;
     public Sprite icon;
 }
 

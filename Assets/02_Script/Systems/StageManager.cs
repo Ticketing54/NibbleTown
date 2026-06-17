@@ -60,10 +60,10 @@ public class StageManager : MonoBehaviour
         aliveCount = 0;
         int spawnIndex = 0;
         foreach (StageMonsterEntry entry in stage.monsters)
-            Spawn(entry.monsterIndex, entry.count, ref spawnIndex);
+            Spawn(entry.monsterIndex, entry.count, stage.dropTable, ref spawnIndex);
     }
 
-    private void Spawn(int _monsterIndex, int _count, ref int _spawnIndex)
+    private void Spawn(int _monsterIndex, int _count, DropTable _dropTable, ref int _spawnIndex)
     {
         if (_count <= 0) return;
         if (spawnPoints == null || spawnPoints.Length == 0)
@@ -87,7 +87,7 @@ public class StageManager : MonoBehaviour
                 Debug.LogWarning($"[StageManager] 스폰 포인트 {_spawnIndex % spawnPoints.Length} 근처에 NavMesh가 없습니다.");
 
             GameObject go = Instantiate(data.prefab, spawnPos, point.rotation);
-            go.GetComponent<MonsterController>().Init(data);
+            go.GetComponent<MonsterController>().Init(data, _dropTable);
         }
     }
 

@@ -22,8 +22,16 @@ public class ResourceSpawnManager : MonoBehaviour
 
     public static ResourceSpawnManager Instance { get; private set; }
 
-    [SerializeField] private SpawnConfig[] configs;
-    [SerializeField] private GameObject    itemPickupPrefab;
+    [Serializable]
+    public struct GradePrefabEntry
+    {
+        public ItemGrade  grade;
+        public GameObject prefab;
+    }
+
+    [SerializeField] private SpawnConfig[]      configs;
+    [SerializeField] private GradePrefabEntry[] gradePrefabs;
+    [SerializeField] private GameObject         defaultPickupPrefab;
 
     private readonly List<GameObject> activeResources = new();
     private readonly List<GameObject> activePickups   = new();
@@ -94,16 +102,27 @@ public class ResourceSpawnManager : MonoBehaviour
 
     public void SpawnItemDrop(DropTable dropTable, Vector3 position)
     {
-        if (dropTable == null || itemPickupPrefab == null) return;
+        if (dropTable == null) return;
         if (!dropTable.Roll(out int itemId, out int count)) return;
+
+        var data   = GameDataManager.GetItem(itemId);
+        var prefab = GetPrefabForGrade(data?.grade ?? ItemGrade.Common);
+        if (prefab == null) return;
 
         Vector3 offset = new Vector3(
             UnityEngine.Random.Range(-0.3f, 0.3f), 0f,
             UnityEngine.Random.Range(-0.3f, 0.3f));
 
-        GameObject go = Instantiate(itemPickupPrefab, position + offset, Quaternion.identity);
+        GameObject go = Instantiate(prefab, position + offset, Quaternion.identity);
         go.GetComponent<ItemPickup>()?.Init(itemId, count);
         activePickups.Add(go);
+    }
+
+    private GameObject GetPrefabForGrade(ItemGrade _grade)
+    {
+        foreach (var entry in gradePrefabs)
+            if (entry.grade == _grade) return entry.prefab;
+        return defaultPickupPrefab;
     }
 
     public void ReturnPickup(GameObject pickup)

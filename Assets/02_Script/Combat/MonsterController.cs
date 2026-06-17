@@ -297,7 +297,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         OnHit?.Invoke();
     }
 
-    public void Init(MonsterData _data)
+    public void Init(MonsterData _data, DropTable _stageDropTable)
     {
         monsterName    = _data.monsterName;
         maxHP          = _data.maxHP;
@@ -305,7 +305,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         attackRange    = _data.attackRange;
         attackInterval = _data.attackInterval;
         dropGold       = _data.dropGold;
-        dropTable      = _data.dropTable;
+        dropTable      = _stageDropTable;
         currentHP      = maxHP;
         GameHUDManager.Instance?.Register(this, transform, _data.monsterName);
     }

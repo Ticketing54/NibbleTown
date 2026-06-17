@@ -21,3 +21,4 @@ MonoBehaviour:
     - monsterIndex: 4
       count: 1
     bossMonsters: []
+    dropTable: {fileID: 11400000, guid: 6f0aa908c44b3c54abb8f0a6719fb13e, type: 2}

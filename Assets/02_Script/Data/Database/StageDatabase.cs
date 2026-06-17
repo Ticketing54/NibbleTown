@@ -14,6 +14,7 @@ public class StageData
 {
     public List<StageMonsterEntry> monsters;
     public List<StageMonsterEntry> bossMonsters;
+    public DropTable               dropTable;
 
     public bool HasBoss => bossMonsters != null && bossMonsters.Count > 0;
 }

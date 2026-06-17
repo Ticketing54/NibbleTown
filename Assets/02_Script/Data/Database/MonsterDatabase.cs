@@ -16,8 +16,6 @@ public class MonsterData
     public float attackInterval = 1.5f;
     public int   dropGold       = 10;
 
-    [Header("Drop")]
-    public DropTable dropTable;
 }
 
 [CreateAssetMenu(fileName = "MonsterDatabase", menuName = "NibbleTown/Database/Monster Database")]

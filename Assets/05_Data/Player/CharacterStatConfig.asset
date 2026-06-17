@@ -20,3 +20,6 @@ MonoBehaviour:
   attackDamage: 10
   attackRange: 1.5
   attackCooldown: 1
+  critChance: 0.1
+  critBonusRate: 0.5
+  baseInventorySlots: 6

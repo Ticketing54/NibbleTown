@@ -4340,7 +4340,18 @@ MonoBehaviour:
     minCount: 3
     maxCount: 6
     entries: []
-  itemPickupPrefab: {fileID: 0}
+  gradePrefabs:
+  - grade: 0
+    prefab: {fileID: 9207674695355969895, guid: 4be33e4077c0b974fa2f8f0d1e986be1, type: 3}
+  - grade: 1
+    prefab: {fileID: 2569511662829909305, guid: be13e822134d22c4bbeda09b6f64ba33, type: 3}
+  - grade: 2
+    prefab: {fileID: 2569511662829909305, guid: 2dbe4f7dc5152d84685ab1b21a22d45b, type: 3}
+  - grade: 3
+    prefab: {fileID: 2569511662829909305, guid: 5248745efe9d4584d89dc6332f484212, type: 3}
+  - grade: 4
+    prefab: {fileID: 6424825444092869041, guid: f06c92d0823a6b3499ab4bbe92b079c8, type: 3}
+  defaultPickupPrefab: {fileID: 9207674695355969895, guid: 4be33e4077c0b974fa2f8f0d1e986be1, type: 3}
 --- !u!4 &1984502478
 Transform:
   m_ObjectHideFlags: 0
@@ -5231,11 +5242,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2014456592908934774, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 2014456592908934774, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 3259981783652310330, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_Type
@@ -5260,6 +5271,30 @@ PrefabInstance:
     - target: {fileID: 3446467083834769937, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_Name
       value: InventoryUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4166150925584314400, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4914031173273049052, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_Pivot.x
@@ -5341,6 +5376,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5639132994909932471, guid: ad155953830200c4c9cb20df38610458, type: 3}
+      propertyPath: rootCanvas
+      value: 
+      objectReference: {fileID: 290284190}
     - target: {fileID: 5895906383033306707, guid: ad155953830200c4c9cb20df38610458, type: 3}
       propertyPath: m_IsActive
       value: 0
