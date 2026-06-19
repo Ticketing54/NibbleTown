@@ -9,6 +9,7 @@ public class GameDataSettings : ScriptableObject
 
     [Header("Database")]
     public ItemDatabase            itemDatabase;
+    public SkillDatabase           skillDatabase;
     public StageDatabase           stageDatabase;
     public MonsterDatabase         monsterDatabase;
     public BuildingUpgradeDatabase buildingUpgradeDatabase;

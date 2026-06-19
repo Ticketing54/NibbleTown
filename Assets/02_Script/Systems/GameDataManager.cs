@@ -6,6 +6,7 @@ public static class GameDataManager
 
     // ── Database ──────────────────────────────────────────────
     public static ItemDatabase            Items            { get; private set; }
+    public static SkillDatabase           Skills           { get; private set; }
     public static StageDatabase           Stages           { get; private set; }
     public static MonsterDatabase         Monsters         { get; private set; }
     public static BuildingUpgradeDatabase BuildingUpgrades { get; private set; }
@@ -26,12 +27,14 @@ public static class GameDataManager
         }
 
         Items            = settings.itemDatabase;
+        Skills           = settings.skillDatabase;
         Stages           = settings.stageDatabase;
         Monsters         = settings.monsterDatabase;
         BuildingUpgrades = settings.buildingUpgradeDatabase;
         ItemUpgrades     = settings.itemUpgradeDatabase;
         CharacterConfig  = settings.characterStatConfig;
         Items?.BuildLookup();
+        Skills?.BuildLookup();
         Monsters?.BuildLookup();
         BuildingUpgrades?.BuildLookup();
         ItemUpgrades?.BuildLookup();

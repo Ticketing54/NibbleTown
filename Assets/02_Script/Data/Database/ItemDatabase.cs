@@ -16,6 +16,7 @@ public class ItemData
     public int    sellPrice;
     public bool   isDestroyable = true;
     public Sprite icon;
+    public int    skillId = -1;
 }
 
 [CreateAssetMenu(fileName = "ItemDatabase", menuName = "NibbleTown/Database/Item Database")]
