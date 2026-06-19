@@ -40,7 +40,7 @@ public class Inventory : MonoBehaviour
         }
 
         items[_itemId] += _count;
-        GameEvents.RaiseInventoryChanged(_itemId, items[_itemId]);
+        GameEvents.RaiseInventoryChanged(_itemId, _count, items[_itemId]);
         return true;
     }
 
@@ -54,7 +54,7 @@ public class Inventory : MonoBehaviour
         if (items[_itemId] == 0)
             items.Remove(_itemId);
 
-        GameEvents.RaiseInventoryChanged(_itemId, GetCount(_itemId));
+        GameEvents.RaiseInventoryChanged(_itemId, -_count, GetCount(_itemId));
         return true;
     }
 

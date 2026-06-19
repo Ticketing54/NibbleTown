@@ -14,7 +14,7 @@ public static class GameEvents
     public static event Action<bool>            OnProgressBarShow;
     public static event Action<float>           OnProgressBarSetProgress;
     public static event Action<bool, string>    OnInteractionTextShow;
-    public static event Action<int, int>                              OnInventoryChanged;
+    public static event Action<int, int, int>                         OnInventoryChanged; // itemId, delta, newTotal
     public static event Action                                        OnInventoryRefreshRequested;
     public static event Action<IReadOnlyDictionary<int, int>>         OnInventoryRefreshed;
     public static event Action<int>                                   OnInventorySlotsChanged;
@@ -42,13 +42,18 @@ public static class GameEvents
     public static void RaiseProgressBarShow(bool _visible)                       => OnProgressBarShow?.Invoke(_visible);
     public static void RaiseProgressBarSetProgress(float _value)                 => OnProgressBarSetProgress?.Invoke(_value);
     public static void RaiseInteractionTextShow(bool _visible, string _text)     => OnInteractionTextShow?.Invoke(_visible, _text);
-    public static void RaiseInventoryChanged(int _itemId, int _count)                        => OnInventoryChanged?.Invoke(_itemId, _count);
+    public static void RaiseInventoryChanged(int _itemId, int _delta, int _newTotal)          => OnInventoryChanged?.Invoke(_itemId, _delta, _newTotal);
     public static void RaiseInventoryRefreshRequested()                                       => OnInventoryRefreshRequested?.Invoke();
     public static void RaiseInventoryRefreshed(IReadOnlyDictionary<int, int> _items)         => OnInventoryRefreshed?.Invoke(_items);
     public static void RaiseInventorySlotsChanged(int _maxSlots)                             => OnInventorySlotsChanged?.Invoke(_maxSlots);
     public static void RaiseInventoryItemDiscarded(int _itemId, int _count)                  => OnInventoryItemDiscarded?.Invoke(_itemId, _count);
 
     public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
+
+    // ── 획득 알림 ─────────────────────────────────────────────────
+    public static event Action<int> OnGoldAcquired; // amount
+
+    public static void RaiseGoldAcquired(int _amount) => OnGoldAcquired?.Invoke(_amount);
 
     // ── 스킬 ──────────────────────────────────────────────────────
     public static event Action<int, int> OnSkillEquipped; // slotIndex, skillId (-1 = 해제)

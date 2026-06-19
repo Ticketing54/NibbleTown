@@ -63,10 +63,10 @@ public class InventoryUI : MonoBehaviour
 
     // ── 아이템 변경 ────────────────────────────────────────────
 
-    private void OnInventoryChanged(int _itemId, int _count)
+    private void OnInventoryChanged(int _itemId, int _delta, int _newTotal)
     {
-        if (_count <= 0) ClearItem(_itemId);
-        else             SetOrUpdateItem(_itemId, _count);
+        if (_newTotal <= 0) ClearItem(_itemId);
+        else                SetOrUpdateItem(_itemId, _newTotal);
     }
 
     private void SetOrUpdateItem(int _itemId, int _count)
