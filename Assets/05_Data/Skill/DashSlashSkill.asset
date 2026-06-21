@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d8e697a67e296745890878e2948fee9, type: 3}
+  m_Name: DashSlashSkill
+  m_EditorClassIdentifier: Assembly-CSharp::DashSlashSkillData
+  skillId: 2
+  skillName: "\uB300\uC26C \uBC30\uAE30"
+  description: 
+  icon: {fileID: 0}
+  mpCost: 0
+  cooldown: 0
+  skillClip: {fileID: 7400000, guid: cb0b49ac2d002bb4e8b49dea6e3ad278, type: 2}
+  targetRange: 8
+  dashDistance: 3
+  dashDuration: 0.1
+  pushForce: 10
+  pushRadius: 1.2
+  slashDamageMultiplier: 2.5
+  slashRadius: 2
+  slashAngle: 120

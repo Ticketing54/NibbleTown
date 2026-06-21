@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: GameDataSettings
   m_EditorClassIdentifier: Assembly-CSharp::GameDataSettings
   itemDatabase: {fileID: 11400000, guid: 5306fac618b10b4419355f277246ca8a, type: 2}
+  skillDatabase: {fileID: 11400000, guid: 34e31dd8c704bf546bf4b91290d2926e, type: 2}
   stageDatabase: {fileID: 11400000, guid: 5369149ccf9697f44b0cc1d122686491, type: 2}
   monsterDatabase: {fileID: 11400000, guid: cc0932e7ab4f1c047a8c74d96bfcfe49, type: 2}
   buildingUpgradeDatabase: {fileID: 11400000, guid: e6c8c88d866a2474bbbfb4e7b70d8394, type: 2}
   itemUpgradeDatabase: {fileID: 11400000, guid: 86b2525a69270f1489b060f96465110c, type: 2}
   characterStatConfig: {fileID: 11400000, guid: fe80caa15c676124fa3f1a1b45b9e568, type: 2}
-  weapons:
-  - {fileID: 11400000, guid: a1a2a3a4b1b2b3b4c1c2c3c4d1d2d3d4, type: 2}

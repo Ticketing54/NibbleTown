@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class SkillData : ScriptableObject
@@ -7,8 +8,9 @@ public abstract class SkillData : ScriptableObject
     [TextArea]
     public string description;
     public Sprite icon;
-    public int    mpCost;
-    public float  cooldown;
+    public int           mpCost;
+    public float         cooldown;
+    public AnimationClip skillClip;
 
-    public abstract void Execute(SkillContext ctx);
+    public abstract IEnumerator Execute(SkillContext ctx);
 }

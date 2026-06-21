@@ -7390,8 +7390,65 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 237763049098616311, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4794814697937480626}
+    - targetCorrespondingSourceObject: {fileID: 237763049098616311, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4794814697937480625}
+    - targetCorrespondingSourceObject: {fileID: 237763049098616311, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4794814697937480627}
   m_SourcePrefab: {fileID: 100100000, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+--- !u!1 &4794814697937480624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 237763049098616311, guid: 51b3c2ba5f61d2145848b0a60bc4f927, type: 3}
+  m_PrefabInstance: {fileID: 4794814697937480623}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4794814697937480625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794814697937480624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3df7377fb4b15347876105284a10f17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillExecutor
+  skill1Action: {fileID: -6290959679804899674, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  skill2Action: {fileID: -7781619205405273708, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  skill3Action: {fileID: 755159778559801009, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  monsterLayer:
+    serializedVersion: 2
+    m_Bits: 2147483648
+--- !u!114 &4794814697937480626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794814697937480624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18a99808ecf3e55408b1707f33b290ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillBook
+--- !u!114 &4794814697937480627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4794814697937480624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 621b37543aba88a4e99204b653e2734e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SkillAnimator
+  placeholderClipName: SkillBase
 --- !u!64 &4893427418317423253
 MeshCollider:
   m_ObjectHideFlags: 0

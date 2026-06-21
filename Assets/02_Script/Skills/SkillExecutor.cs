@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,12 +13,17 @@ public class SkillExecutor : MonoBehaviour
 
     private SkillBook     skillBook;
     private CharacterStat stat;
+    private SkillAnimator skillAnimator;
+    private IMovementLock movementLock;
     private float[]       cooldownTimers = new float[3];
+    private bool          isExecuting;
 
     private void Awake()
     {
-        skillBook = GetComponent<SkillBook>();
-        stat      = GetComponent<CharacterStat>();
+        skillBook     = GetComponent<SkillBook>();
+        stat          = GetComponent<CharacterStat>();
+        skillAnimator = GetComponentInChildren<SkillAnimator>();
+        movementLock  = GetComponent<IMovementLock>();
     }
 
     private void OnEnable()
@@ -53,8 +59,9 @@ public class SkillExecutor : MonoBehaviour
 
     private void TryExecute(int _slotIndex)
     {
+        if (isExecuting)                     return;
         SkillData skill = skillBook.GetEquipped(_slotIndex);
-        if (skill == null)               return;
+        if (skill == null)                   return;
         if (cooldownTimers[_slotIndex] > 0f) return;
         if (stat.CurrentMP < skill.mpCost)   return;
 
@@ -62,14 +69,26 @@ public class SkillExecutor : MonoBehaviour
 
         var ctx = new SkillContext
         {
-            caster      = gameObject,
-            stat        = stat,
-            targetLayer = monsterLayer
+            caster        = gameObject,
+            stat          = stat,
+            targetLayer   = monsterLayer,
+            skillAnimator = skillAnimator
         };
 
-        skill.Execute(ctx);
+        StartCoroutine(RunSkill(skill.Execute(ctx)));
         cooldownTimers[_slotIndex] = skill.cooldown;
         GameEvents.RaiseSkillUsed(_slotIndex);
+    }
+
+    private IEnumerator RunSkill(IEnumerator skillRoutine)
+    {
+        isExecuting = true;
+        movementLock?.LockMovement(true);
+        yield return skillRoutine;
+        if (skillAnimator != null)
+            yield return skillAnimator.WaitForCompletion();
+        movementLock?.LockMovement(false);
+        isExecuting = false;
     }
 
     public float GetCooldownRatio(int _slotIndex)
