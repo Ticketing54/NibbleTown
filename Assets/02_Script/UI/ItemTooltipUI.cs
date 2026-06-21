@@ -33,7 +33,7 @@ public class ItemTooltipUI : MonoBehaviour
 
     private void MoveToScreenPos(Vector2 _screenPos)
     {
-        Vector2 offset = new Vector2(itemTooltipBundle.rect.width,itemTooltipBundle.rect.height);
+        Vector2 offset = new Vector2(itemTooltipBundle.rect.width * 0.5f, itemTooltipBundle.rect.height * -0.5f);
         itemTooltipBundle.position = (Vector3)(_screenPos + offset);
     }
 }

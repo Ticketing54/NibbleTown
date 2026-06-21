@@ -100,6 +100,22 @@ public class ResourceSpawnManager : MonoBehaviour
         return entries[entries.Length - 1].prefab;
     }
 
+    public void SpawnGoldDrop(int baseGold, Vector3 position)
+    {
+        if (defaultPickupPrefab == null) return;
+
+        int amount = Mathf.RoundToInt(baseGold * UnityEngine.Random.Range(0.7f, 1.1f));
+        if (amount <= 0) return;
+
+        Vector3 offset = new Vector3(
+            UnityEngine.Random.Range(-0.3f, 0.3f), 0f,
+            UnityEngine.Random.Range(-0.3f, 0.3f));
+
+        GameObject go = Instantiate(defaultPickupPrefab, position + offset, Quaternion.identity);
+        go.GetComponent<ItemPickup>()?.InitAsGold(amount);
+        activePickups.Add(go);
+    }
+
     public void SpawnItemDrop(DropTable dropTable, Vector3 position)
     {
         if (dropTable == null) return;

@@ -6,6 +6,7 @@ public class Inventory : MonoBehaviour
     private int maxSlots = 9;
 
     public bool IsFull => items.Count >= maxSlots;
+    public int  Gold   { get; private set; }
 
     private readonly Dictionary<int, int> items = new Dictionary<int, int>();
 
@@ -14,6 +15,7 @@ public class Inventory : MonoBehaviour
         GameEvents.OnInventoryRefreshRequested += OnRefreshRequested;
         GameEvents.OnInventorySlotsChanged     += OnSlotsChanged;
         GameEvents.OnInventoryItemDiscarded    += OnItemDiscarded;
+        GameEvents.OnGoldRefreshRequested      += OnGoldRefreshRequested;
     }
 
     private void OnDisable()
@@ -21,11 +23,30 @@ public class Inventory : MonoBehaviour
         GameEvents.OnInventoryRefreshRequested -= OnRefreshRequested;
         GameEvents.OnInventorySlotsChanged     -= OnSlotsChanged;
         GameEvents.OnInventoryItemDiscarded    -= OnItemDiscarded;
+        GameEvents.OnGoldRefreshRequested      -= OnGoldRefreshRequested;
     }
 
-    private void OnRefreshRequested() => GameEvents.RaiseInventoryRefreshed(items);
+    private void OnRefreshRequested()     => GameEvents.RaiseInventoryRefreshed(items);
+    private void OnGoldRefreshRequested() => GameEvents.RaiseGoldChanged(Gold);
     private void OnSlotsChanged(int _slots) => maxSlots = _slots;
     private void OnItemDiscarded(int _itemId, int _count) => TryRemove(_itemId, _count);
+
+    // ── 골드 ──────────────────────────────────────────────────
+
+    public void AddGold(int _amount)
+    {
+        if (_amount <= 0) return;
+        Gold += _amount;
+        GameEvents.RaiseGoldChanged(Gold);
+    }
+
+    public bool SpendGold(int _amount)
+    {
+        if (Gold < _amount) return false;
+        Gold -= _amount;
+        GameEvents.RaiseGoldChanged(Gold);
+        return true;
+    }
 
     // ── 추가 (생산·사냥 등 자동 획득) ────────────────────────
 

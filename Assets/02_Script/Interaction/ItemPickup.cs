@@ -21,6 +21,13 @@ public class ItemPickup : MonoBehaviour
         StartCoroutine(CoArcDrop());
     }
 
+    public void InitAsGold(int _amount)
+    {
+        itemId = -1;
+        count  = _amount;
+        StartCoroutine(CoArcDrop());
+    }
+
     private IEnumerator CoArcDrop()
     {
         Vector3 start  = transform.position;
@@ -65,8 +72,16 @@ public class ItemPickup : MonoBehaviour
 
             if (Vector3.Distance(transform.position, target.position) < 0.3f)
             {
-                if (inv.AddItem(itemId, count))
-                    ResourceSpawnManager.Instance?.ReturnPickup(gameObject);
+                if (itemId < 0)
+                {
+                    inv.AddGold(count);
+                    GameEvents.RaiseGoldAcquired(count);
+                }
+                else
+                {
+                    inv.AddItem(itemId, count);
+                }
+                ResourceSpawnManager.Instance?.ReturnPickup(gameObject);
                 yield break;
             }
 

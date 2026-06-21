@@ -51,9 +51,13 @@ public static class GameEvents
     public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
 
     // ── 획득 알림 ─────────────────────────────────────────────────
-    public static event Action<int> OnGoldAcquired; // amount
+    public static event Action<int> OnGoldAcquired;        // amount
+    public static event Action<int> OnGoldChanged;         // total
+    public static event Action      OnGoldRefreshRequested;
 
-    public static void RaiseGoldAcquired(int _amount) => OnGoldAcquired?.Invoke(_amount);
+    public static void RaiseGoldAcquired(int _amount)  => OnGoldAcquired?.Invoke(_amount);
+    public static void RaiseGoldChanged(int _total)    => OnGoldChanged?.Invoke(_total);
+    public static void RaiseGoldRefreshRequested()     => OnGoldRefreshRequested?.Invoke();
 
     // ── 스킬 ──────────────────────────────────────────────────────
     public static event Action<int, int> OnSkillEquipped; // slotIndex, skillId (-1 = 해제)

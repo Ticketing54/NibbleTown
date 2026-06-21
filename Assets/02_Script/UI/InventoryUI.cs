@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private InventorySlotUI slotPrefab;
     [SerializeField] private Image           dragGhost;
     [SerializeField] private ItemTooltipUI   tooltip;
+    [SerializeField] private TextMeshProUGUI goldText;
 
     private const int DefaultSlots = 9;
 
@@ -32,13 +34,16 @@ public class InventoryUI : MonoBehaviour
     {
         GameEvents.OnInventoryChanged      += OnInventoryChanged;
         GameEvents.OnInventorySlotsChanged += OnSlotsChanged;
+        GameEvents.OnGoldChanged           += OnGoldChanged;
         RefreshFromInventory();
+        GameEvents.RaiseGoldRefreshRequested();
     }
 
     private void OnDisable()
     {
         GameEvents.OnInventoryChanged      -= OnInventoryChanged;
         GameEvents.OnInventorySlotsChanged -= OnSlotsChanged;
+        GameEvents.OnGoldChanged           -= OnGoldChanged;
         tooltip?.Hide();
     }
 
@@ -115,6 +120,13 @@ public class InventoryUI : MonoBehaviour
     {
         foreach (var kv in _items)
             SetOrUpdateItem(kv.Key, kv.Value);
+    }
+
+    // ── 골드 ──────────────────────────────────────────────────
+
+    private void OnGoldChanged(int _total)
+    {
+        if (goldText != null) goldText.text = $"{_total}G";
     }
 
     // ── 툴팁 ──────────────────────────────────────────────────

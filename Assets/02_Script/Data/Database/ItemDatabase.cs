@@ -13,7 +13,7 @@ public class ItemData
     public ItemGrade grade;
     public string description;
     public int    maxStack;
-    public int    sellPrice;
+    public int    buyPrice;
     public bool   isDestroyable = true;
     public Sprite icon;
     public int    skillId = -1;

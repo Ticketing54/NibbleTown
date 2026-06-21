@@ -316,6 +316,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         agent.ResetPath();
         agent.enabled = false;
         OnDied?.Invoke();
+        ResourceSpawnManager.Instance?.SpawnGoldDrop(dropGold, transform.position);
         ResourceSpawnManager.Instance?.SpawnItemDrop(dropTable, transform.position);
         GameEvents.RaiseMonsterDied(dropGold);
         Destroy(gameObject, 1f);
