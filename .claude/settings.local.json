@@ -44,7 +44,9 @@
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\MinePoint.cs\" -Force)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\MinePoint.cs.meta\" -Force -ErrorAction SilentlyContinue)",
       "Bash(Remove-Item \"E:\\\\Unity\\\\UnityProjects\\\\NibbleTown\\\\Assets\\\\02_Script\\\\Interaction\\\\FishingSpot.cs\" -Force)",
-      "WebFetch(domain:coconut-flat-99f.notion.site)"
+      "WebFetch(domain:coconut-flat-99f.notion.site)",
+      "mcp__UnityMCP__manage_asset",
+      "mcp__UnityMCP__manage_scriptable_object"
     ]
   }
 }

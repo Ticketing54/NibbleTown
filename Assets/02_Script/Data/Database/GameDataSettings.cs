@@ -14,6 +14,7 @@ public class GameDataSettings : ScriptableObject
     public MonsterDatabase         monsterDatabase;
     public BuildingUpgradeDatabase buildingUpgradeDatabase;
     public ItemUpgradeDatabase     itemUpgradeDatabase;
+    public ShopData                shopData;
 
     [Header("Config")]
     public CharacterStatConfig characterStatConfig;

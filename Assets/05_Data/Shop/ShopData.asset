@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52bd6ff74eed7b34f91262f31bfabecc, type: 3}
+  m_Name: ShopData
+  m_EditorClassIdentifier: Assembly-CSharp::ShopData
+  tiers:
+  - unlockAtDay: 0
+    items:
+    - itemId: 101
+    - itemId: 102
+    - itemId: 103
+    - itemId: 201
+    - itemId: 202
+    - itemId: 203
+    - itemId: 301
+    - itemId: 302
+    - itemId: 303
+  slotCount: 6

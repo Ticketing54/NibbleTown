@@ -14,6 +14,7 @@ public class ItemData
     public string description;
     public int    maxStack;
     public int    buyPrice;
+    public int    sellPrice;
     public bool   isDestroyable = true;
     public Sprite icon;
     public int    skillId = -1;

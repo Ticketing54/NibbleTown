@@ -9,7 +9,6 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private Transform       slotContainer;
     [SerializeField] private InventorySlotUI slotPrefab;
     [SerializeField] private Image           dragGhost;
-    [SerializeField] private ItemTooltipUI   tooltip;
     [SerializeField] private TextMeshProUGUI goldText;
 
     private const int DefaultSlots = 9;
@@ -44,7 +43,7 @@ public class InventoryUI : MonoBehaviour
         GameEvents.OnInventoryChanged      -= OnInventoryChanged;
         GameEvents.OnInventorySlotsChanged -= OnSlotsChanged;
         GameEvents.OnGoldChanged           -= OnGoldChanged;
-        tooltip?.Hide();
+        GameEvents.RaiseItemTooltipHide();
     }
 
     public void Open()  => gameObject.SetActive(true);
@@ -131,8 +130,8 @@ public class InventoryUI : MonoBehaviour
 
     // ── 툴팁 ──────────────────────────────────────────────────
 
-    public void ShowTooltip(int _itemId, Vector2 _screenPos) => tooltip?.Show(_itemId, _screenPos);
-    public void HideTooltip()                                 => tooltip?.Hide();
+    public void ShowTooltip(int _itemId, Vector2 _screenPos) => GameEvents.RaiseItemTooltipShow(_itemId, _screenPos);
+    public void HideTooltip()                                => GameEvents.RaiseItemTooltipHide();
 
     // ── 드래그 & 드랍 ──────────────────────────────────────────
 
@@ -143,7 +142,7 @@ public class InventoryUI : MonoBehaviour
         dragGhost.sprite     = _slot.Icon;
         dragGhost.gameObject.SetActive(true);
         MoveGhost(_eventData.position);
-        tooltip?.Hide();
+        GameEvents.RaiseItemTooltipHide();
     }
 
     public void UpdateDrag(PointerEventData _eventData)

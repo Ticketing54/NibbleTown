@@ -20,8 +20,26 @@ public static class GameEvents
     public static event Action<int>                                   OnInventorySlotsChanged;
     public static event Action<int, int>                              OnInventoryItemDiscarded;
 
+    // ── 화면 페이드 ───────────────────────────────────────────────
+    public static event Action<float, Action> OnFadeInRequested;
+    public static event Action<float, Action> OnFadeOutRequested;
+
+    public static void RaiseFadeIn(float duration = -1f, Action onComplete = null)
+    {
+        if (OnFadeInRequested == null) onComplete?.Invoke();
+        else OnFadeInRequested.Invoke(duration, onComplete);
+    }
+
+    public static void RaiseFadeOut(float duration = -1f, Action onComplete = null)
+    {
+        if (OnFadeOutRequested == null) onComplete?.Invoke();
+        else OnFadeOutRequested.Invoke(duration, onComplete);
+    }
+
     // ── 플레이어 입력 ──────────────────────────────────────────────
     public static event Action<bool> OnPlayerInputLocked;
+    public static event Action<bool> OnNpcConversationChanged;  // true = 대화 시작, false = 대화 종료
+    public static event Action       OnNpcConversationCloseRequested;
 
     // ── 페이즈 전환 요청 (외부 → PlaySceneController) ─────────────
     public static event Action OnNightRequested;
@@ -48,7 +66,17 @@ public static class GameEvents
     public static void RaiseInventorySlotsChanged(int _maxSlots)                             => OnInventorySlotsChanged?.Invoke(_maxSlots);
     public static void RaiseInventoryItemDiscarded(int _itemId, int _count)                  => OnInventoryItemDiscarded?.Invoke(_itemId, _count);
 
-    public static void RaisePlayerInputLocked(bool _locked) => OnPlayerInputLocked?.Invoke(_locked);
+    public static void RaisePlayerInputLocked(bool _locked)        => OnPlayerInputLocked?.Invoke(_locked);
+    public static void RaiseNpcConversationChanged(bool _active)    => OnNpcConversationChanged?.Invoke(_active);
+    public static void RaiseNpcConversationCloseRequested()         => OnNpcConversationCloseRequested?.Invoke();
+
+    // ── 아이템 툴팁 ───────────────────────────────────────────────
+    public static event Action<int, Vector2, string> OnItemTooltipShow;
+    public static event Action                       OnItemTooltipHide;
+
+    public static void RaiseItemTooltipShow(int _itemId, Vector2 _screenPos, string _price = null)
+        => OnItemTooltipShow?.Invoke(_itemId, _screenPos, _price);
+    public static void RaiseItemTooltipHide() => OnItemTooltipHide?.Invoke();
 
     // ── 획득 알림 ─────────────────────────────────────────────────
     public static event Action<int> OnGoldAcquired;        // amount

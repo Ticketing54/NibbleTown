@@ -12,6 +12,8 @@ public static class GameDataManager
     public static BuildingUpgradeDatabase BuildingUpgrades { get; private set; }
     public static ItemUpgradeDatabase     ItemUpgrades     { get; private set; }
 
+    public static ShopData             Shop            { get; private set; }
+
     // ── Config ────────────────────────────────────────────────
     public static CharacterStatConfig CharacterConfig { get; private set; }
 
@@ -32,6 +34,7 @@ public static class GameDataManager
         Monsters         = settings.monsterDatabase;
         BuildingUpgrades = settings.buildingUpgradeDatabase;
         ItemUpgrades     = settings.itemUpgradeDatabase;
+        Shop             = settings.shopData;
         CharacterConfig  = settings.characterStatConfig;
         Items?.BuildLookup();
         Skills?.BuildLookup();

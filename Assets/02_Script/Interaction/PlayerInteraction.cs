@@ -13,6 +13,7 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
     [SerializeField] private MonoBehaviour actionPointsSource;
 
     private IInteractable nearInteractable;
+    private NpcController nearNpc;
     private Coroutine interactionRoutine;
     private IMovementLock  mover;
     private IActionPoints  ap;
@@ -20,6 +21,7 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
     private bool  holding;
     private float holdStartTime;
     private bool  isCombatMode;
+    private bool  isInNpcConversation;
 
     private void Awake()
     {
@@ -32,8 +34,9 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
         interactAction.action.Enable();
         interactAction.action.started  += OnStarted;
         interactAction.action.canceled += OnCanceled;
-        GameEvents.OnNightBegin += EnterCombatMode;
-        GameEvents.OnDayBegin   += ExitCombatMode;
+        GameEvents.OnNightBegin             += EnterCombatMode;
+        GameEvents.OnDayBegin               += ExitCombatMode;
+        GameEvents.OnNpcConversationChanged += OnNpcConversationChanged;
     }
 
     private void OnDisable()
@@ -41,8 +44,9 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
         interactAction.action.started  -= OnStarted;
         interactAction.action.canceled -= OnCanceled;
         interactAction.action.Disable();
-        GameEvents.OnNightBegin -= EnterCombatMode;
-        GameEvents.OnDayBegin   -= ExitCombatMode;
+        GameEvents.OnNightBegin             -= EnterCombatMode;
+        GameEvents.OnDayBegin               -= ExitCombatMode;
+        GameEvents.OnNpcConversationChanged -= OnNpcConversationChanged;
     }
 
     private void EnterCombatMode()
@@ -53,6 +57,11 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
     }
 
     private void ExitCombatMode() => isCombatMode = false;
+
+    private void OnNpcConversationChanged(bool _active) => isInNpcConversation = _active;
+
+    public void SetNearNpc(NpcController _npc)   => nearNpc = _npc;
+    public void ClearNearNpc(NpcController _npc) { if (nearNpc == _npc) nearNpc = null; }
 
     private void OnTriggerEnter(Collider _other)
     {
@@ -90,8 +99,12 @@ public class PlayerInteraction : MonoBehaviour, IInteractionState
 
     private void OnStarted(InputAction.CallbackContext _ctx)
     {
+        if (nearNpc != null || isInNpcConversation)
+        {
+            nearNpc?.Interact();
+            return;
+        }
         if (nearInteractable == null || holding) return;
-
         if (isCombatMode) return;
 
         if (!nearInteractable.CanInteract())
