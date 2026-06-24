@@ -107,6 +107,9 @@ public class NpcController : MonoBehaviour
         if (npcCamera != null)
         {
             npcCamera.Priority = 100;
+            
+            yield return null;
+
             var brain = Camera.main?.GetComponent<CinemachineBrain>();
             if (brain != null)
                 yield return new WaitUntil(() => !brain.IsBlending);

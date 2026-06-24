@@ -16,8 +16,8 @@ MonoBehaviour:
   skillName: "\uB300\uC26C \uBC30\uAE30"
   description: 
   icon: {fileID: 0}
-  mpCost: 0
-  cooldown: 0
+  mpCost: 1
+  cooldown: 3
   skillClip: {fileID: 7400000, guid: cb0b49ac2d002bb4e8b49dea6e3ad278, type: 2}
   targetRange: 8
   dashDistance: 3

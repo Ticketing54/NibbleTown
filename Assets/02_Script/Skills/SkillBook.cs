@@ -8,6 +8,12 @@ public class SkillBook : MonoBehaviour
     public IReadOnlyList<SkillData> Slots => slots;
     public bool IsFull => FindEmptySlot() < 0;
 
+    private void Start()
+    {
+        for (int i = 0; i < slots.Length; i++)
+            GameEvents.RaiseSkillEquipped(i, slots[i]?.skillId ?? -1);
+    }
+
     // 상점에서 구매 시 호출 — 빈 슬롯에 자동 배치
     public bool AddSkill(int _skillId)
     {

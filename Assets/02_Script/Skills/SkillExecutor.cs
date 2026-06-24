@@ -49,8 +49,13 @@ public class SkillExecutor : MonoBehaviour
     private void Update()
     {
         for (int i = 0; i < 3; i++)
-            if (cooldownTimers[i] > 0f)
-                cooldownTimers[i] -= Time.deltaTime;
+        {
+            if (cooldownTimers[i] <= 0f) continue;
+            cooldownTimers[i] -= Time.deltaTime;
+            float ratio     = GetCooldownRatio(i);
+            float remaining = GetCooldownRemaining(i);
+            GameEvents.RaiseSkillCooldownTick(i, ratio, remaining);
+        }
     }
 
     private void OnSkill1Input(InputAction.CallbackContext _) => TryExecute(0);
@@ -96,5 +101,11 @@ public class SkillExecutor : MonoBehaviour
         SkillData skill = skillBook.GetEquipped(_slotIndex);
         if (skill == null || skill.cooldown <= 0f) return 0f;
         return Mathf.Clamp01(cooldownTimers[_slotIndex] / skill.cooldown);
+    }
+
+    public float GetCooldownRemaining(int _slotIndex)
+    {
+        if ((uint)_slotIndex >= 3) return 0f;
+        return Mathf.Max(0f, cooldownTimers[_slotIndex]);
     }
 }
