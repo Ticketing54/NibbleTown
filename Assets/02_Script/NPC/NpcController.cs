@@ -14,14 +14,16 @@ public class NpcController : MonoBehaviour
     private bool inConversation;
     private bool isDaytime;
 
-    private IMovementLock       playerMover;
-    private CharacterController playerCC;
-    private Transform           playerTransform;
+    private IMovementLock             playerMover;
+    private CharacterController       playerCC;
+    private Transform                 playerTransform;
+    private INpcConversationHandler   conversationHandler;
 
     private void Awake()
     {
         GetComponent<Collider>().isTrigger = true;
         if (npcCamera != null) npcCamera.Priority = 0;
+        conversationHandler = GetComponent<INpcConversationHandler>();
     }
 
     private void OnEnable()
@@ -121,6 +123,7 @@ public class NpcController : MonoBehaviour
         GameEvents.RaiseFadeOut(onComplete: () => fadeDone = true);
         yield return new WaitUntil(() => fadeDone);
 
+        conversationHandler?.OnConversationStarted();
         GameEvents.RaiseNpcConversationChanged(true);
     }
 
@@ -132,6 +135,7 @@ public class NpcController : MonoBehaviour
 
         if (npcCamera != null) npcCamera.Priority = 0;
         inConversation = false;
+        conversationHandler?.OnConversationEnded();
         GameEvents.RaiseNpcConversationChanged(false);
         playerMover?.LockMovement(false);
         GameEvents.RaisePlayerInputLocked(false);
@@ -149,6 +153,7 @@ public class NpcController : MonoBehaviour
         StopAllCoroutines();
         if (npcCamera != null) npcCamera.Priority = 0;
         inConversation = false;
+        conversationHandler?.OnConversationEnded();
         GameEvents.RaiseNpcConversationChanged(false);
         playerMover?.LockMovement(false);
         GameEvents.RaisePlayerInputLocked(false);

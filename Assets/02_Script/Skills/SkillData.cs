@@ -8,6 +8,7 @@ public abstract class SkillData : ScriptableObject
     [TextArea]
     public string description;
     public Sprite icon;
+    public int           price;
     public int           mpCost;
     public float         cooldown;
     public AnimationClip skillClip;

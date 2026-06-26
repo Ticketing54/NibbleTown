@@ -15,7 +15,8 @@ MonoBehaviour:
   skillId: 2
   skillName: "\uB300\uC26C \uBC30\uAE30"
   description: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 2a5c892bdd014164da633b8c6fd0f246, type: 3}
+  price: 0
   mpCost: 1
   cooldown: 3
   skillClip: {fileID: 7400000, guid: cb0b49ac2d002bb4e8b49dea6e3ad278, type: 2}

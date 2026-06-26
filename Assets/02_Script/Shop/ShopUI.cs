@@ -57,52 +57,44 @@ public class ShopUI : MonoBehaviour
 
     private void OnEnable()
     {
-        GameEvents.OnNpcConversationChanged += OnNpcConversationChanged;
-        GameEvents.OnInventoryChanged       += OnInventoryChanged;
-        GameEvents.OnInventorySlotsChanged  += OnSlotsChanged;
-        GameEvents.OnGoldChanged            += OnGoldChanged;
+        GameEvents.OnShopOpen              += Open;
+        GameEvents.OnShopClose             += Close;
+        GameEvents.OnInventoryChanged      += OnInventoryChanged;
+        GameEvents.OnInventorySlotsChanged += OnSlotsChanged;
+        GameEvents.OnGoldChanged           += OnGoldChanged;
     }
 
     private void OnDisable()
     {
-        GameEvents.OnNpcConversationChanged -= OnNpcConversationChanged;
-        GameEvents.OnInventoryChanged       -= OnInventoryChanged;
-        GameEvents.OnInventorySlotsChanged  -= OnSlotsChanged;
-        GameEvents.OnGoldChanged            -= OnGoldChanged;
+        GameEvents.OnShopOpen              -= Open;
+        GameEvents.OnShopClose             -= Close;
+        GameEvents.OnInventoryChanged      -= OnInventoryChanged;
+        GameEvents.OnInventorySlotsChanged -= OnSlotsChanged;
+        GameEvents.OnGoldChanged           -= OnGoldChanged;
         GameEvents.RaiseItemTooltipHide();
     }
 
     // ── 열기 / 닫기 ───────────────────────────────────────────
 
-    private void OnNpcConversationChanged(bool _active)
+    public void Open(IReadOnlyList<int> items)
     {
-        if (_active)
-        {
-            panel.SetActive(true);
-            confirmPanel.SetActive(false);
-            PopulateShop();
-            RefreshInventory();
-            GameEvents.RaiseGoldRefreshRequested();
-        }
-        else
-        {
-            panel.SetActive(false);
-        }
+        panel.SetActive(true);
+        confirmPanel.SetActive(false);
+        PopulateShop(items);
+        RefreshInventory();
+        GameEvents.RaiseGoldRefreshRequested();
     }
+
+    public void Close() => panel.SetActive(false);
 
     // ── 상점 슬롯 구성 ────────────────────────────────────────
 
-    private void PopulateShop()
+    private void PopulateShop(IReadOnlyList<int> items)
     {
         foreach (var s in shopSlots) Destroy(s.gameObject);
         shopSlots.Clear();
 
-        var items = ShopManager.Instance?.CurrentItems;
-        if (items == null || items.Count == 0)
-        {
-            Debug.LogWarning("[ShopUI] 진열할 아이템이 없습니다. ShopManager가 씬에 있는지, ShopData pool이 채워졌는지 확인하세요.");
-            return;
-        }
+        if (items == null || items.Count == 0) return;
 
         foreach (int itemId in items)
         {

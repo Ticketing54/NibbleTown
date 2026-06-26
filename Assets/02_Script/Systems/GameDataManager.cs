@@ -13,6 +13,7 @@ public static class GameDataManager
     public static ItemUpgradeDatabase     ItemUpgrades     { get; private set; }
 
     public static ShopData             Shop            { get; private set; }
+    public static SkillShopData        SkillShop       { get; private set; }
 
     // ── Config ────────────────────────────────────────────────
     public static CharacterStatConfig CharacterConfig { get; private set; }
@@ -35,6 +36,7 @@ public static class GameDataManager
         BuildingUpgrades = settings.buildingUpgradeDatabase;
         ItemUpgrades     = settings.itemUpgradeDatabase;
         Shop             = settings.shopData;
+        SkillShop        = settings.skillShopData;
         CharacterConfig  = settings.characterStatConfig;
         Items?.BuildLookup();
         Skills?.BuildLookup();

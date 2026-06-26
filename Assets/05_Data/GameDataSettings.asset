@@ -19,4 +19,5 @@ MonoBehaviour:
   buildingUpgradeDatabase: {fileID: 11400000, guid: e6c8c88d866a2474bbbfb4e7b70d8394, type: 2}
   itemUpgradeDatabase: {fileID: 11400000, guid: 86b2525a69270f1489b060f96465110c, type: 2}
   shopData: {fileID: 11400000, guid: 00fb5025395a9a042a70bcc428944115, type: 2}
+  skillShopData: {fileID: 11400000, guid: 0c671a48915faa9498dab937d1955643, type: 2}
   characterStatConfig: {fileID: 11400000, guid: fe80caa15c676124fa3f1a1b45b9e568, type: 2}
