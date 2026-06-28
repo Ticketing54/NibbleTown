@@ -18,8 +18,16 @@ public class DamageNumber : MonoBehaviour
     {
         mainCamera    = Camera.main;
         originalColor = text.color;
-        originalScale = transform.localScale;
         rectTransform = GetComponent<RectTransform>();
+
+        // 크기는 1로 정규화하되 부호(반전 여부)는 프리팹 원본을 유지
+        Vector3 s = transform.localScale;
+        originalScale = new Vector3(
+            Mathf.Sign(s.x == 0f ? 1f : s.x),
+            Mathf.Sign(s.y == 0f ? 1f : s.y),
+            Mathf.Sign(s.z == 0f ? 1f : s.z)
+        );
+        transform.localScale = originalScale;
     }
 
     public void Play(int _amount, Vector3 _worldPosition, bool _isCrit, RectTransform _canvasRect, Action _onComplete)

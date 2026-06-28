@@ -41,6 +41,9 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
     private bool movementLocked;
     private bool inputLocked;
     private Transform lookAtTarget;
+    private float speedMultiplier = 1f;
+
+    public void SetSpeedMultiplier(float mult) => speedMultiplier = mult;
 
     private void Awake()
     {
@@ -109,7 +112,7 @@ public class PlayerController : MonoBehaviour, IMovementLock, IPlayerState
 
             moveDir    = camForward * input.y + camRight * input.x;
             IsSprinting = sprintAction.action.IsPressed();
-            speed       = IsSprinting ? sprintSpeed : walkSpeed;
+            speed       = (IsSprinting ? sprintSpeed : walkSpeed) * speedMultiplier;
 
             MoveInputMagnitude = moveDir.magnitude;
             jumpMoveDir        = moveDir;

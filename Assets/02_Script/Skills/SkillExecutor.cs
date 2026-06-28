@@ -9,12 +9,12 @@ public class SkillExecutor : MonoBehaviour
     [SerializeField] private InputActionReference skill1Action;
     [SerializeField] private InputActionReference skill2Action;
     [SerializeField] private InputActionReference skill3Action;
-    [SerializeField] private LayerMask            monsterLayer;
 
     private SkillBook     skillBook;
     private CharacterStat stat;
     private SkillAnimator skillAnimator;
     private IMovementLock movementLock;
+    private PlayerAttack  playerAttack;
     private float[]       cooldownTimers = new float[3];
     private bool          isExecuting;
 
@@ -24,6 +24,7 @@ public class SkillExecutor : MonoBehaviour
         stat          = GetComponent<CharacterStat>();
         skillAnimator = GetComponentInChildren<SkillAnimator>();
         movementLock  = GetComponent<IMovementLock>();
+        playerAttack  = GetComponent<PlayerAttack>();
     }
 
     private void OnEnable()
@@ -76,21 +77,21 @@ public class SkillExecutor : MonoBehaviour
         {
             caster        = gameObject,
             stat          = stat,
-            targetLayer   = monsterLayer,
+            targetLayer   = playerAttack != null ? playerAttack.MonsterLayer : default,
             skillAnimator = skillAnimator
         };
 
-        StartCoroutine(RunSkill(skill.Execute(ctx)));
+        StartCoroutine(RunSkill(skill, skill.Execute(ctx)));
         cooldownTimers[_slotIndex] = skill.cooldown;
         GameEvents.RaiseSkillUsed(_slotIndex);
     }
 
-    private IEnumerator RunSkill(IEnumerator skillRoutine)
+    private IEnumerator RunSkill(SkillData skill, IEnumerator skillRoutine)
     {
         isExecuting = true;
-        movementLock?.LockMovement(true);
+        if (skill.LockMovementDuringExecute) movementLock?.LockMovement(true);
         yield return skillRoutine;
-        if (skillAnimator != null)
+        if (skill.WaitForAnimationAfterExecute && skillAnimator != null)
             yield return skillAnimator.WaitForCompletion();
         movementLock?.LockMovement(false);
         isExecuting = false;

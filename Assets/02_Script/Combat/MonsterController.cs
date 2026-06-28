@@ -290,6 +290,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         }
 
         currentHP = Mathf.Max(0, currentHP - _info.amount);
+        GameHUDManager.Instance?.ShowHUD(this);
         GameHUDManager.Instance?.SpawnDamageNumber(_info.amount, transform.position + Vector3.up, _info.isCrit);
 
         if (IsDead) { Die(); return; }

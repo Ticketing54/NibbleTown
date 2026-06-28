@@ -6,17 +6,19 @@ using UnityEngine.UI;
 public class SkillShopUI : MonoBehaviour
 {
     [Header("왼쪽 - 스킬 목록")]
-    [SerializeField] private Transform        skillListContainer;
-    [SerializeField] private SkillShopSlotUI  skillSlotPrefab;
+    [SerializeField] private SkillShopSlotUI[] skillSlots = new SkillShopSlotUI[3];
 
     [Header("오른쪽 - 장착 슬롯")]
     [SerializeField] private SkillShopEquippedSlotUI[] equippedSlots = new SkillShopEquippedSlotUI[3];
 
-    [Header("확인창")]
+    [Header("구매 확인창")]
     [SerializeField] private GameObject      confirmPanel;
     [SerializeField] private TextMeshProUGUI confirmText;
     [SerializeField] private Button          confirmBtn;
     [SerializeField] private Button          cancelBtn;
+
+    [Header("슬롯 교체창")]
+    [SerializeField] private GameObject replaceModePanel;
 
     [Header("공통")]
     [SerializeField] private TextMeshProUGUI goldText;
@@ -26,16 +28,17 @@ public class SkillShopUI : MonoBehaviour
     private ISkillEquipment skillEquipment;
     private IGoldWallet     goldWallet;
 
-    private readonly List<SkillShopSlotUI> skillSlots = new();
-    private SkillShopSlotUI          selectedSkillSlot;
-    private SkillShopEquippedSlotUI  selectedEquippedSlot;
+    private SkillShopSlotUI selectedSkillSlot;
+    private int             pendingSkillId = -1;
+    private bool            waitingForReplace;
 
     private void Awake()
     {
         confirmPanel.SetActive(false);
+        replaceModePanel?.SetActive(false);
         panel.SetActive(false);
         confirmBtn.onClick.AddListener(OnConfirm);
-        cancelBtn.onClick.AddListener(() => confirmPanel.SetActive(false));
+        cancelBtn.onClick.AddListener(OnCancelConfirm);
         closeButton?.onClick.AddListener(GameEvents.RaiseNpcConversationCloseRequested);
     }
 
@@ -76,31 +79,30 @@ public class SkillShopUI : MonoBehaviour
 
         panel.SetActive(true);
         confirmPanel.SetActive(false);
-        selectedSkillSlot    = null;
-        selectedEquippedSlot = null;
+        replaceModePanel?.SetActive(false);
+        ResetSelection();
         PopulateSkillList(skills);
         RefreshEquippedSlots();
         GameEvents.RaiseGoldRefreshRequested();
     }
 
-    public void Close() => panel.SetActive(false);
+    public void Close()
+    {
+        if (waitingForReplace) return;
+        panel.SetActive(false);
+    }
+
+    // ── 스킬 목록 구성 ────────────────────────────────────────────
 
     private void PopulateSkillList(IReadOnlyList<int> skills)
     {
-        foreach (var s in skillSlots) Destroy(s.gameObject);
-        skillSlots.Clear();
-
-        if (skills == null) return;
-
-        foreach (int skillId in skills)
+        for (int i = 0; i < skillSlots.Length; i++)
         {
-            var skill = GameDataManager.Skills.Get(skillId);
-            if (skill == null) continue;
+            if (skillSlots[i] == null) continue;
 
-            var slot = Instantiate(skillSlotPrefab, skillListContainer, false);
-            slot.gameObject.SetActive(true);
-            slot.Init(skill, this);
-            skillSlots.Add(slot);
+            var skill = (skills != null && i < skills.Count) ? GameDataManager.Skills.Get(skills[i]) : null;
+            skillSlots[i].gameObject.SetActive(skill != null);
+            if (skill != null) skillSlots[i].Init(skill, this);
         }
     }
 
@@ -108,6 +110,7 @@ public class SkillShopUI : MonoBehaviour
     {
         for (int i = 0; i < equippedSlots.Length; i++)
         {
+            if (equippedSlots[i] == null) continue;
             equippedSlots[i].Init(i, this);
             equippedSlots[i].SetSkill(skillEquipment?.GetEquipped(i));
         }
@@ -115,33 +118,41 @@ public class SkillShopUI : MonoBehaviour
 
     // ── 클릭 콜백 ─────────────────────────────────────────────────
 
-    // 왼쪽 스킬 선택
     public void OnSkillSlotClicked(SkillShopSlotUI slot)
     {
+        if (waitingForReplace) return;
+
         selectedSkillSlot?.SetSelected(false);
         selectedSkillSlot = slot;
         selectedSkillSlot.SetSelected(true);
-        TryShowConfirm();
-    }
-
-    // 오른쪽 장착 슬롯 선택
-    public void OnEquippedSlotClicked(SkillShopEquippedSlotUI slot)
-    {
-        selectedEquippedSlot?.SetSelected(false);
-        selectedEquippedSlot = slot;
-        selectedEquippedSlot.SetSelected(true);
-        TryShowConfirm();
-    }
-
-    private void TryShowConfirm()
-    {
-        if (selectedSkillSlot == null || selectedEquippedSlot == null) return;
 
         var skill = GameDataManager.Skills.Get(selectedSkillSlot.SkillId);
         if (skill == null) return;
 
-        confirmText.text = $"{skill.skillName}을(를)\n슬롯 {selectedEquippedSlot.SlotIndex + 1}에 {skill.price}G로 배정하시겠습니까?";
+        confirmText.text = $"{skill.skillName}\n{skill.price}G에 구매하시겠습니까?";
         confirmPanel.SetActive(true);
+    }
+
+    public void OnEquippedSlotClicked(SkillShopEquippedSlotUI slot)
+    {
+        if (!waitingForReplace) return;
+
+        var skill = GameDataManager.Skills.Get(pendingSkillId);
+        if (skill == null || goldWallet == null || skillEquipment == null)
+        {
+            ExitReplaceMode();
+            return;
+        }
+
+        if (!goldWallet.SpendGold(skill.price))
+        {
+            ExitReplaceMode();
+            return;
+        }
+
+        skillEquipment.SetSlot(slot.SlotIndex, skill.skillId);
+        ExitReplaceMode();
+        ResetSelection();
     }
 
     // ── 구매 확인 ─────────────────────────────────────────────────
@@ -149,20 +160,58 @@ public class SkillShopUI : MonoBehaviour
     private void OnConfirm()
     {
         confirmPanel.SetActive(false);
-        if (selectedSkillSlot == null || selectedEquippedSlot == null) return;
-        if (goldWallet == null || skillEquipment == null) return;
+        if (selectedSkillSlot == null || goldWallet == null || skillEquipment == null) return;
 
         var skill = GameDataManager.Skills.Get(selectedSkillSlot.SkillId);
         if (skill == null) return;
 
-        if (!goldWallet.SpendGold(skill.price)) return;
+        int emptySlot = FindEmptyEquippedSlot();
+        if (emptySlot >= 0)
+        {
+            if (!goldWallet.SpendGold(skill.price)) return;
+            skillEquipment.SetSlot(emptySlot, skill.skillId);
+            ResetSelection();
+        }
+        else
+        {
+            // 빈 슬롯 없음 → 교체 모드 진입 (취소 불가)
+            pendingSkillId    = skill.skillId;
+            waitingForReplace = true;
+            if (closeButton != null) closeButton.interactable = false;
+            replaceModePanel?.SetActive(true);
+        }
+    }
 
-        skillEquipment.SetSlot(selectedEquippedSlot.SlotIndex, skill.skillId);
+    private void OnCancelConfirm()
+    {
+        confirmPanel.SetActive(false);
+        selectedSkillSlot?.SetSelected(false);
+        selectedSkillSlot = null;
+    }
 
-        selectedSkillSlot.SetSelected(false);
-        selectedEquippedSlot.SetSelected(false);
-        selectedSkillSlot    = null;
-        selectedEquippedSlot = null;
+    // ── 교체 모드 ─────────────────────────────────────────────────
+
+    private void ExitReplaceMode()
+    {
+        waitingForReplace = false;
+        pendingSkillId    = -1;
+        if (closeButton != null) closeButton.interactable = true;
+        replaceModePanel?.SetActive(false);
+    }
+
+    private int FindEmptyEquippedSlot()
+    {
+        for (int i = 0; i < equippedSlots.Length; i++)
+            if (skillEquipment.GetEquipped(i) == null) return i;
+        return -1;
+    }
+
+    // ── 선택 초기화 ───────────────────────────────────────────────
+
+    private void ResetSelection()
+    {
+        selectedSkillSlot?.SetSelected(false);
+        selectedSkillSlot = null;
     }
 
     // ── 이벤트 ───────────────────────────────────────────────────

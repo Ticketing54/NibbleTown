@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1e9068ad001384408cfc2bc5d7235d9, type: 3}
+  m_Name: JudgmentSkill
+  m_EditorClassIdentifier: Assembly-CSharp::JudgmentSkillData
+  skillId: 3
+  skillName: 
+  description: 
+  icon: {fileID: 2137275200, guid: f92e496412ed55c4bb7f29b2257eab9d, type: 3}
+  price: 0
+  mpCost: 0
+  cooldown: 0
+  skillClip: {fileID: 7400000, guid: b402afc94410f0f458fad1b3e2c0a20d, type: 2}
+  spinDuration: 3
+  spinRadius: 2
+  damageRatio: 0.5
+  tickInterval: 0.5
+  finalTickBonusMultiplier: 2
+  movementMultiplierDuringSpin: 0.7

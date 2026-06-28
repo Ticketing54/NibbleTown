@@ -11,11 +11,21 @@ public class SkillAnimator : MonoBehaviour
 
     private static readonly int SkillHash = Animator.StringToHash("Skill");
 
+    private bool isLooping;
+
     private void Awake()
     {
         animator           = GetComponent<Animator>();
         overrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = overrideController;
+    }
+
+    private void Update()
+    {
+        if (!isLooping) return;
+        var info = animator.GetCurrentAnimatorStateInfo(0);
+        if (info.IsName("SkillBase") && info.normalizedTime >= 0.85f)
+            animator.Play("SkillBase", 0, 0f);
     }
 
     public void Play(AnimationClip clip)
@@ -24,6 +34,16 @@ public class SkillAnimator : MonoBehaviour
         overrideController[placeholderClipName] = clip;
         animator.SetTrigger(SkillHash);
     }
+
+    public void PlayLooping(AnimationClip clip)
+    {
+        if (clip == null) return;
+        isLooping = true;
+        overrideController[placeholderClipName] = clip;
+        animator.SetTrigger(SkillHash);
+    }
+
+    public void StopLooping() => isLooping = false;
 
     public IEnumerator WaitForCompletion()
     {

@@ -15,6 +15,8 @@ MonoBehaviour:
   tiers:
   - unlockAtDay: 0
     skills:
+    - skillId: 0
     - skillId: 1
     - skillId: 2
+    - skillId: 3
   slotCount: 3

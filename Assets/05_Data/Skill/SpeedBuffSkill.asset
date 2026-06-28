@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10d2781fe67c05942b7241ebe3327c85, type: 3}
+  m_Name: SpeedBuffSkill
+  m_EditorClassIdentifier: Assembly-CSharp::SpeedBuffSkillData
+  skillId: 0
+  skillName: 
+  description: 
+  icon: {fileID: 21300000, guid: a2563f2b8dbc4044b9a50537d3a29962, type: 3}
+  price: 0
+  mpCost: 0
+  cooldown: 0
+  skillClip: {fileID: 7400000, guid: 0266969df1a29bf4ebae30e305b70919, type: 2}
+  moveSpeedMultiplier: 1.5
+  attackSpeedMultiplier: 1.5
+  duration: 5

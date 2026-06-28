@@ -8,12 +8,21 @@ public class SkillHUD : MonoBehaviour
     {
         GameEvents.OnSkillEquipped     += OnSkillEquipped;
         GameEvents.OnSkillCooldownTick += OnSkillCooldownTick;
+        RefreshAll();
     }
 
     private void OnDisable()
     {
         GameEvents.OnSkillEquipped     -= OnSkillEquipped;
         GameEvents.OnSkillCooldownTick -= OnSkillCooldownTick;
+    }
+
+    private void RefreshAll()
+    {
+        if (PlayerRegistry.All.Count == 0) return;
+        if (!PlayerRegistry.All[0].TryGetComponent<ISkillEquipment>(out var equipment)) return;
+        for (int i = 0; i < slots.Length; i++)
+            OnSkillEquipped(i, equipment.GetEquipped(i)?.skillId ?? -1);
     }
 
     private void OnSkillEquipped(int slotIndex, int skillId)

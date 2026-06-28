@@ -8,20 +8,11 @@ public class SkillSlotUI : MonoBehaviour
     [SerializeField] private Image             cooldownOverlay;
     [SerializeField] private TextMeshProUGUI   cooldownText;
 
-    private static readonly Color EmptyColor = new Color(0.3f, 0.3f, 0.3f, 1f);
-
-    public void SetSkill(SkillData skill)
+public void SetSkill(SkillData skill)
     {
-        if (skill != null)
-        {
-            iconImage.sprite = skill.icon;
-            iconImage.color  = Color.white;
-        }
-        else
-        {
-            iconImage.sprite = null;
-            iconImage.color  = EmptyColor;
-        }
+        bool hasIcon = skill?.icon != null;
+        iconImage.gameObject.SetActive(hasIcon);
+        if (hasIcon) iconImage.sprite = skill.icon;
 
         SetCooldown(0f, 0f);
     }

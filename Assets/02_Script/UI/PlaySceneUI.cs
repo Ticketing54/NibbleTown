@@ -89,7 +89,7 @@ public class PlaySceneUI : MonoBehaviour
     private void RefreshMainBuildingHP(int _current, int _max)
     {
         if (mainBuildingHPState == null) return;
-        mainBuildingHPState.progressText.text    = _current + " / " + _max;
+        mainBuildingHPState.progressText.text    = _max > 0 ? $"{Mathf.RoundToInt((float)_current / _max * 100)}%" : "0%";
         mainBuildingHPState.fillImage.fillAmount = _max > 0 ? (float)_current / _max : 0f;
     }
 }

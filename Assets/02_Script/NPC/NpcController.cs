@@ -144,8 +144,10 @@ public class NpcController : MonoBehaviour
         GameEvents.RaiseFadeOut(onComplete: () => fadeDone = true);
         yield return new WaitUntil(() => fadeDone);
 
-        if (playerMover != null)
-            GameEvents.RaiseInteractionTextShow(true, $"{hintText} [F]");
+        playerTransform?.GetComponent<PlayerInteraction>()?.ClearNearNpc(this);
+        playerMover     = null;
+        playerCC        = null;
+        playerTransform = null;
     }
 
     private void ForceEndConversation()
@@ -157,5 +159,9 @@ public class NpcController : MonoBehaviour
         GameEvents.RaiseNpcConversationChanged(false);
         playerMover?.LockMovement(false);
         GameEvents.RaisePlayerInputLocked(false);
+        playerTransform?.GetComponent<PlayerInteraction>()?.ClearNearNpc(this);
+        playerMover     = null;
+        playerCC        = null;
+        playerTransform = null;
     }
 }

@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 15}
-  m_SizeDelta: {x: 140, y: 20}
+  m_AnchoredPosition: {x: 0, y: 20}
+  m_SizeDelta: {x: 200, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4333277255971881338
 CanvasRenderer:
@@ -188,7 +188,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -28}
+  m_SizeDelta: {x: 0, y: -50}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &7013241229739080570
 CanvasRenderer:
@@ -276,7 +276,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 40}
+  m_SizeDelta: {x: 500, y: 10}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &3821929832621564270
 MonoBehaviour:
@@ -305,15 +305,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
-    m_Left: 30
-    m_Right: 30
+    m_Left: 60
+    m_Right: 60
     m_Top: 25
     m_Bottom: 25
   m_ChildAlignment: 0
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 40, y: 40}
-  m_Spacing: {x: 10, y: 10}
+  m_CellSize: {x: 100, y: 100}
+  m_Spacing: {x: 40, y: 40}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!1 &2566893394863256907
@@ -424,12 +424,12 @@ RectTransform:
   - {fileID: 1934580511964849368}
   - {fileID: 64699347271177421}
   - {fileID: 9152089236989764590}
-  m_Father: {fileID: 1285592390019787699}
+  m_Father: {fileID: 8370099633177780410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -45}
-  m_SizeDelta: {x: 40, y: 40}
+  m_AnchoredPosition: {x: 1020, y: -265}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1274550457190098977
 CanvasRenderer:
@@ -515,7 +515,6 @@ MonoBehaviour:
   slotContainer: {fileID: 2014456592908934774}
   slotPrefab: {fileID: 1285793433695149546}
   dragGhost: {fileID: 1193093008562794229}
-  tooltip: {fileID: 0}
   goldText: {fileID: 7137723883198882232}
 --- !u!1 &4997625978168950294
 GameObject:
@@ -553,7 +552,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 651, y: -71}
-  m_SizeDelta: {x: 40, y: 40}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8572908922778902905
 CanvasRenderer:
@@ -749,7 +748,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8370099633177780410}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: Inventory_Pannel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -769,6 +768,7 @@ RectTransform:
   m_Children:
   - {fileID: 2955862659774928199}
   - {fileID: 1285592390019787699}
+  - {fileID: 4166150925584314400}
   - {fileID: 5122191753623677384}
   m_Father: {fileID: 4914031173273049052}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -810,13 +810,12 @@ RectTransform:
   m_Children:
   - {fileID: 2583109530896238891}
   - {fileID: 8297415994092670675}
-  - {fileID: 4166150925584314400}
   m_Father: {fileID: 8370099633177780410}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 200, y: 0}
-  m_SizeDelta: {x: 200, y: 300}
+  m_SizeDelta: {x: 500, y: 700}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5341360257852299612
 CanvasRenderer:
@@ -978,8 +977,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1195,8 +1194,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -50, y: 0}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchoredPosition: {x: -75, y: 0}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8794253851713475439
 CanvasRenderer:

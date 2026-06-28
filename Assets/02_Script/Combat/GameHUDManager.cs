@@ -86,6 +86,7 @@ public class GameHUDManager : MonoBehaviour
     private T CreatePooled<T>(T _prefab) where T : MonoBehaviour
     {
         T instance = Instantiate(_prefab, canvasRect);
+        instance.transform.localRotation = Quaternion.identity;
         instance.gameObject.SetActive(false);
         return instance;
     }

@@ -9,12 +9,16 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
     [SerializeField] private LayerMask           monsterLayer;
     [SerializeField] private float               autoAimRadius = 2f;
 
+    public LayerMask MonsterLayer => monsterLayer;
     public event System.Action OnAttackTriggered;
 
     private CharacterStatConfig config;
     private IMovementLock       movementLock;
     private float               cooldownTimer;
     private bool                isCombatMode;
+    private float               attackSpeedMult = 1f;
+
+    public void SetAttackSpeedMultiplier(float mult) => attackSpeedMult = Mathf.Max(0.01f, mult);
 
     public bool IsAttacking { get; set; }
 
@@ -55,7 +59,7 @@ public class PlayerAttack : MonoBehaviour, IWeaponState
         if (IsAttacking)        return false;
         if (cooldownTimer > 0f) return false;
 
-        cooldownTimer = config.attackCooldown;
+        cooldownTimer = config.attackCooldown / attackSpeedMult;
 
         Transform nearestMonster = FindNearestTarget();
         if (nearestMonster != null)
