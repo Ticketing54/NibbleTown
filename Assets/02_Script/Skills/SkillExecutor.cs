@@ -90,9 +90,19 @@ public class SkillExecutor : MonoBehaviour
     {
         isExecuting = true;
         if (skill.LockMovementDuringExecute) movementLock?.LockMovement(true);
+
+        GameObject effect = null;
+        if (skill.effectPrefab != null)
+        {
+            effect = Instantiate(skill.effectPrefab, transform);
+            effect.transform.localPosition = Vector3.up;
+        }
+
         yield return skillRoutine;
         if (skill.WaitForAnimationAfterExecute && skillAnimator != null)
             yield return skillAnimator.WaitForCompletion();
+
+        if (effect != null) Destroy(effect);
         movementLock?.LockMovement(false);
         isExecuting = false;
     }

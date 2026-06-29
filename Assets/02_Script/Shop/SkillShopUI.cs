@@ -83,7 +83,9 @@ public class SkillShopUI : MonoBehaviour
         ResetSelection();
         PopulateSkillList(skills);
         RefreshEquippedSlots();
+        GameEvents.OnGoldRefreshed += OnGoldChanged;
         GameEvents.RaiseGoldRefreshRequested();
+        GameEvents.OnGoldRefreshed -= OnGoldChanged;
     }
 
     public void Close()

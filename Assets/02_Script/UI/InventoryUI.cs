@@ -35,7 +35,9 @@ public class InventoryUI : MonoBehaviour
         GameEvents.OnInventorySlotsChanged += OnSlotsChanged;
         GameEvents.OnGoldChanged           += OnGoldChanged;
         RefreshFromInventory();
+        GameEvents.OnGoldRefreshed         += OnGoldChanged;
         GameEvents.RaiseGoldRefreshRequested();
+        GameEvents.OnGoldRefreshed         -= OnGoldChanged;
     }
 
     private void OnDisable()

@@ -82,7 +82,9 @@ public class ShopUI : MonoBehaviour
         confirmPanel.SetActive(false);
         PopulateShop(items);
         RefreshInventory();
+        GameEvents.OnGoldRefreshed += OnGoldChanged;
         GameEvents.RaiseGoldRefreshRequested();
+        GameEvents.OnGoldRefreshed -= OnGoldChanged;
     }
 
     public void Close() => panel.SetActive(false);

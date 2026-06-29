@@ -78,7 +78,7 @@ public class PlaySceneUI : MonoBehaviour
         apProgressState.fillImage.fillAmount = _max > 0 ? (float)_current / _max : 0f;
     }
 
-    private void OnDayChanged(int _day) { }
+
 
     private void OnPhaseChanged(int _day, StagePhase _phase)
     {

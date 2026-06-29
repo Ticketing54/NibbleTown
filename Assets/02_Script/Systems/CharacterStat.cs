@@ -137,7 +137,6 @@ public class CharacterStat : MonoBehaviour, IActionPoints, IDamageable
     {
         runtimeData.day++;
         Restore();
-        GameEvents.RaiseDayChanged(runtimeData.day);
     }
 
     // ── 저장/불러오기 ─────────────────────────────────────────

@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class GameHUDManager : MonoBehaviour
 {
-    public static GameHUDManager Instance { get; private set; }
-
     [Header("Canvas")]
     [SerializeField] private RectTransform canvasRect;
 
@@ -22,13 +20,27 @@ public class GameHUDManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         for (int i = 0; i < hudPoolSize; i++)
             hudPool.Enqueue(CreatePooled(hudPrefab));
 
         for (int i = 0; i < damageNumberPoolSize; i++)
             dmgPool.Enqueue(CreatePooled(damageNumberPrefab));
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnHUDRegisterRequested  += Register;
+        GameEvents.OnHUDShowRequested      += ShowHUD;
+        GameEvents.OnHUDHideRequested      += HideHUD;
+        GameEvents.OnDamageNumberRequested += SpawnDamageNumber;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnHUDRegisterRequested  -= Register;
+        GameEvents.OnHUDShowRequested      -= ShowHUD;
+        GameEvents.OnHUDHideRequested      -= HideHUD;
+        GameEvents.OnDamageNumberRequested -= SpawnDamageNumber;
     }
 
     // ── HP Bar ───────────────────────────────────────────────────────────────

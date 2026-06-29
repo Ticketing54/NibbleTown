@@ -27,7 +27,7 @@ public class Inventory : MonoBehaviour, IGoldWallet
     }
 
     private void OnRefreshRequested()     => GameEvents.RaiseInventoryRefreshed(items);
-    private void OnGoldRefreshRequested() => GameEvents.RaiseGoldChanged(Gold);
+    private void OnGoldRefreshRequested() => GameEvents.RaiseGoldRefreshed(Gold);
     private void OnSlotsChanged(int _slots) => maxSlots = _slots;
     private void OnItemDiscarded(int _itemId, int _count) => TryRemove(_itemId, _count);
 

@@ -12,6 +12,7 @@ public abstract class SkillData : ScriptableObject
     public int           mpCost;
     public float         cooldown;
     public AnimationClip skillClip;
+    public GameObject    effectPrefab;
 
     // Execute() 중 이동을 잠글지 여부
     public virtual bool LockMovementDuringExecute    => true;

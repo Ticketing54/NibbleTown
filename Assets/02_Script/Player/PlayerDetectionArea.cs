@@ -6,12 +6,12 @@ public class PlayerDetectionArea : MonoBehaviour
     private void OnTriggerEnter(Collider _col)
     {
         if (_col.TryGetComponent(out MonsterController mc))
-            GameHUDManager.Instance?.ShowHUD(mc);
+            GameEvents.RaiseHUDShow(mc);
     }
 
     private void OnTriggerExit(Collider _col)
     {
         if (_col.TryGetComponent(out MonsterController mc))
-            GameHUDManager.Instance?.HideHUD(mc);
+            GameEvents.RaiseHUDHide(mc);
     }
 }

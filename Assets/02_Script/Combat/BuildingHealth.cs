@@ -35,8 +35,8 @@ public class BuildingHealth : MonoBehaviour, IDamageable, IHasHP
         }
         else
         {
-            GameHUDManager.Instance?.Register(this, transform, buildingName);
-            GameHUDManager.Instance?.ShowHUD(this);
+            GameEvents.RaiseHUDRegister(this, transform, buildingName);
+            GameEvents.RaiseHUDShow(this);
         }
     }
 

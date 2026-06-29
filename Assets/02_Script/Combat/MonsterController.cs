@@ -290,8 +290,8 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         }
 
         currentHP = Mathf.Max(0, currentHP - _info.amount);
-        GameHUDManager.Instance?.ShowHUD(this);
-        GameHUDManager.Instance?.SpawnDamageNumber(_info.amount, transform.position + Vector3.up, _info.isCrit);
+        GameEvents.RaiseHUDShow(this);
+        GameEvents.RaiseDamageNumber(_info.amount, transform.position + Vector3.up, _info.isCrit);
 
         if (IsDead) { Die(); return; }
 
@@ -308,7 +308,7 @@ public class MonsterController : MonoBehaviour, IDamageable, IHasHP
         dropGold       = _data.dropGold;
         dropTable      = _stageDropTable;
         currentHP      = maxHP;
-        GameHUDManager.Instance?.Register(this, transform, _data.monsterName);
+        GameEvents.RaiseHUDRegister(this, transform, _data.monsterName);
     }
 
     private void Die()
