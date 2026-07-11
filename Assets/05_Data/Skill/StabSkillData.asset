@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d8e697a67e296745890878e2948fee9, type: 3}
-  m_Name: DashSlashSkill
+  m_Name: StabSkillData
   m_EditorClassIdentifier: Assembly-CSharp::DashSlashSkillData
   skillId: 2
   skillName: "\uB300\uC26C \uBC30\uAE30"
   description: 
-  icon: {fileID: 21300000, guid: 2a5c892bdd014164da633b8c6fd0f246, type: 3}
+  icon: {fileID: 2137275200, guid: f92e496412ed55c4bb7f29b2257eab9d, type: 3}
   price: 0
   mpCost: 1
   cooldown: 3
-  skillClip: {fileID: 7400000, guid: cb0b49ac2d002bb4e8b49dea6e3ad278, type: 2}
+  skillClip: {fileID: 7400000, guid: 2aab1f80daa69e1418fbf81b1898bb82, type: 2}
+  effectPrefab: {fileID: 0}
+  effectDelay: 0
   targetRange: 8
+  windup: 0.1
   dashDistance: 3
   dashDuration: 0.1
   pushForce: 10
   pushRadius: 1.2
-  slashDamageMultiplier: 2.5
-  slashRadius: 2
-  slashAngle: 120
+  damageMultiplier: 2

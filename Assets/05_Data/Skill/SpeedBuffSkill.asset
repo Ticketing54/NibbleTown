@@ -20,6 +20,8 @@ MonoBehaviour:
   mpCost: 0
   cooldown: 0
   skillClip: {fileID: 7400000, guid: 0266969df1a29bf4ebae30e305b70919, type: 2}
+  effectPrefab: {fileID: 339158821923109191, guid: a88b1551117835345b88860f13836d93, type: 3}
+  effectDelay: 0
   moveSpeedMultiplier: 1.5
   attackSpeedMultiplier: 1.5
   duration: 5

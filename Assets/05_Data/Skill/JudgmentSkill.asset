@@ -19,7 +19,9 @@ MonoBehaviour:
   price: 0
   mpCost: 0
   cooldown: 0
-  skillClip: {fileID: 7400000, guid: b402afc94410f0f458fad1b3e2c0a20d, type: 2}
+  skillClip: {fileID: 7400000, guid: dcc07f798064acc4dac5a50232365b70, type: 2}
+  effectPrefab: {fileID: 8620468296982025929, guid: 9e7d5e3af9ba4d04ab5a70eea8593cbb, type: 3}
+  effectDelay: 0
   spinDuration: 3
   spinRadius: 2
   damageRatio: 0.5

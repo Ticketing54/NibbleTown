@@ -91,20 +91,29 @@ public class SkillExecutor : MonoBehaviour
         isExecuting = true;
         if (skill.LockMovementDuringExecute) movementLock?.LockMovement(true);
 
-        GameObject effect = null;
+        GameObject effect        = null;
+        Coroutine  spawnRoutine  = null;
+
         if (skill.effectPrefab != null)
-        {
-            effect = Instantiate(skill.effectPrefab, transform);
-            effect.transform.localPosition = Vector3.up;
-        }
+            spawnRoutine = StartCoroutine(DelayedSpawn(skill.effectPrefab, skill.effectDelay, go => effect = go));
 
         yield return skillRoutine;
         if (skill.WaitForAnimationAfterExecute && skillAnimator != null)
             yield return skillAnimator.WaitForCompletion();
 
+        if (spawnRoutine != null) StopCoroutine(spawnRoutine);
         if (effect != null) Destroy(effect);
         movementLock?.LockMovement(false);
         isExecuting = false;
+    }
+
+    private IEnumerator DelayedSpawn(GameObject prefab, float delay, System.Action<GameObject> onSpawned)
+    {
+        if (delay > 0f)
+            yield return new WaitForSeconds(delay);
+        var go = Instantiate(prefab, transform);
+        go.transform.localPosition = Vector3.up;
+        onSpawned(go);
     }
 
     public float GetCooldownRatio(int _slotIndex)

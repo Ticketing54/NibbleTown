@@ -1,30 +1,29 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(fileName = "DashSlashSkill", menuName = "NibbleTown/Skills/Dash Slash")]
-public class DashSlashSkillData : SkillData
+[CreateAssetMenu(fileName = "StabSkill", menuName = "NibbleTown/Skills/Stab")]
+public class StabSkillData : SkillData
 {
     [Header("타게팅")]
     public float targetRange = 8f;
 
     [Header("돌진")]
+    public float windup       = 0.1f;
     public float dashDistance = 5f;
     public float dashDuration = 0.3f;
 
-    [Header("밀기")]
-    public float pushForce  = 10f;
+    [Header("밀치기")]
+    public float pushForce  = 15f;
     public float pushRadius = 1.2f;
 
-    [Header("베기")]
-    public float slashDamageMultiplier = 2.5f;
-    public float slashRadius           = 2f;
-    [Range(0f, 180f)]
-    public float slashAngle            = 120f;
+    [Header("데미지")]
+    public float damageMultiplier = 2f;
 
     public override IEnumerator Execute(SkillContext ctx)
     {
-        var cc     = ctx.caster.GetComponent<CharacterController>();
+        var       cc     = ctx.caster.GetComponent<CharacterController>();
         Transform caster = ctx.caster.transform;
 
         ctx.skillAnimator?.Play(skillClip);
@@ -32,26 +31,46 @@ public class DashSlashSkillData : SkillData
         Vector3 dashDir = FindTargetDirection(caster, ctx.targetLayer);
         caster.rotation = Quaternion.LookRotation(dashDir);
 
-        float speed   = dashDistance / dashDuration;
+        yield return new WaitForSeconds(windup);
+
         float elapsed = 0f;
+        float speed   = dashDistance / dashDuration;
+        var   damaged = new HashSet<IDamageable>();
 
         while (elapsed < dashDuration)
         {
             elapsed += Time.deltaTime;
             cc?.Move(dashDir * speed * Time.deltaTime);
 
-            Collider[] pushHits = Physics.OverlapSphere(caster.position, pushRadius, ctx.targetLayer);
-            foreach (Collider col in pushHits)
+            Collider[] hits = Physics.OverlapSphere(caster.position, pushRadius, ctx.targetLayer);
+            foreach (Collider col in hits)
             {
                 var agent = col.GetComponentInParent<NavMeshAgent>();
                 if (agent != null && agent.enabled)
                     agent.Warp(agent.transform.position + dashDir * pushForce * Time.deltaTime);
+
+                var damageable = col.GetComponentInParent<IDamageable>();
+                if (damageable == null || damageable.IsDead || !damaged.Add(damageable)) continue;
+
+                ApplyDamage(ctx, damageable);
             }
 
             yield return null;
         }
+    }
 
-        ApplySlash(caster, ctx);
+    private void ApplyDamage(SkillContext ctx, IDamageable target)
+    {
+        CharacterStatConfig config = ctx.stat.Config;
+        if (config == null) return;
+
+        int   baseDamage = Mathf.RoundToInt(config.attackDamage * damageMultiplier);
+        bool  isCrit     = Random.value < config.critChance;
+        float variance   = Random.Range(0.8f, 1.1f);
+        float multiplier = isCrit ? variance + config.critBonusRate : variance;
+        int   final      = Mathf.RoundToInt(baseDamage * multiplier);
+
+        target.TakeDamage(new DamageInfo(ctx.caster, final, isCrit));
     }
 
     private Vector3 FindTargetDirection(Transform caster, LayerMask targetLayer)
@@ -59,10 +78,10 @@ public class DashSlashSkillData : SkillData
         Collider[] hits = Physics.OverlapSphere(caster.position, targetRange, targetLayer);
         if (hits.Length == 0) return caster.forward;
 
-        Transform facing  = null;
-        Transform nearest = null;
-        float minFacingDist  = float.MaxValue;
-        float minNearestDist = float.MaxValue;
+        Transform facing         = null;
+        Transform nearest        = null;
+        float     minFacingDist  = float.MaxValue;
+        float     minNearestDist = float.MaxValue;
 
         foreach (Collider col in hits)
         {
@@ -87,32 +106,5 @@ public class DashSlashSkillData : SkillData
         Vector3   dir    = target.position - caster.position;
         dir.y = 0f;
         return dir.normalized;
-    }
-
-    private void ApplySlash(Transform caster, SkillContext ctx)
-    {
-        CharacterStatConfig config = ctx.stat.Config;
-        if (config == null) return;
-
-        int baseDamage = Mathf.RoundToInt(config.attackDamage * slashDamageMultiplier);
-
-        Collider[] hits = Physics.OverlapSphere(caster.position, slashRadius, ctx.targetLayer);
-        foreach (Collider col in hits)
-        {
-            Vector3 toTarget = col.transform.position - caster.position;
-            toTarget.y = 0f;
-            if (toTarget.sqrMagnitude < 0.001f) continue;
-            if (Vector3.Angle(caster.forward, toTarget) > slashAngle * 0.5f) continue;
-
-            var damageable = col.GetComponentInParent<IDamageable>();
-            if (damageable == null || damageable.IsDead) continue;
-
-            bool  isCrit     = Random.value < config.critChance;
-            float variance   = Random.Range(0.8f, 1.1f);
-            float multiplier = isCrit ? variance + config.critBonusRate : variance;
-            int   final      = Mathf.RoundToInt(baseDamage * multiplier);
-
-            damageable.TakeDamage(new DamageInfo(ctx.caster, final, isCrit));
-        }
     }
 }
