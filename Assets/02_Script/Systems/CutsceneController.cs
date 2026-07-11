@@ -1,74 +1,86 @@
-using System;
 using System.Collections;
+using Unity.Cinemachine;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.Playables;
 
 public class CutsceneController : MonoBehaviour
 {
-    [SerializeField] private InputActionReference skipAction;
-    [SerializeField] private PlayableDirector     dayNightDirector;
+    [SerializeField] private DayNightController dayNightController;
 
-    public event Action OnFinished;
+    [Header("Intro")]
+    [SerializeField] private CinemachineCamera introCam;
+    [SerializeField] private float camSwitchDelay = 3.5f;
+    [SerializeField] private float introTailDelay  = 2f;
 
-    private Coroutine dayNightCoroutine;
-    private bool      skipped;
+    private void Awake()
+    {
+        SetVCamPriority(introCam, 20);
+    }
+
+    private void OnEnable()
+    {
+        GameEvents.OnNightRequested   += HandleNightRequested;
+        GameEvents.OnNextDayRequested += HandleNextDayRequested;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnNightRequested   -= HandleNightRequested;
+        GameEvents.OnNextDayRequested -= HandleNextDayRequested;
+    }
+
+    private void Start()
+    {
+        SetPlayerEnabled(false);
+        StartCoroutine(CoIntro());
+    }
+
+    private IEnumerator CoIntro()
+    {
+        yield return new WaitForSeconds(camSwitchDelay);
+        SetVCamPriority(introCam, 0);
+        yield return new WaitForSeconds(introTailDelay);
+
+        SetPlayerEnabled(true);
+        GameEvents.RaiseDayBegin();
+    }
+
+    private void SetVCamPriority(CinemachineCamera _cam, int _value)
+    {
+        var p     = _cam.Priority;
+        p.Enabled = true;
+        p.Value   = _value;
+        _cam.Priority = p;
+    }
+
+    private void SetPlayerEnabled(bool _enabled) => GameEvents.RaisePlayerInputLocked(!_enabled);
 
     // ── 밤낮 전환 ─────────────────────────────────────────────────────────────
 
-    public void PlayToNight() => StartDayNightSegment(0.0, 3.0);
-    public void PlayToDay()   => StartDayNightSegment(3.0, 6.0);
+    private void HandleNightRequested()   => RequestDayNightChange(true);
+    private void HandleNextDayRequested() => RequestDayNightChange(false);
 
-    private void StartDayNightSegment(double _startTime, double _endTime)
+    private void RequestDayNightChange(bool _toNight)
     {
-        if (dayNightCoroutine != null) StopCoroutine(dayNightCoroutine);
-        skipped = false;
-        dayNightCoroutine = StartCoroutine(CoDayNightSegment(_startTime, _endTime));
-        EnableSkip();
-    }
-
-    private IEnumerator CoDayNightSegment(double _startTime, double _endTime)
-    {
-        dayNightDirector.extrapolationMode = DirectorWrapMode.Hold;
-        dayNightDirector.time = _startTime;
-        dayNightDirector.Play();
-
-        while (!skipped && dayNightDirector.time < _endTime)
-            yield return null;
-
-        if (skipped)
+        if (dayNightController == null)
         {
-            dayNightDirector.time = _endTime;
-            dayNightDirector.Evaluate();
+            RaiseDayNightBegin(_toNight);
+            return;
         }
 
-        dayNightDirector.Pause();
-        dayNightCoroutine = null;
+        dayNightController.OnFinished += OnDayNightFinished;
+        if (_toNight) dayNightController.PlayToNight();
+        else          dayNightController.PlayToDay();
 
-        DisableSkip();
-        OnFinished?.Invoke();
+        void OnDayNightFinished()
+        {
+            dayNightController.OnFinished -= OnDayNightFinished;
+            RaiseDayNightBegin(_toNight);
+        }
     }
 
-    // ── Skip ──────────────────────────────────────────────────────────────────
-
-    public void Skip()
+    private void RaiseDayNightBegin(bool _toNight)
     {
-        if (skipped) return;
-        skipped = true;
+        if (_toNight) GameEvents.RaiseNightBegin();
+        else          GameEvents.RaiseDayBegin();
     }
-
-    private void EnableSkip()
-    {
-        if (skipAction == null) return;
-        skipAction.action.Enable();
-        skipAction.action.performed += OnSkipInput;
-    }
-
-    private void DisableSkip()
-    {
-        if (skipAction == null) return;
-        skipAction.action.performed -= OnSkipInput;
-    }
-
-    private void OnSkipInput(InputAction.CallbackContext _ctx) => Skip();
 }
